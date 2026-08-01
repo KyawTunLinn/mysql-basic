@@ -1,148 +1,176 @@
-# Lesson 2 — Installing MySQL Server
+# သင်ခန်းစာ ၂ — MySQL တပ်ဆင်ခြင်း (Installation Guide)
 
-In this lesson, you will install MySQL on your computer. Choose your operating system below.
+![MySQL Installation Visual Diagram](images/lesson02.png)
 
-**Estimated time: 30 minutes**
+မိမိ ကွန်ပျူတာပေါ်မာ MySQL Server နန့် Workbench တို့ကို ဘေးကင်းစွာ တပ်ဆင်နည်း အဆင့်ဆင့်ဖြစ်ပါတယ်။
+ဒေသင်ခန်းစာမာ မိမိ ကွန်ပျူတာပေါ်မာ MySQL Server ကို စနစ်တကျ Install ပြုလုပ်သွားပါဖို့။ မိမိ အသုံးပြုသော Operating System အလိုက် အောက်ပါ နည်းလမ်းများမှ ရွေးချယ် တပ်ဆင်ပါ။
 
----
-
-## Want to Try First Without Installing?
-
-If you want to practice SQL before installing anything, try these free online tools:
-
-| Website | What It Does |
-|---------|--------------|
-| [SQLFiddle](http://sqlfiddle.com/) | Write and run SQL in your browser |
-| [DB Fiddle](https://www.db-fiddle.com/) | Create tables and run queries online |
-| [MySQL Sandbox](https://mysqlsandbox.net/) | Free online MySQL environment |
-
-These are great for learning SQL syntax. But for the full experience (Workbench, real databases), follow the installation steps below.
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၃၀**
 
 ---
 
-## Option A: Install on Windows
-
-### Step 1: Download MySQL Installer
-
-1. Go to https://dev.mysql.com/downloads/installer/
-2. Click **"Download"** on **"MySQL Installer for Windows"** (mysql-installer-web-community.exe)
-3. If asked to log in, click **"No thanks, just start my download."**
-
-### Step 2: Run the Installer
-
-1. Double-click the downloaded file `mysql-installer-web-community.exe`
-2. Choose **"Developer Default"** setup type
-3. Click **Next**
-4. It will download needed files (this may take a few minutes)
-
-### Step 3: Set Your Password
-
-1. When it asks for a password, create a **strong password** for the root user
-2. Write this password down somewhere safe! You will need it later
-3. Click **Next** through the remaining screens (accept defaults)
-
-### Step 4: Finish Installation
-
-1. Click **Execute** to apply changes
-2. Wait for all steps to turn green (check mark)
-3. Click **Finish**
-
-### Step 5: Verify Installation
-
-1. Open **Command Prompt** (search "cmd" in Windows search bar)
-2. Type this command and press Enter:
+## 🎨 MySQL Architecture & Installation Flow (တပ်ဆင်မှု လမ်းကြောင်း ပုံရိပ်)
 
 ```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      MySQL System Architecture                          │
+└─────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+       ┌──────────────────────────────────────────────────────────┐
+       │                  MySQL Server Engine                     │
+       │                   (Background Service)                   │
+       │                    Port: 3306 (Default)                  │
+       └────────────────────────────┬─────────────────────────────┘
+                                    │
+            ┌───────────────────────┴───────────────────────┐
+            ▼                                               ▼
+┌───────────────────────────────┐               ┌─────────────────────────┐
+│ Client Tool 1: Workbench GUI  │               │ Client Tool 2: mysql CLI│
+│ (Visual Click & Manage)       │               │ (Terminal Command Line) │
+└───────────────────────────────┘               └─────────────────────────┘
+```
+
+---
+
+## 🌐 Install မလုပ်မီ အွန်လိုင်းမာ စမ်းသပ်ကြည့်ချင်ပါသလား?
+
+Install လုံးဝ မလုပ်မီ SQL query ရေးသားပုံကို အွန်လိုင်းမာ အလျင်စမ်းသပ်ချင်ပါက အောက်ပါ Free Tool များကို အသုံးပြုနိုင်ပါတယ် -
+
+| Website | ပြုလုပ်နိုင်သော လုပ်ဆောင်ချက် |
+|---|---|
+| [SQLFiddle](http://sqlfiddle.com/) | Browser ပေါ်မာတင် SQL ရေးသားပနာ စမ်းသပ်နိုင်သည် |
+| [DB Fiddle](https://www.db-fiddle.com/) | Table များ ဖန်တီးပနာ Query များ Run နိုင်သည် |
+| [MySQL Sandbox](https://mysqlsandbox.net/) | အခမဲ့ အွန်လိုင်း MySQL ပတ်ဝန်းကျင် |
+
+---
+
+## 💻 နည်းလမ်း (A): Windows ပေါ်မာ Install လုပ်နည်း
+
+```
+[ Download Installer ] ➔ [ Run Setup (Developer Default) ] ➔ [ Set Root Password ] ➔ [ Finish & Verify ]
+```
+
+### အဆင့် ၁ - MySQL Installer ဒေါင်းလုဒ်ဆွဲပါ
+
+1. Web browser မှတစ်ဆင့် https://dev.mysql.com/downloads/installer/ သို့ သွားပါ။
+2. **"MySQL Installer for Windows"** (`mysql-installer-web-community.exe`) ၏ **"Download"** ခလုတ်ကို နှိပ်ပါ။
+3. Login ဝင်ခိုင်းပါက အောက်နားမာဟိသော **"No thanks, just start my download."** ကို နှိပ်ပါ။
+
+### အဆင့် ၂ - Installer ကို Run ပါ
+
+1. ဒေါင်းလုဒ်ရလာသော `mysql-installer-web-community.exe` ကို Double-click နှိပ်ပါ။
+2. Setup Type မာ **"Developer Default"** ကို ရွေးချယ်ပါ။
+3. **Next** ကို နှိပ်ပါ။ လိုအပ်သော ဖိုင်များကို ဒေါင်းလုဒ်ဆွဲပါလိမ့်မည်။
+
+### အဆင့် ၃ - Root Password သတ်မှတ်ပါ
+
+1. Password တောင်းသည့် အဆင့်သို့ ရောက်ပါက root user အတွက် **လုံခြုံမှုဟိသော Password** တစ်ခု သတ်မှတ်ပါ။
+2. **အရေးကြီးဂရုစိုက်ပါ:** ဒေ Password ကို မမေ့အောင် မှတ်ထားပါ။ နောက်ပိုင်း ချိတ်ဆက်သည့်အခါတိုင်း လိုအပ်ပါဖို့။
+3. ကျန်ရှိသော အဆင့်များကို Default အတိုင်း **Next** ဆက်နှိပ်သွားပါ။
+
+### အဆင့် ၄ - တပ်ဆင်မှုကို ပြီးဆုံးအောင် လုပ်ပါ
+
+1. **Execute** ခလုတ်ကို နှိပ်ပနာ ပြောင်းလဲမှုများကို စတင်ပါ။
+2. အဆင့်တိုင်းမာ အစိမ်းရောင် အမှတ်အသား (✓) ပေါ်လာသည်အထိ စောင့်ပါ။
+3. **Finish** ကို နှိပ်ပါ။
+
+### အဆင့် ၅ - Install အောင်မြင်ကြောင်း စစ်ဆေးပါ
+
+1. Windows Search မာ "cmd" ဟု ရိုက်ရှာပနာ **Command Prompt** ကို ဖွင့်ပါ။
+2. အောက်ပါ command ကို ရိုက်ထည့်ပနာ Enter နှိပ်ပါ -
+
+```cmd
 mysql --version
 ```
 
-3. If you see a version number (like `mysql  Ver 8.0.xxx`), MySQL is installed correctly!
+3. `mysql Ver 8.0.xxx` ကဲ့သို့ Version နံပါတ် ပေါ်လာပါက MySQL တပ်ဆင်မှု အောင်မြင်ပါသည်။
 
 ---
 
-## Option B: Install on Mac (using Homebrew)
+## 🍎 နည်းလမ်း (B): Mac ပေါ်မာ Install လုပ်နည်း (Homebrew သုံးပနာ)
 
-### Step 1: Install Homebrew (if not already installed)
+### အဆင့် ၁ - Homebrew တပ်ဆင်ပါ (မဟိသေးပါက)
 
-Open **Terminal** (search "Terminal" in Spotlight) and paste:
+**Terminal** ကို ဖွင့်ပနာ အောက်ပါ command ကို Paste လုပ်ပနာ Run ပါ -
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Follow the on-screen instructions. If prompted, enter your Mac password.
+### အဆင့် ၂ - MySQL ကို Install လုပ်ပါ
 
-> **Tip:** On newer Macs (Apple Silicon M1/M2/M3), Homebrew installs to `/opt/homebrew`. The commands below still work.
-
-### Step 2: Install MySQL
-
-In Terminal, type:
+Terminal မာ အောက်ပါအတိုင်း ရိုက်ထည့်ပါ -
 
 ```bash
 brew install mysql
 ```
 
-### Step 3: Start MySQL
+### အဆင့် ၃ - MySQL Service ကို စတင်ပါ (Start)
 
 ```bash
 brew services start mysql
 ```
 
-### Step 4: Secure Installation
+### အဆင့် ၄ - လုံခြုံရေး ပြင်ဆင်ချက်များ သတ်မှတ်ပါ
 
 ```bash
 mysql_secure_installation
 ```
 
-Follow the prompts:
-- Press Enter for no password authentication plugin (or choose Y if prompted)
-- Set a root password (write it down!)
-- Say **Y** to all security questions
+မေးခွန်းများ မေးလာပါက Root Password သတ်မှတ်ပေးပနာ ကျန်မေးခွန်းများကို **Y** ဟု ဖြေကြားပါ။
 
-### Step 5: Verify Installation
+### အဆင့် ၅ - စစ်ဆေးပါ
 
 ```bash
 mysql --version
 ```
 
-You should see the MySQL version number.
-
 ---
 
-## Option C: Install on Linux (Ubuntu/Debian)
+## 🐧 နည်းလမ်း (C): Linux (Ubuntu/Debian) ပေါ်မာ Install လုပ်နည်း
 
-### Step 1: Update Package List
+```
+┌─────────────────────────────────────────────────────────────┐
+│ 1. sudo apt update                                          │
+│ 2. sudo apt install mysql-server                            │
+│ 3. sudo systemctl start mysql                               │
+│ 4. sudo mysql_secure_installation                           │
+└─────────────────────────────────────────────────────────────┘
+```
 
-Open **Terminal** and type:
+### အဆင့် ၁ - Package List ကို Update လုပ်ပါ
+
+Terminal ဖွင့်ပနာ ရိုက်ထည့်ပါ -
 
 ```bash
 sudo apt update
 ```
 
-### Step 2: Install MySQL Server
+### အဆင့် ၂ - MySQL Server တပ်ဆင်ပါ
 
 ```bash
 sudo apt install mysql-server
 ```
 
-Press `Y` when asked to confirm.
+အတည်ပြုခိုင်းပါက `Y` ကို နှိပ်ပါ။
 
-### Step 3: Start MySQL Service
+### အဆင့် ၃ - MySQL Service ကို Start လုပ်ပါ
 
 ```bash
 sudo systemctl start mysql
 sudo systemctl enable mysql
 ```
 
-### Step 4: Secure Installation
+### အဆင့် ၄ - လုံခြုံရေး သတ်မှတ်ချက်များ ပြုလုပ်ပါ
 
 ```bash
 sudo mysql_secure_installation
 ```
 
-Follow the prompts — set a root password and say **Y** to all security questions.
+Root password သတ်မှတ်ပနာ မေးခွန်းများကို `Y` ဖြင့် အတည်ပြုပါ။
 
-### Step 5: Verify Installation
+### အဆင့် ၅ - စစ်ဆေးပါ
 
 ```bash
 mysql --version
@@ -150,46 +178,51 @@ mysql --version
 
 ---
 
-## Option D: Install Using Docker (All Operating Systems)
+## 🐳 နည်းလမ်း (D): Docker ဖြင့် Install လုပ်နည်း (OS အားလုံးအတွက်)
 
-If you have Docker installed, this is the fastest option:
+Docker ရှိထားပါက အောက်ပါ Command တစ်ကြောင်းတည်းဖြင့် MySQL Server ကို ရရှိနိုင်ပါတယ် -
 
 ```bash
 docker run --name mysql-beginner -e MYSQL_ROOT_PASSWORD=mysecret123 -p 3306:3306 -d mysql:8
 ```
 
-Explanation:
-- `--name mysql-beginner` — gives the container a name
-- `-e MYSQL_ROOT_PASSWORD=mysecret123` — sets the root password (change this!)
-- `-p 3306:3306` — connects port 3306 from your computer to the container
-- `-d` — runs in background
+- `--name mysql-beginner` — Container ၏ အမည်
+- `-e MYSQL_ROOT_PASSWORD=mysecret123` — Root Password (မိမိ နှစ်သက်ရာ ပြောင်းနိုင်သည်)
+- `-p 3306:3306` — Computer Port နန့် Container Port ကို ချိတ်ဆက်ခြင်း
+- `-d` — Background မာ Run ခိုင်းခြင်း
 
-To stop: `docker stop mysql-beginner`
-To start again: `docker start mysql-beginner`
-
----
-
-## Common Problems and Fixes
-
-| Problem | Solution |
-|---------|----------|
-| "mysql: command not found" | MySQL may not be in your system PATH. Try using the full path or reinstall |
-| "Access denied for user 'root'" | You typed the wrong password. Check if Caps Lock is on |
-| MySQL service won't start (Linux/Mac) | Try: `sudo systemctl status mysql` to see error details |
-| Port 3306 already in use | Another program uses this port. Stop the other program or change MySQL port |
+- ရပ်တန့်လိုပါက - `docker stop mysql-beginner`
+- ပြန်စလိုပါက - `docker start mysql-beginner`
 
 ---
 
-## What Is the Root Password?
+## ⚠️ တွေ့ကြုံရတတ်သော ပြဿနာနန့် ဖြေရှင်းနည်းများ (Troubleshooting)
 
-The **root password** is like the master key to your database. You will need it whenever you connect to MySQL. 
-
-**Important:** Write it down and keep it safe!
+```
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │ Common Installation Issue Resolver                                   │
+  ├───────────────────────────────────┬──────────────────────────────────┤
+  │ "mysql: command not found"        │ System PATH မာ မပါသေးပါ။            │
+  │                                   │ Reinstall သို့မဟုတ် PATH ထည့်ပါ။  │
+  ├───────────────────────────────────┼──────────────────────────────────┤
+  │ "Access denied for user 'root'"   │ Password မှားရိုက်မိခြင်းဖြစ်ပါသည်။│
+  │                                   │ Caps Lock ဖွင့်ထားမိလား စစ်ပါ။    │
+  ├───────────────────────────────────┼──────────────────────────────────┤
+  │ Port 3306 already in use          │ အခြား Service တစ်ခုမှ သုံးနေခြင်း။ │
+  │                                   │ Port ပြောင်းပါ သို့ ထို App ကို ပိတ်ပါ။│
+  └───────────────────────────────────┴──────────────────────────────────┘
+```
 
 ---
 
-## Next Step
+## 🔑 Root Password ဆိုစွာ ဇာလဲ?
 
-Now that MySQL is installed, let's learn how to use MySQL Workbench — a visual tool that makes working with databases easy.
+**Root Password** ဆိုစွာ သင်၏ Database အတွက် **ပင်မ သော့ချက် (Master Key)** ဖြစ်ပါတယ်။ MySQL သို့ ချိတ်ဆက်သည့် အခါတိုင်း ဒေ Password လိုအပ်ပါဖို့။ **မေ့မသွားအောင် သေသေချာချာ မှတ်ထားပါ။**
 
-→ [Lesson 3: MySQL Workbench Guide](03-workbench.md)
+---
+
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
+
+MySQL Server ကို အောင်မြင်စွာ Install လုပ်ပြီးပြီဖြစ်လို့ Graphical UI ဖြင့် လွယ်ကူစွာ အသုံးပြုနိုင်သော **MySQL Workbench** အသုံးပြုပုံကို လေ့လာကြပါစို့။
+
+→ [သင်ခန်းစာ ၃: MySQL Workbench အသုံးပြုနည်း Guide](03-workbench.md)

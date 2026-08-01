@@ -1,28 +1,46 @@
-# Lesson 9 — Updating and Deleting Data
+# သင်ခန်းစာ ၉ — Data ပြင်ဆင်ခြင်းနန့် ဖျက်ပစ်ခြင်း (UPDATE & DELETE)
 
-In this lesson, you will learn how to change existing data and remove rows. **Be careful** — these actions can permanently affect your data!
+![UPDATE and DELETE Safety Illustration](images/lesson09.png)
 
-**Prerequisites:** Can read data with SELECT (Lesson 8)
+ဒေသင်ခန်းစာမာ ဟိပြီးသား Data များကို ပြောင်းလဲ ပြင်ဆင်ခြင်း (UPDATE) နန့် အတန်းများကို ဖျက်ပစ်ခြင်း (DELETE) တို့ကို လေ့လာသွားပါဖို့။ **သတိပြုရန်:** ဒေ Command များစွာ မူလ Data များကို အပြီးတိုင် ပြောင်းလဲသွားစေသည့်အတွက် အထူး သတိထားဆောင်ရွက်ရပါမည်။
+
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၂၀**
 
 ---
 
-## ⚠️ Important Safety Rule
+## ⚠️ အရေးကြီးသော ဘေးကင်းရေး စည်းမျဉ်း (Safety Rule)
 
-Before updating or deleting, **always** do a SELECT first to check which rows will be affected:
+Data ပြင်ဆင်ခြင်း သို့မဟုတ် ဖျက်ပစ်ခြင်း မပြုမီ **အမြဲတမ်း** `SELECT` ဖြင့် မည်သည့် Data များ ပြောင်းလဲသွားမည်ကို အလျင် စစ်ဆေးပါ -
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      SAFE WORKFLOW DIAGRAM                              │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  [ ၁။ SELECT ဖြင့် အလျင်စစ်ပါ ] ➔ (ကြည့်ရှုစစ်ဆေးပါ - မှန်ကန်ပါသလား?)      │
+│            │                                                            │
+│            ▼                                                            │
+│  [ ၂။ UPDATE / DELETE ကို ရေးပါ ] ➔ (WHERE Clause ပါမပါ သေချာစစ်ပါ)    │
+│            │                                                            │
+│            ▼                                                            │
+│  [ ၃။ SELECT ဖြင့် ပြန်လည် စစ်ဆေးပါ ] ➔ (ပြောင်းလဲသွားပုံ ပြန်ကြည့်ပါ)   │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 ```sql
--- Step 1: Check what WILL be changed
+-- အဆင့် ၁ - ပြောင်းလဲမည့် Data ကို အလျင် စစ်ဆေးပါ
 SELECT * FROM customers WHERE city = 'Chicago';
 
--- Step 2: If it looks right, do the update/delete
+-- အဆင့် ၂ - မှန်ကန်ပါကမှ ပြင်ဆင်မှုကို ပြုလုပ်ပါ
 UPDATE customers SET city = 'New Chicago' WHERE city = 'Chicago';
 ```
 
 ---
 
-## The UPDATE Command
+## 🔄 UPDATE Command အသုံးပြုနည်း
 
-### Basic Format
+### အခြေခံ ပုံစံ -
 
 ```sql
 UPDATE table_name
@@ -30,7 +48,24 @@ SET column1 = new_value, column2 = new_value
 WHERE condition;
 ```
 
-### Example: Change One Field
+```
+┌────────────────── UPDATE with WHERE visual Diagram ─────────────────┐
+│                                                                     │
+│  WHERE id = 1 ဖြင့် သီးသန့် အတန်းကိုသာ သေနတ်ချိန်ပနာ ပြင်ဆင်ခြင်း:  │
+│                                                                     │
+│  +----+---------+------------+------------------+                   │
+│  | id | name    | city       | email            |                   │
+│  +----+---------+------------+------------------+                   │
+│  | 1  | U Ba    | Yangon     | uba@new.com      | ◄── [ဒေတန်းသာ ပြောင်းမည်]
+│  | 2  | Daw Hla | Mandalay   | hla@gmail.com    |                   │
+│  | 3  | Ko Aung | Sittwe     | aung@gmail.com   |                   │
+│  +----+---------+------------+------------------+                   │
+│                                                                     │
+│  ⚠️ WHERE မပါပါက Data အတန်း အားလုံး၏ email များ ပြောင်းသွားပါဖို့!    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### ဥပမာ (၁) - Data တစ်ခုတည်းကို ပြောင်းခြင်း
 
 ```sql
 UPDATE customers
@@ -38,31 +73,7 @@ SET email = 'john.new@email.com'
 WHERE id = 1;
 ```
 
-This changes John's email to the new one. Without the `WHERE` clause, ALL customers would get the new email!
-
-```
-┌─────────── UPDATE with WHERE ────────────────┐
-│                                              │
-│  Targeting ONE row with crosshair:           │
-│                                              │
-│  ┌──────────────────────────────────────┐    │
-│  │ id │ name   │ city      │ phone      │    │
-│  ├──────────────────────────────────────┤    │
-│  │  1 │ John   │ New York  │ 555-0100   │    │
-│  │     👆 CHANGE THIS ROW ONLY          │    │
-│  │  2 │ Sara   │ Chicago   │ 555-0200   │    │
-│  │  3 │ Bob    │ Houston   │ 555-0300   │    │
-│  │  4 │ Alice  │ Phoenix   │ 555-0400   │    │
-│  └──────────────────────────────────────┘    │
-│                                              │
-│  SET email = 'john.new@email.com'             │
-│  WHERE id = 1   → only row #1 is affected    │
-│                                              │
-│  ❌ No WHERE? Every single row gets updated!  │
-└──────────────────────────────────────────────┘
-```
-
-### Example: Change Multiple Fields
+### ဥပမာ (၂) - Data အများအပြားကို တစ်ပြိုင်နက် ပြောင်းခြင်း
 
 ```sql
 UPDATE customers
@@ -70,164 +81,62 @@ SET phone = '555-9999', city = 'Miami'
 WHERE id = 3;
 ```
 
-### Example: Update Using Calculation
-
-```sql
--- Give all products a 10% price increase
-UPDATE products
-SET price = price * 1.10;
-```
-
-⚠️ Again, without WHERE this affects ALL rows! Always double-check.
-
 ---
 
-## The DELETE Command
+## 🗑️ DELETE Command အသုံးပြုနည်း
 
-### Basic Format
+### အခြေခံ ပုံစံ -
 
 ```sql
 DELETE FROM table_name
 WHERE condition;
 ```
 
-Notice: `DELETE FROM` (not just `DELETE`). This is the correct syntax.
-
-### Example: Delete One Row
+```
+┌────────────────── DELETE with WHERE visual Diagram ─────────────────┐
+│                                                                     │
+│  BEFORE (ယခင်):              AFTER (ဖျက်ပြီး):                       │
+│  +----+---------+            +----+---------+                       │
+│  | id | name    |            | id | name    |                       │
+│  +----+---------+            +----+---------+                       │
+│  | 8  | Dave    |            | 8  | Dave    |                       │
+│  | 9  | Eva     |  ──────►   | 9  | Eva     |                       │
+│  | 10 | Frank   | ✘ (Deleted)|              | ◄── [id 10 ပျက်သွားသည်]│
+│  | 11 | Grace   |            | 11 | Grace   |                       │
+│  +----+---------+            +----+---------+                       │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 ```sql
 DELETE FROM customers
 WHERE id = 10;
 ```
 
-This removes only customer with id 10.
+---
 
-```
-┌─────────── DELETE with WHERE ────────────────┐
-│                                              │
-│  Removing specific rows:                     │
-│                                              │
-│  BEFORE:                    AFTER:           │
-│  ┌──────────────────────┐   ┌──────────────┐│
-│  │ id │ name   │ city   │   │ id │ name │  ││
-│  ├──────────────────────┤   ├──────────────┤│
-│  │  8 │ Dave   │ Dallas │   │  8 │ Dave │  ││
-│  │  9 │ Eva    │ Seattle│ → │  9 │ Eva  │  ││
-│  │ 10 │ Frank  │ Miami  │ ✘ │          │  ││ ← REMOVED!
-│  │ 11 │ Grace  │ Boston │   │ 11 │ Grace│  ││
-│  └──────────────────────┘   └──────────────┘│
-│      ▲ row #10 deleted                       │
-│                                              │
-│  ❌ No WHERE? Every single row is deleted!   │
-└──────────────────────────────────────────────┘
-```
+## 🚨 Data များကို ပျက်စီးစေတတ်သော ဘုံအမှားများ
 
-### Example: Delete Multiple Rows
-
-```sql
-DELETE FROM order_items
-WHERE quantity < 2;
-```
-
-This deletes all order items where quantity is less than 2.
+| အမှားအယွင်း | ဖြစ်ပေါ်လာမည့် အကျိုးဆက် | ကာကွယ်နည်း |
+|---|---|---|
+| WHERE စာကြောင်း ရေးရန် မေ့သွားခြင်း | Table တစ်ခုလုံးဟိ Data များ ပျက်/ပြောင်းကုန်မည် | မပြေးမီ SELECT ဖြင့် အလျင် စမ်းသပ်ပါ |
+| Condition စာလုံးပေါင်း မှားခြင်း | မဆိုင်သော Data များ ပျက်သွားမည် | `WHERE id = ...` ပင်မ သော့ကို သုံးပါ |
 
 ---
 
-## 🚨 Common Mistakes That Destroy Data
+## 📝 လေ့ကျင့်ခန်း (Exercise)
 
-| Mistake | What Happens | How to Avoid |
-|---------|-------------|--------------|
-| Forgetting WHERE clause | Updates or deletes ALL rows! | Always write SELECT first to test your condition |
-| Wrong condition | Deletes wrong rows | Double-check your WHERE condition before running |
-| Using DROP TABLE by accident | Deletes entire table | Be careful with DROP commands |
-
-### Safe Way to Test Before Deleting
-
-```sql
--- First, see what WILL be deleted
-SELECT * FROM customers WHERE city = 'Chicago';
-
--- If the results look correct, run the DELETE
-DELETE FROM customers WHERE city = 'Chicago';
-```
-
-```
-┌─────────── SAFETY: FORGETTING WHERE ─────────┐
-│                                              │
-│  ┌──────────────────────────────────────┐    │
-│  │  🚨 DANGER ZONE 🚨                   │    │
-│  └──────────────────────────────────────┘    │
-│                                              │
-│  UPDATE products SET price = 0;               │
-│  ❌ ALL product prices become $0!            │
-│                                              │
-│  DELETE FROM customers;                       │
-│  ❌ ALL customers are gone!                  │
-│                                              │
-│  ┌──────────────────────────────────────┐    │
-│  │  ✅ SAFE WORKFLOW:                   │    │
-│  └──────────────────────────────────────┘    │
-│                                              │
-│  Step 1: SELECT first (preview)              │
-│  SELECT * FROM products WHERE category = ... │
-│       → See which rows will change           │
-│                                              │
-│  Step 2: Run UPDATE / DELETE                 │
-│  UPDATE products SET ... WHERE ...           │
-│       → Only affected rows change            │
-│                                              │
-│  Step 3: Verify                              │
-│  SELECT * FROM products WHERE ...            │
-│       → Confirm changes look right           │
-└──────────────────────────────────────────────┘
-```
-
----
-
-## Using Workbench to Update/Delete Safely
-
-Workbench has a visual way that is safer for beginners:
-
-1. Right-click a table → **"Select Rows — Limit 1000"**
-2. You see all data in a spreadsheet view
-3. Click on a cell to edit it directly
-4. To delete a row: right-click the row → **"Delete Row"**
-5. Click **"Apply"** at the top to save changes
-
-This shows you exactly what you are changing before applying.
-
----
-
-## Exercise
-
-Using the `shop` database:
-
-1. Update Sarah's city to "San Francisco": `UPDATE customers SET city = 'San Francisco' WHERE first_name = 'Sarah';`
-2. Verify the change: `SELECT * FROM customers WHERE first_name = 'Sarah';`
-3. Increase all Electronics prices by 5%: `UPDATE products SET price = price * 1.05 WHERE category = 'Electronics';`
-4. Verify: `SELECT name, price FROM products WHERE category = 'Electronics';`
-5. Insert a test row, then delete it:
+၁. Daw Hla ၏ မြို့ကို "Sittwe" သို့ ပြောင်းပါ - `UPDATE customers SET city = 'Sittwe' WHERE first_name = 'Daw';`
+၂. Electronics ပစ္စည်းများ၏ စျေးနှုန်းကို ၅% တိုးပါ - `UPDATE products SET price = price * 1.05 WHERE category = 'Electronics';`
+၃. စမ်းသပ် Data အသစ် ထည့်ပနာ ပြန်ဖျက်ကြည့်ပါ -
    ```sql
    INSERT INTO customers (first_name, last_name, email) VALUES ('Test', 'User', 'test@email.com');
-   SELECT * FROM customers WHERE first_name = 'Test';
    DELETE FROM customers WHERE first_name = 'Test';
    ```
 
 ---
 
-## Quick Reference
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
 
-| Command | Purpose |
-|---------|---------|
-| `UPDATE table SET col = val WHERE ...` | Change existing data |
-| `DELETE FROM table WHERE ...` | Remove rows |
-| `SELECT * FROM table WHERE ...` | Always test before UPDATE/DELETE |
-| `WHERE id = X` | Target one specific row |
+Data ပြင်ဆင်ဖျက်ပစ်နည်းကို လေ့လာပြီးပြီ ဖြစ်လို့ လိုအပ်သော Data များကို ပိုမို တိကျစွာ စစ်ထုတ်ရှာဖွေနည်း (Filtering & WHERE) ကို ဆက်လက် လေ့လာကြပါစို့။
 
----
-
-## Next Step
-
-Now let's learn how to filter your data to find exactly what you need.
-
-→ [Lesson 10: Filtering Data](10-filtering.md)
+→ [သင်ခန်းစာ ၁၀: Data စစ်ထုတ်ကြည့်ရှုခြင်း (WHERE & Filtering)](10-filtering.md)

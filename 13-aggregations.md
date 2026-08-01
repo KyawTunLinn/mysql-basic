@@ -1,57 +1,54 @@
-# Lesson 13 — Aggregations and GROUP BY
+# သင်ခန်းစာ ၁၃ — Data တွက်ချက် စုစည်းခြင်း (Aggregations & GROUP BY)
 
-In this lesson, you will learn how to summarize data using counting, summing, averaging, and grouping.
+![SQL Aggregate Functions Illustration](images/lesson13.png)
 
-**Prerequisites:** JOINs (Lesson 12), basic SELECT queries
+**Aggregate Functions** နန့် **GROUP BY** ကို အသုံးပြုပနာ Data များကို ရေတွက်ခြင်း (Count)၊ ပေါင်းလဒ် ရှာခြင်း (Sum)၊ ပျမ်းမျှ တွက်ခြင်း (Average) နန့် အုပ်စုဖွဲ့ခြင်းများ ပြုလုပ်နည်းကို လေ့လာသွားပါဖို့။
 
----
-
-## Aggregate Functions
-
-These functions combine multiple rows into a single result:
-
-```
-┌─────── AGGREGATE FUNCTIONS ──────────────────┐
-│                                              │
-│  Multiple rows → One summary value           │
-│                                              │
-│  ┌──────────────────────────────┐            │
-│  │ price   │ product            │            │
-│  ├──────────────────────────────┤            │
-│  │ $999.99 │ Laptop             │            │
-│  │ $29.99  │ Mouse              │            │
-│  │ $199.99 │ Keyboard           │            │
-│  │ $49.99  │ Monitor            │            │
-│  │ $14.99  │ USB Cable          │            │
-│  └──────────────────────────────┘            │
-│                                              │
-│  COUNT(*)    → 5 products        👆 count    │
-│  SUM(price)  → $1294.95      👆 sum all      │
-│  AVG(price)  → $258.99       👆 average      │
-│  MIN(price)  → $14.99        👆 cheapest     │
-│  MAX(price)  → $999.99       👆 most expensive│
-└──────────────────────────────────────────────┘
-```
-
-| Function | What It Does | Example |
-|----------|-------------|---------|
-| `COUNT()` | Count rows | `COUNT(*)` = total rows |
-| `SUM()` | Add up values | `SUM(price)` = total of all prices |
-| `AVG()` | Calculate average | `AVG(price)` = average price |
-| `MIN()` | Find smallest value | `MIN(price)` = cheapest product |
-| `MAX()` | Find largest value | `MAX(price)` = most expensive product |
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၂၅**
 
 ---
 
-## Step 1: Basic Counting
+## 🎨 Aggregate Functions visual Summary
 
-How many customers do we have?
-
-```sql
-SELECT COUNT(*) AS total_customers FROM customers;
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      AGGREGATE FUNCTIONS ILLUSTRATION                   │
+├─────────────────────────────────────────────────────────────────────────┤
+│  Data အတန်းများစွာ ➔ အနှစ်ချုပ် တန်ဖိုးတစ်ခု ထွက်လာပုံ:                     │
+│                                                                         │
+│  +----------+--------------------+                                      │
+│  | price    | product            |                                      │
+│  +----------+--------------------+                                      │
+│  | $999.99  | Laptop             |                                      │
+│  | $29.99   | Mouse              |                                      │
+│  | $199.99  | Keyboard           |                                      │
+│  +----------+--------------------+                                      │
+│                                                                         │
+│  COUNT(*)   ➔ 3 (အတန်း စုစုပေါင်း အရေအတွက်)                           │
+│  SUM(price) ➔ $1229.97 (စျေးနှုန်း အားလုံး ပေါင်းလဒ်)                       │
+│  AVG(price) ➔ $409.99 (ပျမ်းမျှ စျေးနှုန်း)                                │
+│  MIN(price) ➔ $29.99 (အသက်သာဆုံး စျေး)                                   │
+│  MAX(price) ➔ $999.99 (စျေးအကြီးဆုံး)                                      │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-How many products in each category?
+---
+
+## 🔢 တွက်ချက်သည့် Functions (၅) မျိုး
+
+| Function | ပြုလုပ်ပေးသော အရာ | ဥပမာ |
+|---|---|---|
+| `COUNT()` | အတန်း အရေအတွက် ရေတွက်သည် | `COUNT(*)` |
+| `SUM()` | တန်ဖိုးများကို ပေါင်းပေးသည် | `SUM(price)` |
+| `AVG()` | ပျမ်းမျှ တန်ဖိုး တွက်သည် | `AVG(price)` |
+| `MIN()` | အငယ်ဆုံး တန်ဖိုးကို ရှာသည် | `MIN(price)` |
+| `MAX()` | အကြီးဆုံး တန်ဖိုးကို ရှာသည် | `MAX(price)` |
+
+---
+
+## 🗂️ GROUP BY — အုပ်စုဖွဲ့ပနာ တွက်ချက်ခြင်း
+
+Data များကို အမျိုးအစားအလိုက် အုပ်စုဖွဲ့ပနာ တွက်ချက်လိုသည့်အခါ `GROUP BY` ကို သုံးပါတယ် -
 
 ```sql
 SELECT category, COUNT(*) AS product_count 
@@ -59,279 +56,60 @@ FROM products
 GROUP BY category;
 ```
 
-Output:
-
-| category | product_count |
-|----------|--------------|
-| Electronics | 3 |
-| Sports | 3 |
-| Books | 2 |
-| Home | 2 |
-| Accessories | 2 |
-
----
-
-## Step 2: GROUP BY Explained
-
-`GROUP BY` groups rows that have the same value together. Think of it like putting items into buckets:
-
 ```
-┌─────────── GROUP BY — BUCKET METHOD ────────┐
-│                                             │
-│  Products table → Grouped by category       │
-│                                             │
-│  Before GROUP BY:                          │
-│  ┌─────────────────────────────────────┐    │
-│  │ 📦 Laptop    | Electronics          │    │
-│  │ 📦 Mouse     | Electronics          │    │
-│  │ 📦 Keyboard  | Electronics          │    │
-│  │ 📦 Tennis Rkt| Sports               │    │
-│  │ 📦 Yoga Mat  | Sports               │    │
-│  │ 📦 Novel     | Books                │    │
-│  │ 📦 Cookbook  | Books                │    │
-│  │ 📦 Lamp      | Home                 │    │
-│  │ 📦 Pillow    | Home                 │    │
-│  └─────────────────────────────────────┘    │
-│              ▼                                │
-│         GROUP BY                              │
-│           category                            │
-│              ▼                                │
-│  After GROUP BY:                             │
-│  ┌─────────────────────────────────────┐    │
-│  │ ┌───────────────────────────────┐   │    │
-│  │ │ 🗂️ Electronics (3 items)     │   │    │
-│  │ │    Laptop, Mouse, Keyboard    │   │    │
-│  │ └───────────────────────────────┘   │    │
-│  │ ┌───────────────────────────────┐   │    │
-│  │ │ 🗂️ Sports (2 items)          │   │    │
-│  │ │    Tennis Rkt, Yoga Mat       │   │    │
-│  │ └───────────────────────────────┘   │    │
-│  │ ┌───────────────────────────────┐   │    │
-│  │ │ 🗂️ Books (2 items)           │   │    │
-│  │ │    Novel, Cookbook             │   │    │
-│  │ └───────────────────────────────┘   │    │
-│  │ ┌───────────────────────────────┐   │    │
-│  │ │ 🗂️ Home (2 items)            │   │    │
-│  │ │    Lamp, Pillow                │   │    │
-│  │ └───────────────────────────────┘   │    │
-│  └─────────────────────────────────────┘    │
-│                                             │
-│  Each bucket = one row in results!          │
-└─────────────────────────────────────────────┘
-```
-
-### Format
-
-```sql
-SELECT column, COUNT(*)
-FROM table_name
-GROUP BY column;
-```
-
-### Examples
-
-Count orders per customer:
-
-```sql
-SELECT customer_id, COUNT(*) AS order_count
-FROM orders
-GROUP BY customer_id;
-```
-
-Count orders per status:
-
-```sql
-SELECT status, COUNT(*) AS count
-FROM orders
-GROUP BY status;
+┌──────────────── GROUP BY Bucket Method visual ─────────────────┐
+│                                                                 │
+│  Products Data ➔ Category အလိုက် အံဆွဲများထဲ ခွဲထည့်လိုက်ပုံ:     │
+│                                                                 │
+│  🗂️ Electronics Bucket: (Laptop, Mouse, Keyboard) ➔ Count: 3   │
+│  🗂️ Clothing Bucket:    (T-Shirt, Jeans)           ➔ Count: 2   │
+│  🗂️ Footwear Bucket:    (Sneakers)                 ➔ Count: 1   │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Step 3: SUM — Adding Values
+## ⚖️ WHERE နန့် HAVING ခြားနားချက် visual Diagram
 
-Total revenue from all orders:
-
-```sql
-SELECT SUM(total_amount) AS total_revenue FROM orders;
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           WHERE vs HAVING                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  [ ၁။ FROM ]      ➔ Table မှ Data များ ယူသည်                           │
+│        │                                                                │
+│        ▼                                                                │
+│  [ ၂။ WHERE ]     ➔ အတန်း တခုချင်းစီကို အလျင် စစ်ထုတ်သည် (Group မဖွဲ့မီ)   │
+│        │                                                                │
+│        ▼                                                                │
+│  [ ၃။ GROUP BY ]  ➔ အုပ်စု ဖွဲ့သည်                                       │
+│        │                                                                │
+│        ▼                                                                │
+│  [ ၄။ HAVING ]    ➔ တွက်ချက်ပြီး ရလဒ် အုပ်စုများကို စစ်ထုတ်သည် (Group ဖွဲ့ပြီး)│
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-Revenue per customer:
-
 ```sql
-SELECT c.first_name, c.last_name, SUM(o.total_amount) AS total_spent
-FROM customers c
-INNER JOIN orders o ON c.id = o.customer_id
-GROUP BY c.id, c.first_name, c.last_name
-ORDER BY total_spent DESC;
-```
-
----
-
-## Step 4: AVG — Finding Averages
-
-Average order amount:
-
-```sql
-SELECT AVG(total_amount) AS average_order FROM orders;
-```
-
-Average price by category:
-
-```sql
-SELECT category, ROUND(AVG(price), 2) AS avg_price
-FROM products
-GROUP BY category;
-```
-
-Note: `ROUND(number, 2)` rounds to 2 decimal places.
-
----
-
-## Step 5: MIN and MAX
-
-Cheapest and most expensive products:
-
-```sql
-SELECT MIN(price) AS cheapest, MAX(price) AS most_expensive FROM products;
-```
-
-Cheapest product in each category:
-
-```sql
-SELECT category, MIN(price) AS cheapest_price
-FROM products
-GROUP BY category;
-```
-
----
-
-## Step 6: HAVING — Filter Groups
-
-`WHERE` filters individual rows. `HAVING` filters groups AFTER they are grouped.
-
-Find categories with more than 2 products:
-
-```sql
+-- Product အရေအတွက် ၂ ခုထက် ပိုသော Category များကိုသာ ရှာရန်
 SELECT category, COUNT(*) AS count
 FROM products
 GROUP BY category
 HAVING COUNT(*) > 2;
 ```
 
-⚠️ You cannot use `WHERE` for aggregate conditions. Always use `HAVING`.
+---
 
-```
-┌─────────── WHERE vs HAVING ──────────────────┐
-│                                              │
-│  WHERE filters INDIVIDUAL rows before        │
-│  GROUP BY groups them                        │
-│  HAVING filters GROUPS after grouping        │
-│                                              │
-│  Query execution order:                      │
-│                                              │
-│  ┌──────────────┐                            │
-│  │ FROM table   │ ← get all rows             │
-│  └──────┬───────┘                            │
-│         ▼                                    │
-│  ┌──────────────┐                            │
-│  │ WHERE cond   │ ← filter individual rows   │
-│  └──────┬───────┘    (before grouping)       │
-│         ▼                                    │
-│  ┌──────────────┐                            │
-│  │ GROUP BY     │ ← group into buckets       │
-│  └──────┬───────┘                            │
-│         ▼                                    │
-│  ┌──────────────┐                            │
-│  │ Aggregates   │ ← COUNT, SUM, AVG...       │
-│  └──────┬───────┘                            │
-│         ▼                                    │
-│  ┌──────────────┐                            │
-│  │ HAVING cond  │ ← filter the groups!       │
-│  └──────┬───────┘    (after grouping)        │
-│         ▼                                    │
-│  ┌──────────────┐                            │
-│  │ RESULT       │ ← final output             │
-│  └──────────────┘                            │
-│                                              │
-│  WHERE → acts on rows                         │
-│  HAVING → acts on groups                      │
-│  They CANNOT be swapped!                      │
-└───────────────────────────────────────────────┘
-```
+## 📝 လေ့ကျင့်ခန်း (Exercise)
 
-Wrong:
-```sql
--- This does NOT work!
-SELECT category, COUNT(*) FROM products
-WHERE COUNT(*) > 2
-GROUP BY category;
-```
-
-Right:
-```sql
--- Use HAVING instead
-SELECT category, COUNT(*) FROM products
-GROUP BY category
-HAVING COUNT(*) > 2;
-```
+၁. အော်ဒါ စုစုပေါင်း အရေအတွက်ကို ရေတွက်ပါ - `SELECT COUNT(*) FROM orders;`
+၂. ပျမ်းမျှ အော်ဒါ စျေးနှုန်းကို တွက်ပါ - `SELECT AVG(total_amount) FROM orders;`
+၃. ဝယ်သူ တစ်ယောက်စီ၏ ဝယ်ယူမှု စုစုပေါင်း ပမာဏကို `SUM` နန့် `GROUP BY` သုံးပနာ ထုတ်ပြပါ။
 
 ---
 
-## Step 7: Putting It All Together
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
 
-Complete sales summary:
+ဂုဏ်ယူပါတယ်။ သင်ခန်းစာ ၁၃ ခုလုံး တတ်မြောက်သွားပြီဖြစ်လို့ အဆုံးသတ် သင်ခန်းစာဖြစ်သော Database ကို Backup သိမ်းဆည်းခြင်းနန့် ပြန် Restore လုပ်နည်းကို လေ့လာကြပါစို့။
 
-```sql
-SELECT 
-    c.first_name,
-    c.last_name,
-    COUNT(o.id) AS number_of_orders,
-    SUM(o.total_amount) AS total_spent,
-    ROUND(AVG(o.total_amount), 2) AS average_order,
-    MIN(o.order_date) AS first_order,
-    MAX(o.order_date) AS last_order
-FROM customers c
-INNER JOIN orders o ON c.id = o.customer_id
-GROUP BY c.id, c.first_name, c.last_name
-ORDER BY total_spent DESC;
-```
-
-This shows one row per customer with their full shopping history summarized.
-
----
-
-## Exercise
-
-Using the `shop` database:
-
-1. Count total number of orders
-2. Find the average order amount
-3. Show total revenue per customer (name + total spent)
-4. Show how many orders are in each status (pending, shipped, delivered...)
-5. Find categories where the average product price is above $50
-6. Find customers who have placed more than 2 orders
-7. Show the cheapest and most expensive product in each category
-
----
-
-## Quick Reference
-
-| Function | Purpose |
-|----------|---------|
-| `COUNT(*)` | Count rows |
-| `SUM(col)` | Add up values |
-| `AVG(col)` | Calculate average |
-| `MIN(col)` | Find smallest value |
-| `MAX(col)` | Find largest value |
-| `GROUP BY col` | Group rows by column value |
-| `HAVING condition` | Filter groups (after GROUP BY) |
-| `ROUND(num, 2)` | Round to 2 decimal places |
-
----
-
-## Next Step
-
-Your final lesson: how to back up and restore your database.
-
-→ [Lesson 14: Backup and Restore](14-backup-restore.md)
+→ [သင်ခန်းစာ ၁၄: Backup ယူခြင်းနန့် ပြန် Restore လုပ်ခြင်း](14-backup-restore.md)

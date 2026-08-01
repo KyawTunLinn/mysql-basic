@@ -1,117 +1,165 @@
-# MySQL Beginner Course — Complete Guide
+# MySQL အခြေခံ သင်ခန်းစာများ — ပြည့်စုံသော လမ်းညွှန် (Rakhine Language Guide)
 
-Welcome! This course teaches you **MySQL from absolute zero**. No experience needed.
+မင်္ဂလာပါ! ဒေသင်ခန်းစာစာအုပ်စွာ **MySQL ကို အစမှစပနာ အခြေခံမှစလို့ ကျွမ်းကျင်အောင်** ရခိုင်ဘာသာစကားနန့် လွယ်လွယ်ကူကူ နားလည်နိုင်အောင် သင်ကြားပေးထားစွာ ဖြစ်ပါတယ်။ Database နည်းပညာ အတွေ့အကြုံ လုံးဝမဟိသေးသော သူများပါ လေ့လာနိုင်ပါတယ်။
 
-## What You Will Learn
+---
 
-- Install MySQL Server on your computer (Windows, Mac, or Linux)
-- Use MySQL Workbench (visual tool with buttons and menus)
-- Use MySQL Command Line (terminal tool for typing commands)
-- Write SQL queries to create databases, tables, and manage data
-- Practice with a ready-made sample database called "shop"
+## 🎨 သင်ခန်းစာ လမ်းကြောင်း ပြပုံ (Course Visual Map)
 
-## Who Is This For?
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                      MySQL Beginner Learning Path                        │
+└──────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │ အပိုင်း 1: အခြေခံမိတ်ဆက်နန့် တပ်ဆင်ပြင်ဆင်ခြင်း (Lessons 1 – 5)           │
+  │  [Lesson 1: Intro] ──► [Lesson 2: Install] ──► [Lesson 3: Workbench]  │
+  │                                                      │               │
+  │                        [Lesson 5: First Queries] ◄───┘               │
+  │                                    │ (Connect CLI/GUI)               │
+  │                                    ▼                                 │
+  │                                [Lesson 4: CLI]                       │
+  └──────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │ အပိုင်း 2: Data များကို မိုင်တိုင်စိုက် ကိုင်တွယ်ခြင်း (Lessons 6 – 10)       │
+  │  [Lesson 6: Tables] ──► [Lesson 7: Insert] ──► [Lesson 8: Select]    │
+  │                                                      │               │
+  │                        [Lesson 10: Filtering] ◄──────┘               │
+  │                                    │                                 │
+  │                                    ▼                                 │
+  │                        [Lesson 9: Update/Delete]                     │
+  └──────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │ အပိုင်း 3: အဆင့်မြင့် နည်းလမ်းများနန့် ထိန်းသိမ်းခြင်း (Lessons 11 – 14)       │
+  │  [Lesson 11: Sort/Limit] ──► [Lesson 12: JOINs]                      │
+  │                                      │                               │
+  │   [Lesson 14: Backup/Restore] ◄──────┴──► [Lesson 13: Group By]      │
+  └──────────────────────────────────────────────────────────────────────┘
+```
 
-- Complete beginners with no coding experience
-- Students who want to learn databases
-- Anyone who works with data and wants to understand MySQL
+---
 
-## How To Use This Course
+## 💡 သင်ဇာအရာတွေကို သင်ယူရဖို့လဲ? (What You Will Learn)
 
-### Option A: Full Learning Path (Recommended)
+- MySQL Server ကို မိမိကွန်ပျူတာ (Windows, Mac, သို့မဟုတ် Linux) မာ တပ်ဆင်နည်း
+- MySQL Workbench (ခလုတ်များနန့် မျက်မြင်အသုံးပြုနိုင်သော GUI Visual Tool) အသုံးပြုနည်း
+- MySQL Command Line (Terminal မှတစ်ဆင့် Command ရေးသား အသုံးပြုနည်း)
+- Database, Table ဖန်တီးခြင်းနန့် Data များကို စီမံခန့်ခွဲသည့် SQL Query များ ရေးသားနည်း
+- လက်တွေ့ စမ်းသပ်နိုင်ရန် ပေးထားသော "shop" စမ်းသပ် Database ဖြင့် လေ့ကျင့်ခြင်း
 
-Read each lesson in order — they build on each other:
+---
 
-1. **Read** the lesson introduction
-2. **Follow** every example by typing it yourself
-3. **Complete** the exercises at the end
-4. **Check** your work against the expected output
-5. **Move on** to the next lesson
+## 🎯 ဒေသင်ခန်းစာစွာ ဇာသူတွေအတွက်လဲ? (Who Is This For?)
 
-### Option B: Quick Start (Jump In)
+- Programming သို့မဟုတ် Database အတွေ့အကြုံ လုံးဝ မဟိသေးသူများ
+- ကျောင်းသား/ကျောင်းသူများနန့် Web Development / Data Analysis လေ့လာနေသူများ
+- Data နန့် အလုပ်လုပ်ရပနာ MySQL ကို အခြေခံမှစလို့ ပိုင်ပိုင်နိုင်နိုင် နားလည်ချင်သူများ
 
-Want to start querying right away? Do this:
+---
 
-1. Install MySQL → [Lesson 2](02-installation.md)
-2. Load sample database → [Lesson 5 Step 1](05-first-queries.md#step-1-load-the-sample-database)
-3. Run your first query → [Lesson 5 Step 7](05-first-queries.md#step-7-select-specific-columns)
-4. Keep the [Cheat Sheet](mysql-cheat-sheet.md) open as reference
+## 📖 ဒေသင်ခန်းစာကို ဇာပိုင် လေ့လာရမလဲ? (How To Use This Course)
 
-### Option C: Learn By Topic
+### နည်းလမ်း (၁) — အစဉ်လိုက် စနစ်တကျ လေ့လာခြင်း (အကောင်းဆုံး)
 
-Looking for a specific command? Use the [Cheat Sheet](mysql-cheat-sheet.md) or jump to:
+သင်ခန်းစာ တစ်ခုချင်းစီကို အစဉ်လိုက် ဖတ်ရှုသွားပါ - 
 
-| Need to... | Go to Lesson |
+1. သင်ခန်းစာ၏ **မိတ်ဆက်နန့် ရှင်းလင်းချက်** ကို ဖတ်ပါ။
+2. ပေးထားသော **ဥပမာများကို ကိုယ်တိုင် ရိုက်ထည့်** ပနာ စမ်းသပ်ပါ။
+3. သင်ခန်းစာ၏ အဆုံးမာ ပါသော **လေ့ကျင့်ခန်းများ** ကို ကိုယ်တိုင် လုပ်ကြည့်ပါ။
+4. ထွက်လာသော ရလဒ်နန့် **မျှော်မှန်းထားသော ရလဒ်** တူမတူ စစ်ဆေးပါ။
+5. နောက်ထပ် **နောက်သင်ခန်းစာသို့** ဆက်လက် သွားပါ။
+
+---
+
+### နည်းလမ်း (၂) — လက်တွေ့ ချက်ချင်း စမ်းသပ်လိုသူများအတွက် (Quick Start)
+
+တန်းပနာ SQL ရေးသားလိုပါက ဒေအတိုင်း ဆောင်ရွက်ပါ -
+
+1. MySQL ကို တပ်ဆင်ပါ → [သင်ခန်းစာ ၂](02-installation.md)
+2. စမ်းသပ် Database ကို ထည့်သွင်းပါ → [သင်ခန်းစာ ၅ - အဆင့် ၁](05-first-queries.md#အဆင့်-၁---စမ်းသပ်-database-ကို-ထည့်သွင်းခြင်း)
+3. ပထမဆုံး SQL ကို စတင် run ပါ → [သင်ခန်းစာ ၅ - အဆင့် ၇](05-first-queries.md#အဆင့်-၇---ပထမဆုံး-query-ရေးဆွဲခြင်း---select-all)
+4. မှတ်စုတိုကို ဖွင့်ထားပါ → [MySQL Cheat Sheet](mysql-cheat-sheet.md)
+
+---
+
+### နည်းလမ်း (၃) — ခေါင်းစဉ်အလိုက် ရှာဖွေ လေ့လာခြင်း
+
+| လိုအပ်သောအချက် | သွားရောက်ရမည့် သင်ခန်းစာ |
 |------------|-------------|
-| Create a table | [Lesson 6](06-create-tables.md) |
-| Add data | [Lesson 7](07-insert-data.md) |
-| Search/filter data | [Lesson 10](10-filtering.md) |
-| Combine tables | [Lesson 12](12-joins.md) |
-| Summarize data | [Lesson 13](13-aggregations.md) |
-| Save my database | [Lesson 14](14-backup-restore.md) |
+| Table (ဇယား) တည်ဆောက်ခြင်း | [သင်ခန်းစာ ၆](06-create-tables.md) |
+| Data အသစ် ထည့်သွင်းခြင်း | [သင်ခန်းစာ ၇](07-insert-data.md) |
+| Data ရှာဖွေ/စစ်ထုတ်ခြင်း | [သင်ခန်းစာ ၁၀](10-filtering.md) |
+| Table များ ပေါင်းစပ်ကြည့်ရှုခြင်း | [သင်ခန်းစာ ၁၂](12-joins.md) |
+| Data များ စုစည်းတွက်ချက်ခြင်း | [သင်ခန်းစာ ၁၃](13-aggregations.md) |
+| Database ကို Backup ယူခြင်း | [သင်ခန်းစာ ၁၄](14-backup-restore.md) |
 
-## Tools Used in This Course
+---
 
-| Tool | Purpose | Used In |
-|------|---------|---------|
-| MySQL Server | The database engine that stores your data | Lesson 2 |
-| MySQL Workbench | Visual tool to browse and edit data | Lesson 3 |
-| mysql CLI | Command-line tool to type SQL directly | Lesson 4 |
-| sample-database.sql | Practice database with real-world data | Lesson 5 |
+## 🛠️ ဒေသင်ခန်းစာမာ အသုံးပြုထားသော Tools များ
 
-## Course Roadmap
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        MySQL Software Suite                            │
+├──────────────────┬─────────────────────────────────────────────────────┤
+│ MySQL Server     │ Data များကို သိမ်းဆည်းပေးသော Engine ပြုလုပ်ဆောင်ရွက်ချက်  │
+├──────────────────┼─────────────────────────────────────────────────────┤
+│ MySQL Workbench  │ Graphical UI ဖြင့် ကလစ်နှိပ်ပနာ သုံးနိုင်သော Visual Tool   │
+├──────────────────┼─────────────────────────────────────────────────────┤
+│ mysql CLI        │ Terminal (Command Line) မှတစ်ဆင့် တိုက်ရိုက် သုံးသည့် Tool  │
+├──────────────────┼─────────────────────────────────────────────────────┤
+│ sample-database  │ လက်တွေ့စမ်းသပ်ရန် လိုအပ်သော ဆိုင်စနစ် (Shop) ဒေတာဘေ့စ်      │
+└──────────────────┴─────────────────────────────────────────────────────┘
+```
 
-### Part 1: Getting Started (Lessons 1–5)
+---
 
-| # | Lesson | What You Learn | Time |
+## 🗺️ သင်ခန်းစာများ ဇယား (Course Roadmap)
+
+### အပိုင်း ၁: စတင်ခြေလှမ်းများ (သင်ခန်းစာ ၁ မှ ၅ အထိ)
+
+| # | သင်ခန်းစာ | သင်ယူရဖို့အရာများ | ကြာချိန် |
 |---|--------|----------------|------|
-| → | [index.md](index.md) | Course overview and road map | 5 min |
-| 1 | [Introduction to MySQL](01-introduction.md) | What is MySQL, why it matters, key terms | 15 min |
-| 2 | [Installing MySQL Server](02-installation.md) | Step-by-step install on Windows/Mac/Linux/Docker | 30 min |
-| 3 | [MySQL Workbench Guide](03-workbench.md) | Visual tool setup, navigation, first actions | 30 min |
-| 4 | [Command Line Basics](04-command-line.md) | Using terminal to connect and type SQL | 30 min |
-| 5 | [Your First Queries](05-first-queries.md) | Load sample database, run SELECT queries | 20 min |
+| → | [index.md](index.md) | သင်ခန်းစာ မာတိကာနန့် လမ်းညွှန်မြေပုံ | ၅ မိနစ် |
+| ၁ | [Introduction to MySQL](01-introduction.md) | MySQL ဆိုစွာ ဇာလဲ၊ အရေးကြီးပုံနန့် အဓိက အသုံးအနှုန်းများ | ၁၅ မိနစ် |
+| ၂ | [Installing MySQL Server](02-installation.md) | Windows/Mac/Linux/Docker ပေါ်မာ Install လုပ်နည်း | ၃၀ မိနစ် |
+| ၃ | [MySQL Workbench Guide](03-workbench.md) | Visual Tool ကို စနစ်တကျ အသုံးပြုပုံ | ၃၀ မိနစ် |
+| ၄ | [Command Line Basics](04-command-line.md) | Terminal မှတစ်ဆင့် MySQL ချိတ်ဆက်အသုံးပြုနည်း | ၃၀ မိနစ် |
+| ၅ | [Your First Queries](05-first-queries.md) | Sample Database ထည့်ပနာ ပထမဆုံး SELECT သုံးနည်း | ၂၀ မိနစ် |
 
-### Part 2: Working with Data (Lessons 6–10)
+---
 
-| # | Lesson | What You Learn | Time |
+### အပိုင်း ၂: Data များကို ကိုင်တွယ်ခြင်း (သင်ခန်းစာ ၆ မှ ၁၀ အထိ)
+
+| # | သင်ခန်းစာ | သင်ယူရဖို့အရာများ | ကြာချိန် |
 |---|--------|----------------|------|
-| 6 | [Creating Tables](06-create-tables.md) | Build your own tables with columns and rules | 30 min |
-| 7 | [Inserting Data](07-insert-data.md) | Add rows of data using INSERT | 20 min |
-| 8 | [Reading Data with SELECT](08-select-data.md) | Query, calculate, combine text, remove duplicates | 30 min |
-| 9 | [Updating and Deleting](09-update-delete.md) | Change and remove data safely | 20 min |
-| 10 | [Filtering Data](10-filtering.md) | WHERE clause, comparisons, patterns, NULL handling | 25 min |
+| ၆ | [Creating Tables](06-create-tables.md) | ကိုယ်ပိုင် Table များနန့် Data Types များ သတ်မှတ်ခြင်း | ၃၀ မိနစ် |
+| ၇ | [Inserting Data](07-insert-data.md) | INSERT ဖြင့် Data တန်းများ ထည့်သွင်းခြင်း | ၂၀ မိနစ် |
+| ၈ | [Reading Data with SELECT](08-select-data.md) | Data ဖတ်ယူခြင်း၊ တွက်ချက်ခြင်း၊ မထပ်အောင်ထုတ်ခြင်း | ၃၀ မိနစ် |
+| ၉ | [Updating and Deleting](09-update-delete.md) | Data ပြင်ဆင်ခြင်းနန့် ဘေးကင်းစွာ ဖျက်ပစ်နည်း | ၂၀ မိနစ် |
+| ၁၀ | [Filtering Data](10-filtering.md) | WHERE Clause၊ နှိုင်းယှဉ်ချက်များ၊ NULL ကိုင်တွယ်နည်း | ၂၅ မိနစ် |
 
-### Part 3: Intermediate Skills (Lessons 11–14)
+---
 
-| # | Lesson | What You Learn | Time |
+### အပိုင်း ၃: အဆင့်မြင့် နည်းလမ်းများ (သင်ခန်းစာ ၁၁ မှ ၁၄ အထိ)
+
+| # | သင်ခန်းစာ | သင်ယူရဖို့အရာများ | ကြာချိန် |
 |---|--------|----------------|------|
-| 11 | [Sorting and Limiting](11-sorting-limiting.md) | ORDER BY and LIMIT results | 15 min |
-| 12 | [JOINs Made Simple](12-joins.md) | Combine data from multiple tables | 35 min |
-| 13 | [Aggregations and GROUP BY](13-aggregations.md) | Count, sum, average, group data | 25 min |
-| 14 | [Backup and Restore](14-backup-restore.md) | Save and recover your database | 20 min |
+| ၁၁ | [Sorting and Limiting](11-sorting-limiting.md) | ORDER BY နန့် LIMIT ဖြင့် Data စီစဉ်နည်း | ၁၅ မိနစ် |
+| ၁၂ | [JOINs Made Simple](12-joins.md) | Table များစွာမှ Data များကို ပေါင်းစပ်ကြည့်ရှုနည်း | ၃၅ မိနစ် |
+| ၁၃ | [Aggregations and GROUP BY](13-aggregations.md) | Count, Sum, Average တွက်ချက်ပနာ အုပ်စုဖွဲ့နည်း | ၂၅ မိနစ် |
+| ၁၄ | [Backup and Restore](14-backup-restore.md) | Database ကို Backup သိမ်းဆည်းပနာ ပြန်လည်ယူနည်း | ၂၀ မိနစ် |
 
-## Quick Links
+---
 
-- [Course Overview](index.md) — Full table of contents
-- [MySQL Cheat Sheet](mysql-cheat-sheet.md) — All common commands in one page
-- [Sample Database](sample-database.sql) — Ready-to-use practice database with shop data
+## 💡 အောင်မြင်စွာ လေ့လာနိုင်ဖို့ အကြံပြုချက်များ
 
-## Tips for Success
+- **မှတ်စုရေးပါ** — Command များကို ကိုယ်တိုင် မှတ်စုရေးသားပါ။
+- **အမှားလုပ်ကြည့်ပါ** — အမှားများမှတစ်ဆင့် ပိုမို နားလည်လာပါဖို့။ စမ်းသပ် Database မာ သဲသဲမဲမဲ စမ်းသပ်ပါ။
+- **နှစ်မျိုးလုံး သုံးကြည့်ပါ** — Workbench နန့် Command Line နှစ်ခုလုံးကို သုံးကြည့်ပနာ လေ့ကျင့်ပါ။
 
-- **Take notes** — Write down commands as you learn them
-- **Make mistakes** — Breaking things is how you learn. Always practice on the sample database first
-- **Ask "why"** — If something is unclear, re-read that section or search online
-- **Be patient** — Everyone starts as a beginner. Progress takes practice
-- **Use both tools** — Try Workbench AND command line for the same task to understand both
-
-## Estimated Total Time
-
-| Section | Time |
-|---------|------|
-| Part 1: Getting Started | ~2 hours |
-| Part 2: Working with Data | ~2 hours |
-| Part 3: Intermediate Skills | ~1.5 hours |
-| **Total** | **~5.5 hours** |
-
-Let's begin! → [Lesson 1: Introduction](01-introduction.md)
+စတင်လိုက်ကြပါစို့! → [သင်ခန်းစာ ၁: MySQL အကြောင်း မိတ်ဆက်](01-introduction.md)

@@ -1,68 +1,45 @@
-# Lesson 6 — Creating Tables
+# သင်ခန်းစာ ၆ — Table (ဇယား) များ ဖန်တီးခြင်း (Creating Tables)
 
-In this lesson, you will learn how to create your own tables. A table is like a spreadsheet with rows and columns.
+![CREATE TABLE Schema Illustration](images/lesson06.png)
 
-**Estimated time: 30 minutes**
+ဒေသင်ခန်းစာမာ မိမိကိုယ်တိုင် Table (ဇယား) များ ဖန်တီးတည်ဆောက်ပုံကို လေ့လာသွားပါဖို့။ Table တစ်ခုဆိုစွာ Excel Spreadsheet ပိုင် ကော်လံနန့် အတန်းများ ပါဝင်သော ဒေတာ သိမ်းဆည်းရာ နေရာဖြစ်ပါတယ်။
 
-**Prerequisites:** MySQL Server installed (Lesson 2), can connect via Workbench or command line (Lessons 3–4)
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၃၀**
 
 ---
 
-## What Is a Table?
-
-A table stores related information in an organized way. Think of it like a form:
+## 🎨 Database ၏ ဖွဲ့စည်းပုံ visual Diagram (School Database Example)
 
 ```
-Table: customers
-+----+--------------+------------+---------------------+
-| id | first_name   | last_name  | email               |
-+----+--------------+------------+---------------------+
-| 1  | John         | Smith      | john@email.com      |
-| 2  | Sarah        | Johnson    | sarah@email.com     |
-+----+--------------+------------+---------------------+
- ↑    ↑            ↑            ↑
-id   first_name  last_name    email
-(column) (column)  (column)   (column)
-```
-
-### Visual: How Data Fits Into a Database
-
-```
-┌──────────────────────────────────────────────────────┐
-│                    Database: "school"                  │
-│                                                      │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  │
-│  │  students   │  │   teachers  │  │   courses   │  │
-│  │─────────────│  │─────────────│  │─────────────│  │
-│  │ 🆔 INT PK   │  │ 🆔 INT PK   │  │ 🆔 INT PK   │  │
-│  │ name VARCHAR│  │ name VARCHAR│  │ name VARCHAR│  │
-│  │ email UNI   │  │ subject     │  │ teacher_id  │  │
-│  │ birth_date  │  │ email UNI   │  │ max_students│  │
-│  └─────────────┘  └─────────────┘  └─────────────┘  │
-│       ▲                    ▲              ▲          │
-│       │                    │              │          │
-│       │ student_id (FK)    │ course_id(FK)│          │
-│       │                    │              │          │
-│  ┌─────────────────────────┘              │          │
-│  │  enrollments                            │          │
-│  │─────────────────────────┐               │          │
-│  │ 🆔 INT PK               │               │          │
-│  │ student_id (FK) ────────┼───────────────┘          │
-│  │ course_id    (FK) ──────┼─────────────────────────┘│
-│  │ grade DECIMAL            │                          │
-│  └─────────────────────────┘                          │
-└──────────────────────────────────────────────────────┘
-
-PK = Primary Key (unique ID for each row)
-FK = Foreign Key (link to another table's PK)
-UNI = Unique (no duplicates allowed)
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      Database: "school" (ကျောင်းသုံး စနစ်)               │
+│                                                                         │
+│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐               │
+│  │   students   │    │   teachers   │    │   courses    │               │
+│  ├──────────────┤    ├──────────────┤    ├──────────────┤               │
+│  │ 🆔 INT PK    │    │ 🆔 INT PK    │    │ 🆔 INT PK    │               │
+│  │ name VARCHAR │    │ name VARCHAR │    │ name VARCHAR │               │
+│  │ email UNIQUE │    │ subject      │    │ teacher_id FK│               │
+│  └──────┬───────┘    └──────┬───────┘    └──────┬───────┘               │
+│         │                   │                   │                       │
+│         │ student_id (FK)   │                   │ course_id (FK)        │
+│         ▼                   │                   ▼                       │
+│  ┌──────────────────────────┴──────────────────────────┐                │
+│  │                      enrollments                     │                │
+│  ├──────────────────────────────────────────────────────┤                │
+│  │ 🆔 INT PK                                            │                │
+│  │ student_id (FK ➔ students.id)                        │                │
+│  │ course_id  (FK ➔ courses.id)                         │                │
+│  │ grade DECIMAL(5,2)                                   │                │
+│  └──────────────────────────────────────────────────────┘                │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Step 1: Create a New Database
+## 🚀 အဆင့် ၁ - Database အသစ် ဖန်တီးခြင်း
 
-First, let's create a database for our practice:
+အလျင်ဦးစွာ လေ့ကျင့်ရန် Database အသစ်တစ်ခု ဖန်တီးပါ -
 
 ```sql
 CREATE DATABASE school;
@@ -71,9 +48,7 @@ USE school;
 
 ---
 
-## Step 2: The CREATE TABLE Command
-
-The basic format:
+## 🛠️ အဆင့် ၂ - CREATE TABLE Command ၏ အခြေခံ သဘောတရား
 
 ```sql
 CREATE TABLE table_name (
@@ -83,18 +58,17 @@ CREATE TABLE table_name (
 );
 ```
 
-Let's break this down piece by piece:
-
-- `CREATE TABLE` — tells MySQL you want to make a new table
-- `table_name` — the name you give your table
-- Inside parentheses `()` — list all your columns
-- Each column has: **name**, **data type**, and optional **rules**
+```
+   ┌──────────────┐         ┌───────────┐         ┌────────────────────────┐
+   │ CREATE TABLE │ ──────► │ Table အမည် │ ──────► │ (Column1 Data_Type ... )│
+   └──────────────┘         └───────────┘         └────────────────────────┘
+```
 
 ---
 
-## Step 3: Your First Table
+## ⚡ အဆင့် ၃ - ပထမဆုံး Table ရေးသားတည်ဆောက်ခြင်း
 
-Let's create a simple students table:
+`students` Table ကို ဖန်တီးကြပါစို့ -
 
 ```sql
 CREATE TABLE students (
@@ -107,28 +81,26 @@ CREATE TABLE students (
 );
 ```
 
-### What Does Each Part Mean?
+### 🔍 တစ်ခုချင်းစီ၏ ရှင်းလင်းချက် -
 
-| Part | Explanation |
-|------|-------------|
-| `INT` | Integer (whole number like 1, 2, 3...) |
-| `PRIMARY KEY` | This column uniquely identifies each row. No two rows can have the same id |
-| `AUTO_INCREMENT` | MySQL automatically gives each new row the next number (1, 2, 3...) |
-| `VARCHAR(50)` | Variable-length text, up to 50 characters |
-| `NOT NULL` | This column must have a value. You cannot leave it empty |
-| `DATE` | Stores dates like '2025-01-15' |
+| အစိတ်ပိုင်း | ရှင်းလင်းချက် |
+|---|---|
+| `INT` | ကိန်းပြည့် ကိန်းဂဏန်း (1, 2, 3...) |
+| `PRIMARY KEY` | အတန်းတိုင်းကို သီးသန့် ခွဲခြားပေးသည့် ပင်မသော့ (မထပ်ရပါ) |
+| `AUTO_INCREMENT` | Data အသစ် ထည့်သည်နန့် နံပါတ် 1, 2, 3... Auto တိုးပေးသည် |
+| `VARCHAR(50)` | စာသား ပမာဏ (အက္ခရာ ၅၀ အထိ) |
+| `NOT NULL` | ဒေ Column ကို အလွတ်ထားလို့ မရပါ (မဖြစ်မနေ ဖြည့်ရမည်) |
+| `DATE` | ရက်စွဲ သိမ်းဆည်းရန် (ဥပမာ '2025-01-15') |
 
 ---
 
-## Step 4: Check If Your Table Was Created
+## 📋 အဆင့် ၄ - Table ဖန်တီးပြီးကြောင်း စစ်ဆေးခြင်း
 
 ```sql
 SHOW TABLES;
 ```
 
-You should see `students` in the list.
-
-To see the table structure:
+Table အဆောက်အအုံကို စစ်ဆေးရန် -
 
 ```sql
 DESCRIBE students;
@@ -136,25 +108,25 @@ DESCRIBE students;
 
 ---
 
-## Step 5: More Column Types You Should Know
+## 📊 အသုံးများသော Data Types များ visual Summary
 
-| Type | What It Stores | Example |
-|------|---------------|---------|
-| `INT` | Whole numbers | 1, 42, 1000 |
-| `BIGINT` | Very large whole numbers | 999999999999 |
-| `DECIMAL(10,2)` | Exact decimal numbers (for money) | 29.99, 100.00 |
-| `VARCHAR(255)` | Text up to 255 characters | "Hello World" |
-| `TEXT` | Long text (no fixed limit) | Book descriptions, essays |
-| `DATE` | Date only | 2025-01-15 |
-| `DATETIME` | Date and time | 2025-01-15 14:30:00 |
-| `TIMESTAMP` | Date/time that updates automatically | Used for created_at, updated_at |
-| `BOOLEAN` or `TINYINT(1)` | True or false | 1 (true) or 0 (false) |
+```
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                     MySQL Common Data Types                       │
+  ├──────────────────┬────────────────────────────────────────────────┤
+  │ INT              │ ကိန်းပြည့် ဂဏန်းများ (1, 42, 1000)               │
+  │ DECIMAL(10,2)    │ ဒဿမ ဂဏန်းများ (ငွေပမာဏ 29.99, 100.00)         │
+  │ VARCHAR(255)     │ စာသားများ (အက္ခရာ ၂၅၅ လုံးအထိ)                │
+  │ TEXT             │ ဆောင်းပါးကဲ့သို့ စာသားရှည်များ                 │
+  │ DATE             │ ရက်စွဲ (YYYY-MM-DD)                            │
+  │ DATETIME         │ ရက်စွဲနန့် အချိန် (YYYY-MM-DD HH:MM:SS)          │
+  │ BOOLEAN          │ မှန်/မှား (1 သို့မဟုတ် 0)                      │
+  └──────────────────┴────────────────────────────────────────────────┘
+```
 
 ---
 
-## Step 6: Adding Common Rules
-
-You can add rules to control what data goes into a column:
+## ⚙️ အဆင့် ၅ - Column စည်းမျဉ်းများ (Constraints)
 
 ```sql
 CREATE TABLE products (
@@ -167,141 +139,82 @@ CREATE TABLE products (
 );
 ```
 
-### Common Rules Explained
-
-| Rule | What It Does |
-|------|--------------|
-| `PRIMARY KEY` | Uniquely identifies each row (must be unique, cannot be null) |
-| `NOT NULL` | Value is required |
-| `DEFAULT value` | Use this value if none is provided |
-| `AUTO_INCREMENT` | Automatically increases by 1 for each new row |
-| `UNIQUE` | No two rows can have the same value in this column |
+| စည်းမျဉ်း (Constraint) | ပြုလုပ်ပေးသော အရာ |
+|---|---|
+| `PRIMARY KEY` | ဒေတာ မထပ်အောင်နန့် သီးသန့် ခွဲခြားနိုင်အောင် ပြုလုပ်သည် |
+| `NOT NULL` | တန်ဖိုး မဖြစ်မနေ ပါရမည် |
+| `DEFAULT value` | တန်ဖိုး မထည့်ပါက သတ်မှတ်ထားသော တန်ဖိုးကို Auto ထည့်သည် |
+| `UNIQUE` | အခြား အတန်းများနန့် တန်ဖိုး တူလို့ မရပါ |
 
 ---
 
-## Step 7: Creating Multiple Related Tables
-
-Real databases have multiple tables that connect to each other. Let's create a full school system:
+## 🔗 အဆင့် ၆ - Table များစွာ ချိတ်ဆက်တည်ဆောက်ခြင်း (Foreign Key)
 
 ```sql
--- Students table
+-- ၁။ ကျောင်းသား Table
 CREATE TABLE students (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) UNIQUE,
-    birth_date DATE,
     enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Teachers table
+-- ၂။ ဆရာ Table
 CREATE TABLE teachers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    subject VARCHAR(100),
-    email VARCHAR(100) UNIQUE
+    subject VARCHAR(100)
 );
 
--- Courses table
+-- ၃။ သင်တန်း Table (Teachers Table နန့် ချိတ်ဆက်ထားသည်)
 CREATE TABLE courses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     course_name VARCHAR(100) NOT NULL,
     teacher_id INT,
-    max_students INT DEFAULT 30,
     FOREIGN KEY (teacher_id) REFERENCES teachers(id)
 );
 
--- Enrollments table (connects students to courses)
+-- ၄။ ကျောင်းအပ်မှတ်တမ်း Table (Students နန့် Courses ကို ချိတ်ဆက်သည်)
 CREATE TABLE enrollments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT NOT NULL,
     course_id INT NOT NULL,
     grade DECIMAL(5, 2),
-    enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (student_id) REFERENCES students(id),
     FOREIGN KEY (course_id) REFERENCES courses(id)
 );
 ```
 
-### What Is a Foreign Key?
+### Foreign Key ဆိုစွာ ဇာလဲ?
 
-A **foreign key** creates a link between two tables:
-- `FOREIGN KEY (teacher_id) REFERENCES teachers(id)` means: "The teacher_id in courses must match an existing id in the teachers table."
-- This prevents you from adding a course with a teacher that does not exist.
+**Foreign Key** ဆိုစွာ Table နှစ်ခုကို ချိတ်ဆက်ပေးသော သော့ဖြစ်ပါတယ်။ ဥပမာ - `courses` Table မာဟိသော `teacher_id` စွာ `teachers` Table မာ တကယ်ဟိသော `id` နန့် ကိုက်ညီရပါမည်။ မဟိသော ဆရာ ID ကို ထည့်ပါက MySQL မှ လက်ခံမည် မဟုတ်ပါ။
 
 ---
 
-## Step 8: Verify All Tables
-
-```sql
-SHOW TABLES;
-```
-
-You should see:
-```
-+------------------+
-| Tables_in_school |
-+------------------+
-| courses          |
-| enrollments      |
-| students         |
-| teachers         |
-+------------------+
-```
-
-Check each table structure:
-
-```sql
-DESCRIBE students;
-DESCRIBE teachers;
-DESCRIBE courses;
-DESCRIBE enrollments;
-```
-
----
-
-## Step 9: Delete a Table (If You Made a Mistake)
+## 🗑️ အဆင့် ၇ - Table ကို ပြန်လည် ဖျက်ပစ်ခြင်း
 
 ```sql
 DROP TABLE table_name;
 ```
 
-⚠️ **Warning:** This permanently deletes the table and all its data! There is no undo.
-
-To delete the entire database:
-
-```sql
-DROP DATABASE school;
-```
+⚠️ **သတိပေးချက်:** Table ကို ဖျက်လိုက်ပါက ပါဝင်သော Data များပါ လုံးဝ ပျက်စီးသွားပါဖို့။ ပြန်ယူလို့ မရပါ!
 
 ---
 
-## Exercise
+## 📝 လေ့ကျင့်ခန်း (Exercise)
 
-Create these tables in a new database called `library`:
+`library` အမည်ဖြင့် Database တစ်ခု ဖန်တီးပနာ အောက်ပါ Table (၃) ခု တည်ဆောက်ပါ -
 
-1. **books** — id, title, author, isbn (unique), published_year, available (boolean)
-2. **members** — id, name, email (unique), phone, join_date
-3. **borrowings** — id, book_id, member_id, borrow_date, return_date, returned (boolean)
-
-Make sure to use foreign keys to connect the tables properly.
+၁. **books** — `id`, `title`, `author`, `isbn` (UNIQUE), `available` (BOOLEAN)
+၂. **members** — `id`, `name`, `email` (UNIQUE), `phone`
+၃. **borrowings** — `id`, `book_id` (FK), `member_id` (FK), `borrow_date`
 
 ---
 
-## Quick Reference
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
 
-| Command | Purpose |
-|---------|---------|
-| `CREATE TABLE name (...)` | Create a new table |
-| `SHOW TABLES` | List all tables in current database |
-| `DESCRIBE table_name` | Show table structure |
-| `DROP TABLE name` | Delete a table |
+Table များ တည်ဆောက်ပြီးပြီ ဖြစ်လို့ ယင်း Table များထဲသို့ Data အသစ်များ ထည့်သွင်းနည်း (INSERT) ကို လေ့လာကြပါစို့။
 
----
-
-## Next Step
-
-Your tables are ready. Now let's add data to them!
-
-→ [Lesson 7: Inserting Data](07-insert-data.md)
+→ [သင်ခန်းစာ ၇: Data ထည့်သွင်းခြင်း (INSERT)](07-insert-data.md)

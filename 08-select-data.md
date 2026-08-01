@@ -1,280 +1,153 @@
-# Lesson 8 — Reading Data with SELECT
+# သင်ခန်းစာ ၈ — Data ဖတ်ယူခြင်း (SELECT)
 
-In this lesson, you will master the SELECT statement — the most important SQL command for reading data.
+![Advanced SELECT Data Illustration](images/lesson08.png)
 
-**Prerequisites:** Tables with data (Lessons 6–7), can connect via Workbench or command line
+ဒေသင်ခန်းစာမာ SQL ၏ အရေးအပါဆုံးနန့် အသုံးအများဆုံး Command ဖြစ်သော **SELECT** Statement ကို ကျွမ်းကျင်စွာ အသုံးပြုနည်း လေ့လာသွားပါဖို့။
 
----
-
-## The SELECT Statement
-
-`SELECT` is how you ask MySQL questions about your data. It is like searching in a spreadsheet.
-
-```
-┌─────────────── HOW SELECT WORKS ───────────────┐
-│                                                │
-│   Full Table                          Results  │
-│   (all columns)                            ▼   │
-│                                                │
-│  ┌──────────────────────────┐                  │
-│  │ id │ name │ email │ age  │       ┌────────┐│
-│  ├──────────────────────────┤       │  name  ││
-│  │  1 │ John │ j@e.com │ 25 │ ──▶   │  John  ││
-│  │  2 │ Sara │ s@e.com │ 30 │ ──▶   │  Sara  ││
-│  │  3 │ Bob  │ b@e.com │ 22 │ ──▶   │  Bob   ││
-│  └──────────────────────────┘       └────────┘│
-│        ▲                    ▲                  │
-│        │  SELECT picks      │  only these      │
-│        │  specific columns  │  columns shown   │
-└────────────────────────────────────────────────┘
-```
-
-### Basic Format
-
-```sql
-SELECT columns FROM table;
-```
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၃၀**
 
 ---
 
-## Step 1: Select All Columns
+## 🎨 SELECT အလုပ်လုပ်ပုံ visual Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           HOW SELECT WORKS                              │
+├─────────────────────────────────────────────────────────────────────────┤
+│  FULL TABLE (မူလ Table မာဟိသမျှ Data ဉီးရေ):                             │
+│  +----+---------+----------------+-----+                                │
+│  | id | name    | email          | age |                                │
+│  +----+---------+----------------+-----+                                │
+│  | 1  | U Ba    | uba@gmail.com  | 25  |                                │
+│  | 2  | Daw Hla | hla@gmail.com  | 30  |                                │
+│  | 3  | Ko Aung | aung@gmail.com | 22  |                                │
+│  +----+---------+----------------+-----+                                │
+│                                                                         │
+│  SELECT ဖြင့် သီးသန့် Column ကို ရွေးထုတ်လိုက်ပုံ:                        │
+│  SELECT name, email FROM customers;                                     │
+│                                                                         │
+│  RESULT (ထုတ်ပြမည့် ရလဒ်):                                              │
+│  +---------+----------------+                                           │
+│  | name    | email          |  ◄── [အကွက် အားလုံး ထုတ်မပြဘဲ]            │
+│  +---------+----------------+  ◄── [သီးသန့် ရွေးထားသော ကော်လံ သာပေါ်သည်]│
+│  | U Ba    | uba@gmail.com  |                                           │
+│  | Daw Hla | hla@gmail.com  |                                           │
+│  | Ko Aung | aung@gmail.com |                                           │
+│  +---------+----------------+                                           │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 အဆင့် ၁ - Column အားလုံး ထုတ်ကြည့်ခြင်း (`SELECT *`)
 
 ```sql
 SELECT * FROM customers;
 ```
 
-The `*` means "all columns." This shows every column and every row.
-
-⚠️ **Tip:** In real work, avoid using `*`. Always specify only the columns you need. It is faster and cleaner.
+`*` မှာ "Column အားလုံး" ဟု အဓိပ္ပာယ် ရပါသည်။
 
 ---
 
-## Step 2: Select Specific Columns
+## 🎯 အဆင့် ၂ - သီးသန့် Column များကိုသာ ထုတ်ကြည့်ခြင်း
 
 ```sql
 SELECT first_name, last_name, email FROM customers;
 ```
 
-Output:
-
-| first_name | last_name | email |
-|------------|-----------|-------|
-| John | Smith | john@email.com |
-| Sarah | Johnson | sarah@email.com |
-| ... | ... | ... |
-
 ---
 
-## Step 3: Give Columns Nicknames (Aliases)
+## 🏷️ အဆင့် ၃ - Column များကို အမည်သစ် (Alias) ပေးခြင်း (`AS`)
 
-You can rename columns in your results using `AS`:
+`AS` ကို သုံးပနာ ထွက်လာသော ရလဒ် Column အမည်ကို ပြောင်းလဲ ပြသနိုင်ပါတယ် -
 
 ```sql
 SELECT first_name AS name, email AS contact FROM customers;
 ```
 
-Output:
-
 | name | contact |
-|------|---------|
-| John | john@email.com |
-| Sarah | sarah@email.com |
-
-This makes the output easier to read.
+|---|---|
+| U Ba | uba@gmail.com |
+| Daw Hla | hla@gmail.com |
 
 ---
 
-## Step 4: Do Calculations in Your Query
-
-You can perform math directly in your SELECT:
+## 🔢 အဆင့် ၄ - Query ထဲမာ တွက်ချက်မှုများ ပြုလုပ်ခြင်း
 
 ```sql
 SELECT name, price, stock, price * stock AS total_value FROM products;
 ```
 
-This adds a new calculated column called `total_value` that multiplies price by stock.
-
-Output:
-
-| name | price | stock | total_value |
-|------|-------|-------|-------------|
-| Laptop Pro 15" | 1299.99 | 25 | 32499.75 |
-| Wireless Mouse | 29.99 | 150 | 4498.50 |
-| ... | ... | ... | ... |
-
-Other calculations:
-
-```sql
--- Add tax
-SELECT name, price, price * 1.1 AS price_with_tax FROM products;
-
--- Calculate order value
-SELECT quantity, unit_price, quantity * unit_price AS line_total FROM order_items;
-```
+`price * stock` ကို တွက်ချက်ပနာ `total_value` အမည်ဖြင့် Column အသစ် တိုးပနာ ပြသပေးပါဖို့။
 
 ---
 
-## Step 5: Combine Text
-
-Use `CONCAT()` to join text from multiple columns:
+## 🔤 အဆင့် ၅ - စာသားများ ပေါင်းစပ်ခြင်း (`CONCAT`)
 
 ```sql
 SELECT CONCAT(first_name, ' ', last_name) AS full_name, city FROM customers;
 ```
 
-Output:
-
 | full_name | city |
-|-----------|------|
-| John Smith | New York |
-| Sarah Johnson | Los Angeles |
+|---|---|
+| U Ba | Yangon |
+| Daw Hla | Mandalay |
 
 ---
 
-## Step 6: Remove Duplicates with DISTINCT
-
-If some values repeat, use `DISTINCT` to show only unique values:
+## 🚫 အဆင့် ၆ - ထပ်နေသော Data များကို ရှင်းထုတ်ခြင်း (`DISTINCT`)
 
 ```sql
 SELECT DISTINCT city FROM customers;
 ```
 
-Output (only unique cities):
-
-| city |
-|------|
-| New York |
-| Los Angeles |
-| Chicago |
-| Houston |
-| Phoenix |
-| Philadelphia |
-| San Antonio |
-| San Diego |
-| Dallas |
-| San Jose |
-
 ```
-┌─────────── DISTINCT removes duplicates ─────────┐
-│                                                 │
-│  Without DISTINCT:         With DISTINCT:       │
-│  SELECT city               SELECT DISTINCT city │
-│  ┌──────────┐             ┌──────────┐          │
-│  │   city   │             │   city   │          │
-│  ├──────────┤             ├──────────┤          │
-│  │ New York │             │ New York │          │
-│  │ Los Angeles│           │ Los Angeles│         │
-│  │ Chicago  │             │ Chicago  │          │
-│  │ Houston  │             │ Houston  │          │
-│  │ Phoenix  │             │ Phoenix  │          │
-│  │ New York │ ✘ removed!  │ Philadelphia│        │
-│  │ ...      │             │ San Antonio│         │
-│  └──────────┘             │ San Diego │          │
-│    10 rows              │ Dallas     │          │
-│                          │ San Jose   │          │
-│                          └──────────┘            │
-│                           10 unique cities       │
-└─────────────────────────────────────────────────┘
-```
-
-Another example:
-
-```sql
-SELECT DISTINCT category FROM products;
+┌───────────────── DISTINCT visual Diagram ─────────────────┐
+│                                                           │
+│  DISTINCT မပါပါက (ထပ်နေသော Data များ ပါဝင်မည်):           │
+│  Sittwe, Yangon, Sittwe, Mandalay, Yangon                 │
+│                                                           │
+│  DISTINCT သုံးလိုက်ပါက (မထပ်သော မြို့များသာ ထွက်လာမည်):       │
+│  Sittwe, Yangon, Mandalay                                 │
+└───────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Step 7: Check How Many Rows Exist
+## 🔢 အဆင့် ၇ - Data အတန်း အရေအတွက် ရေတွက်ခြင်း (`COUNT`)
 
 ```sql
 SELECT COUNT(*) FROM customers;
 ```
 
-This returns: `10` (the total number of customers).
-
-Count with conditions:
-
-```sql
-SELECT COUNT(*) FROM products WHERE category = 'Electronics';
-```
-
 ---
 
-## Step 8: Working with NULL Values
+## ❓ အဆင့် ၈ - NULL (အလွတ် တန်ဖိုး) များကို စစ်ဆေးခြင်း
 
-NULL means "no value" or "empty." Some columns might be NULL.
-
-To find rows with NULL values:
+MySQL မာ Data အလွတ် ဖြစ်နေသည်ကို `NULL` ဟု သတ်မှတ်ပါတယ်။
 
 ```sql
+-- Phone နံပါတ် အလွတ် ဖြစ်နေသူများကို ရှာရန်
 SELECT * FROM customers WHERE phone IS NULL;
-```
 
-To find rows that have a value:
-
-```sql
+-- Phone နံပါတ် ပါရှိသူများကို ရှာရန်
 SELECT * FROM customers WHERE phone IS NOT NULL;
 ```
 
-⚠️ You cannot use `= NULL` or `!= NULL`. Always use `IS NULL` or `IS NOT NULL`.
-
-```
-┌─────────── UNDERSTANDING NULL ────────────────┐
-│                                               │
-│  NULL means "no value" — not zero, not empty  │
-│                                               │
-│  ┌──────────────────────────────────────┐     │
-│  │ id │ name   │ phone      │ city      │     │
-│  ├──────────────────────────────────────┤     │
-│  │  1 │ John   │ 555-0100   │ New York  │     │
-│  │  2 │ Sara   │ NULL       │ Chicago   │ ← no phone!     │
-│  │  3 │ Bob    │ 555-0300   │ Houston   │     │
-│  │  4 │ Alice  │ NULL       │ Phoenix   │ ← no phone!     │
-│  └──────────────────────────────────────┘     │
-│                                               │
-│  NULL ≠ '' (empty string)                     │
-│  NULL ≠ 0                                     │
-│  NULL = unknown / missing data                │
-│                                               │
-│  ❌ WHERE phone = NULL    → doesn't work!     │
-│  ✅ WHERE phone IS NULL  → correct!           │
-│  ✅ WHERE phone IS NOT NULL → correct!        │
-└───────────────────────────────────────────────┘
-```
+⚠️ `= NULL` သို့ `= ''` ဟု ရေးလို့ မရပါ! မဖြစ်မနေ `IS NULL` သို့မဟုတ် `IS NOT NULL` ဟု ရေးရပါမည်။
 
 ---
 
-## Exercise
+## 📝 လေ့ကျင့်ခန်း (Exercise)
 
-Using the `shop` database:
-
-1. Show all product names and prices
-2. Show customer full names (first + last combined)
-3. Show product names with a 10% discount: `name, price, price * 0.9 AS discounted_price`
-4. List all unique categories in products
-5. Count how many products are in the "Electronics" category
-6. Show all customers who do not have a phone number (phone IS NULL)
+၁. Products ထဲမှ ပစ္စည်း အမည်နန့် စျေးနှုန်းများကို ထုတ်ပြပါ။
+၂. ကုန်ပစ္စည်းများကို ၁၀% လျှော့စျေး တွက်ချက်ပြပါ - `price * 0.9 AS discounted_price`
+၃. Customers ထဲမာ Phone နံပါတ် မဟိသော သူများကို ရှာပါ။
 
 ---
 
-## Quick Reference
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
 
-| Command | Purpose |
-|---------|---------|
-| `SELECT * FROM table` | Get all columns and rows |
-| `SELECT col1, col2 FROM table` | Get specific columns |
-| `SELECT col AS nickname` | Rename a column in results |
-| `SELECT DISTINCT col` | Get unique values only |
-| `SELECT COUNT(*) FROM table` | Count total rows |
-| `col1 * col2 AS result` | Do calculations |
-| `CONCAT(a, b)` | Join text together |
-| `IS NULL` / `IS NOT NULL` | Check for empty values |
+Data ဖတ်ယူနည်းကို လေ့လာပြီးပြီ ဖြစ်လို့ ဟိပြီးသား Data များကို ပြင်ဆင်ခြင်း (UPDATE) နန့် ဖျက်ပစ်ခြင်း (DELETE) များကို ဆက်လက် လေ့လာကြပါစို့။
 
----
-
-## Next Step
-
-You can read data. Now let's learn how to change and remove it.
-
-→ [Lesson 9: Updating and Deleting](09-update-delete.md)
+→ [သင်ခန်းစာ ၉: Data ပြင်ဆင်ခြင်းနန့် ဖျက်ပစ်ခြင်း](09-update-delete.md)

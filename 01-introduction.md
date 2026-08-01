@@ -1,162 +1,184 @@
-# Lesson 1 — Introduction to MySQL
+# သင်ခန်းစာ ၁ — MySQL အကြောင်း မိတ်ဆက် (Introduction to MySQL)
 
-## What Is MySQL?
+---
 
-MySQL is a **database program**. It stores information in an organized way so you can find, add, update, or delete data quickly.
+## 💡 MySQL ဆိုစွာ ဇာလဲ? (What Is MySQL?)
 
-### Visual Analogy: Database = Filing Cabinet
+MySQL ဆိုစွာ **Database Management System (ဒေတာဘေ့စ် စီမံခန့်ခွဲသည့် ဆော့ဖ်ဝဲလ်)** တစ်ခုဖြစ်ပါတယ်။ Data (အချက်အလက်) များကို စနစ်တကျ သေသေချာချာ သိမ်းဆည်းထားပနာ လိုအပ်သည့်အခါ မြန်မြန်ဆန်ဆန် ရှာဖွေခြင်း၊ အသစ်ထည့်ခြင်း၊ ပြင်ဆင်ခြင်းနန့် ဖျက်ပစ်ခြင်းများကို ဆောင်ရွက်ပေးနိုင်ပါတယ်။
 
-```
-┌───────────────────────────────────────────┐
-│          MySQL Server (Your Computer)      │
-│                                           │
-│  ┌─────────────────────────────────────┐  │
-│  │   📁 Database: "shop"               │  │
-│  │  ┌─────────────┐  ┌─────────────┐   │  │
-│  │  │ 🗄️ Table:   │  │ 🗄️ Table:   │   │  │
-│  │  │ customers   │  │  products   │   │  │
-│  │  │─────────────│  │─────────────│   │  │
-│  │  │ id: 1       │  │ id: 1       │   │  │
-│  │  │ name: John  │  │ name: Laptop│   │  │
-│  │  │ email: ...  │  │ price: $999 │   │  │
-│  │  ├─────────────│  ├─────────────│   │  │
-│  │  │ id: 2       │  │ id: 2       │   │  │
-│  │  │ name: Sarah │  │ name: Mouse │   │  │
-│  │  │ email: ...  │  │ price: $29  │   │  │
-│  │  └─────────────┘  └─────────────┘   │  │
-│  │                                     │  │
-│  │  ┌─────────────┐  ┌─────────────┐   │  │
-│  │  │ 🗄️ Table:   │  │ 🗄️ Table:   │   │  │
-│  │  │  orders     │  │ order_items │   │  │
-│  │  │─────────────│  │─────────────│   │  │
-│  │  │ id: 101     │  │ id: 1       │   │  │
-│  │  │ cust_id: 1  │  │ order_id:1  │   │  │
-│  │  │ total:$1K   │  │ prod_id: 1  │   │  │
-│  │  └─────────────┘  └─────────────┘   │  │
-│  └─────────────────────────────────────┘  │
-└───────────────────────────────────────────┘
-```
+---
 
-Key terms mapped to the analogy:
+## 🎨 မျက်မြင်နှိုင်းယှဉ်ချက်ပုံ — Database ဆိုစွာ ဖိုင်တွဲဗီရိုပိုင်ပါပဲ
 
-| Term | Real World | In MySQL |
-|------|-----------|----------|
-| **Database** | Whole filing cabinet | Collection of related tables (`shop`) |
-| **Table** | One drawer | Organized list (`customers`, `products`) |
-| **Row** | One piece of paper | One record (one customer, one product) |
-| **Column** | A field on the paper | One type of info (`name`, `price`, `email`) |
-
-## Why Learn MySQL?
-
-MySQL is one of the most popular databases in the world. You will find it used by:
-
-- **Websites** — Facebook, Twitter, YouTube, and many more use MySQL to store user data
-- **Apps** — Mobile apps use databases to save your settings and history
-- **Businesses** — Companies track sales, inventory, and customers with databases
-- **You** — Learning MySQL helps you get jobs in web development, data analysis, and IT
-
-## Simple Real-Life Examples
-
-| Situation | What MySQL Stores |
-|-----------|-------------------|
-| Online shop | Products, prices, customer orders |
-| School system | Students, grades, class schedules |
-| Hospital | Patient records, appointments, medicines |
-| Blog platform | Posts, comments, user accounts |
-
-## Key Terms You Need to Know
-
-| Term | Simple Meaning |
-|------|----------------|
-| **Database** | A collection of related tables |
-| **Table** | A list of items (like a spreadsheet) |
-| **Row** | One single item/record in a table |
-| **Column** | One type of information (like "name" or "email") |
-| **SQL** | The language used to talk to MySQL (pronounced "sequel") |
-| **Query** | A question you ask MySQL to get data back |
-| **Server** | The MySQL program running on your computer that handles requests |
-
-## Two Ways to Use MySQL
+Database ၏ သဘောတရားကို ရုံးသုံး ဖိုင်တွဲဗီရို (Filing Cabinet) နန့် နှိုင်းယှဉ်ကြည့်ပါက အလွန်လွယ်ကူစွာ နားလည်နိုင်ပါတယ်။
 
 ```
-┌──────────────────────┐    ┌──────────────────────┐
-│  MySQL Workbench     │    │   Command Line       │
-│  (Visual / Point &   │    │   (Type Commands)    │
-│    Click)            │    │                      │
-│                      │    │                      │
-│  ┌────────────────┐  │    │  $ mysql -u root -p │
-│  │ ╔════════════╗ │  │    │  > USE shop;        │
-│  │ ║ Database: 🗄️║ │  │    │  > SELECT *         │
-│  │ ║ Table: cust │  │    │    FROM customers;   │
-│  │ ╚════════════╝ │  │    │                      │
-│  │ [▶ Run] [✓]   │  │    │  +----+------------+ │
-│  └────────────────┘  │    │  | id | first_name | │
-│                      │    │  | 1  | John       | │
-│  ✅ Easy for beginners│   │  | 2  | Sarah      | │
-│  ❌ Slower for big   │   │  +----+------------+ │
-│     operations       │   │                      │
-└──────────────────────┘    └──────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    MySQL Server (သင်၏ ကွန်ပျူတာ)                         │
+│                                                                         │
+│  ┌───────────────────────────────────────────────────────────────────┐  │
+│  │   📁 Database: "shop" (ဆိုင်သုံး ဒေတာဘေ့စ် ဗီရိုကြီး)                │  │
+│  │                                                                   │  │
+│  │  ┌─────────────────────────────┐  ┌─────────────────────────────┐  │  │
+│  │  │ 🗄️ Table: customers (ဝယ်သူ)  │  │ 🗄️ Table: products (ကုန်ပစ္စည်း)│  │  │
+│  │  ├─────────────────────────────┤  ├─────────────────────────────┤  │  │
+│  │  │ id: 1                       │  │ id: 1                       │  │  │
+│  │  │ name: U Ba                  │  │ name: Laptop                │  │  │
+│  │  │ email: uba@gmail.com        │  │ price: $999                 │  │  │
+│  │  ├─────────────────────────────┤  ├─────────────────────────────┤  │  │
+│  │  │ id: 2                       │  │ id: 2                       │  │  │
+│  │  │ name: Daw Hla               │  │ name: Wireless Mouse        │  │  │
+│  │  │ email: hla@gmail.com        │  │ price: $29                  │  │  │
+│  │  └─────────────────────────────┘  └─────────────────────────────┘  │  │
+│  │                                                                   │  │
+│  │  ┌─────────────────────────────┐  ┌─────────────────────────────┐  │  │
+│  │  │ 🗄️ Table: orders (အော်ဒါ)    │  │ 🗄️ Table: order_items       │  │  │
+│  │  ├─────────────────────────────┤  ├─────────────────────────────┤  │  │
+│  │  │ id: 101                     │  │ id: 1                       │  │  │
+│  │  │ cust_id: 1                  │  │ order_id: 101               │  │  │
+│  │  │ total: $999                 │  │ prod_id: 1                  │  │  │
+│  │  └─────────────────────────────┘  └─────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-1. **MySQL Workbench** — A visual program with buttons and menus. Good for beginners.
-2. **Command Line** — Type commands directly. More powerful once you learn it.
+### အသုံးအနှုန်းများ နှိုင်းယှဉ်ချက် ဇယား
 
-This course teaches **both**.
+| Term (အသုံးအနှုန်း) | ပြင်ပကမ္ဘာနန့် နှိုင်းယှဉ်ချက် | MySQL မာ ခေါ်ဆိုပုံ |
+|---|---|---|
+| **Database** | ဖိုင်တွဲ ဗီရိုတစ်ခုလုံး | နှီးနွှယ်နေသော Table များ စုစည်းရာ (`shop`) |
+| **Table** | ဗီရိုထဲမှ အံဆွဲတစ်ဆွဲ | အချက်အလက်များ စနစ်တကျ ထည့်ထားသော ဇယား (`customers`, `products`) |
+| **Row (Record)** | အံဆွဲထဲမှ ဖိုင်ရွက်တစ်ရွက် | ဒေတာတစ်ကြောင်း (ဝယ်သူတစ်ယောက် သို့ ကုန်ပစ္စည်းတစ်ခု၏ ဒေတာ) |
+| **Column (Field)** | ဖိုင်ရွက်ပေါ်မှ စာကြောင်းခေါင်းစဉ် | ဒေတာ အမျိုးအစား တစ်ခု (`name`, `price`, `email`) |
 
-## What Is SQL?
+---
 
-SQL stands for **Structured Query Language**. It is the language you use to:
-- Create databases and tables
-- Add, change, and delete data
-- Ask questions (query) your data
+## 🚀 ဇာဖြစ်လို့ MySQL ကို လေ့လာသင့်လဲ? (Why Learn MySQL?)
 
-Example of a simple SQL query:
+MySQL စွာ ကမ္ဘာပေါ်မာ အသုံးအများဆုံး နာမည်ကြီး Database များထဲမှ တစ်ခုဖြစ်ပါတယ်။ အောက်ပါနေရာများမာ ကျယ်ပြန့်စွာ အသုံးပြုနေကြပါတယ် -
+
+- **Website များ** — Facebook, Twitter, YouTube တို့စွာ သုံးစွဲသူများ၏ ဒေတာများကို သိမ်းရန် MySQL ကို သုံးကြပါတယ်။
+- **Mobile App များ** — ဖုန်း အပလီကေးရှင်းများ၏ Setting နန့် သမိုင်းအချက်အလက်များ သိမ်းဆည်းရန် သုံးပါတယ်။
+- **စီးပွားရေးလုပ်ငန်းများ** — ရောင်းဝယ်မှု၊ ပစ္စည်းလက်ကျန်နန့် ဝယ်သူစာရင်းများကို မှတ်တမ်းတင်ရန် သုံးပါတယ်။
+- **သင်ကိုယ်တိုင်အတွက်** — MySQL ကို တတ်မြောက်ထားပါက Web Development, Data Analysis နန့် IT အလုပ်အကိုင် အခွင့်အလမ်းများစွာ ရရှိနိုင်ပါတယ်။
+
+---
+
+## 📊 လက်တွေ့ ပတ်ဝန်းကျင်မှ ဥပမာများ
+
+| အခြေအနေ | MySQL မာ ဇာအချက်အလက်တွေ သိမ်းဆည်းလဲ |
+|---|---|
+| အွန်လိုင်းစျေးဆိုင် (Online Shop) | ကုန်ပစ္စည်းများ၊ စျေးနှုန်းများ၊ ဝယ်သူအော်ဒါ စာရင်းများ |
+| ကျောင်းစနစ် (School System) | ကျောင်းသား စာရင်းများ၊ အမှတ်စာရင်းများ၊ အတန်းချိန်ဇယားများ |
+| ဆေးရုံစနစ် (Hospital System) | လူနာမှတ်တမ်းများ၊ ရက်ချိန်းများ၊ ဆေးဝါးစာရင်းများ |
+| ဘလော့ဂ် (Blog Platform) | ဆောင်းပါးများ၊ မှတ်ချက် (Comment) များ၊ အကောင့်များ |
+
+---
+
+## 🔑 မဖြစ်မနေ သိထားရမည့် အဓိက စကားလုံးများ (Key Terms)
+
+```
+  ┌──────────────────────────────────────────────────────────┐
+  │                 Key MySQL Terminology                    │
+  ├──────────────┬───────────────────────────────────────────┤
+  │ Database     │ သက်ဆိုင်ရာ Table များ စုစည်းထားသော နေရာ   │
+  │ Table        │ ဒေတာများကို ကော်လံနန့် အတန်းဖြင့် ဖွဲ့စည်းထားသော ဇယား│
+  │ Row          │ Table ထဲဟိ ဒေတာ တစ်ကြောင်း (Record)      │
+  │ Column       │ ဒေတာ အမျိုးအစား တစ်ခု (ဥပမာ- အမည်၊ စျေးနှုန်း)│
+  │ SQL          │ MySQL နန့် စကားပြောရန် သုံးသည့် ဘာသာစကား  │
+  │ Query        │ MySQL ထံမှ ဒေတာ တောင်းဆိုသည့် မေးခွန်း     │
+  │ Server       │ ဒေတာများကို စီမံပေးသော နောက်ကွယ်မှ Program  │
+  └──────────────┴───────────────────────────────────────────┘
+```
+
+---
+
+## 🖥️ MySQL ကို အသုံးပြုနိုင်သော နည်းလမ်း (၂) မျိုး
+
+MySQL ကို မိမိ နှစ်သက်ရာ နည်းလမ်းဖြင့် ချိတ်ဆက် သုံးစွဲနိုင်ပါတယ်။
+
+```
+┌──────────────────────────────────────┐    ┌──────────────────────────────────────┐
+│  (၁) MySQL Workbench (Visual GUI)    │    │  (၂) Command Line (Terminal CLI)    │
+│  ခလုတ်များနန့် Visual ပြသပေးသော Program │    │  စာရိုက်ပနာ Command ပေးရသော စနစ်     │
+│                                      │    │                                      │
+│  ┌────────────────────────────────┐  │    │  $ mysql -u root -p                  │
+│  │ ╔════════════════════════════╗ │  │    │  mysql> USE shop;                    │
+│  │ ║ Database: shop             ║ │  │    │  mysql> SELECT * FROM customers;     │
+│  │ ║ Table: customers           ║ │  │    │  +----+------------+                 │
+│  │ ╚════════════════════════════╝ │  │    │  | id | first_name |                 │
+│  │ [▶ Run Query]                  │  │    │  | 1  | U Ba       │                 │
+│  └────────────────────────────────┘  │    │  +----+------------+                 │
+│                                      │    │                                      │
+│  ✅ အစပျိုးသူများအတွက် လွယ်ကူ စေတယ်   │    │  ✅ ပိုမို လျင်မြန်ပနာ စွမ်းအားထက်မြက်တယ် │
+└──────────────────────────────────────┘    └──────────────────────────────────────┘
+```
+
+1. **MySQL Workbench** — ခလုတ်များ၊ Menu များပါဝင်သော Visual စနစ်ဖြစ်ပနာ အစပျိုးသူများအတွက် လွယ်ကူပါတယ်။
+2. **Command Line (Terminal)** — စာရိုက်ပနာ တိုက်ရိုက် ခိုင်းစေသည့် စနစ်ဖြစ်ပနာ ကျွမ်းကျင်သူများ သုံးစွဲကြပါတယ်။
+
+ဒေသင်ခန်းစာစာအုပ်မာ **နည်းလမ်း နှစ်ခုလုံး** ကို သင်ကြားပေးသွားပါဖို့။
+
+---
+
+## 💬 SQL ဆိုစွာ ဇာလဲ? (What Is SQL?)
+
+SQL ၏ အပြည့်အစုံမှာ **Structured Query Language** ဖြစ်ပါတယ်။ (အသံထွက်ကို "Sequel" ဟု ဖတ်ပါသည်)။
+SQL ကို အသုံးပြုပနာ အောက်ပါတို့ကို ဆောင်ရွက်နိုင်ပါတယ် -
+- Database နန့် Table များ ဖန်တီးခြင်း
+- Data များကို အသစ်ထည့်ခြင်း၊ ပြင်ဆင်ခြင်းနန့် ဖျက်ပစ်ခြင်း
+- ဒေတာများကို ရှာဖွေ မေးမြန်းခြင်း (Query ပြုလုပ်ခြင်း)
+
+ဥပမာ SQL Query တစ်ခု -
 
 ```sql
 SELECT * FROM users;
 ```
 
-### How MySQL Reads Your Query
+---
+
+## 🎨 visual ပုံရိပ် — MySQL မှ သင်၏ Query ကို ဇာပိုင် အဓိပ္ပာယ်ဖော်လဲ?
 
 ```
-  "Show me everything"     "from this table"
-         ↓                       ↓
-   ┌─────────┐              ┌──────────┐
-   │ SELECT  │              │  FROM    │
-   │   *     │              │  users   │
-   └─────────┘              └──────────┘
-        │                          │
-        ▼                          ▼
-   ┌─────────────────────────────────┐
-   │         MySQL Engine            │
-   │                                 │
-   │  🔍 Search → Filter → Return    │
-   │                                 │
-   │  +----+----------+-------+      │
-   │  | id | name     | email |      │
-   │  +----+----------+-------+      │
-   │  | 1  | John     | ...   |      │
-   │  | 2  | Sarah    | ...   |      │
-   │  +----+----------+-------+      │
-   └─────────────────────────────────┘
+    "ငါ့ကို အားလုံး ထုတ်ပြပါ"         "ဒေ Table ထဲကနေ"
+             ↓                             ↓
+       ┌───────────┐                 ┌───────────┐
+       │  SELECT   │                 │   FROM    │
+       │    *      │                 │   users   │
+       └───────────┘                 └───────────┘
+             │                             │
+             └──────────────┬──────────────┘
+                            ▼
+               ┌─────────────────────────┐
+               │      MySQL Engine       │
+               │  🔍 ရှာဖွေ ➔ စစ်ထုတ် ➔ ပြသ   │
+               └────────────┬────────────┘
+                            ▼
+               +----+----------+───────────+
+               | id | name     | email     |
+               +----+----------+───────────+
+               | 1  | U Ba     | uba@...   |
+               | 2  | Daw Hla  | hla@...   |
+               +----+----------+───────────+
 ```
 
-This means: "Show me everything in the users table."
+ဒေ query ၏ အဓိပ္ပာယ်မှာ — **"users ဆိုသည့် Table ထဲဟိ ဒေတာ အားလုံးကို ထုတ်ပြပါ"** ဖြစ်ပါတယ်။ အလွန် ရိုးရှင်းပါတယ် မဟုတ်လား?
 
-Simple, right?
+---
 
-## What This Course Covers
+## 🎯 ဒေသင်ခန်းစာ စာအုပ် ပြီးဆုံးပါက ဇာတွေ တတ်မြောက်သွားမလဲ?
 
-By the end of this course, you will be able to:
-- Install MySQL on your computer
-- Create databases and tables
-- Add, read, update, and delete data
-- Search and filter your data
-- Combine data from multiple tables
-- Back up your database
+- မိမိ ကွန်ပျူတာမာ MySQL ကို စနစ်တကျ Install လုပ်တတ်သွားမည်
+- ကိုယ်ပိုင် Database နန့် Table များ တည်ဆောက်နိုင်မည်
+- Data များကို အသစ်ထည့်ခြင်း၊ ဖတ်ယူခြင်း၊ ပြင်ဆင်ခြင်းနန့် ဖျက်ပစ်ခြင်းများ လုပ်ဆောင်နိုင်မည်
+- ရှုပ်ထွေးသော ဒေတာများကို ရှာဖွေစစ်ထုတ်နိုင်မည်
+- Table များစွာကို ပေါင်းစပ်ပနာ ဒေတာ ထုတ်ယူနိုင်မည်
+- Database ကို Backup ယူပနာ သိမ်းဆည်းထားနိုင်မည်
 
-## Next Step
+---
 
-Now that you know what MySQL is, let's install it on your computer.
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
 
-→ [Lesson 2: Installing MySQL Server](02-installation.md)
+MySQL ဆိုစွာ ဇာလဲဆိုစွာကို သိရှိသွားပြီဖြစ်လို့ မိမိ ကွန်ပျူတာပေါ်မာ MySQL Server စတင် install လုပ်ကြပါစို့။
+
+→ [သင်ခန်းစာ ၂: MySQL Server တပ်ဆင်နည်း](02-installation.md)

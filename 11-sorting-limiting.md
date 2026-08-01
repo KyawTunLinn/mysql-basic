@@ -1,123 +1,56 @@
-# Lesson 11 — Sorting and Limiting Results
+# သင်ခန်းစာ ၁၁ — Data စီခြင်းနန့် အရေအတွက် ကန့်သတ်ခြင်း (ORDER BY & LIMIT)
 
-In this lesson, you will learn how to order your results and show only a specific number of rows.
+![ORDER BY and LIMIT Illustration](images/lesson11.png)
 
-**Prerequisites:** Filtering with WHERE (Lesson 10)
+ဒေသင်ခန်းစာမာ ရရှိလာသော Data များကို အစဉ်လိုက် (အနည်းမှ အများ သို့ အများမှ အနည်း) စီစဉ်ခြင်း (ORDER BY) နန့် ထွက်လာမည့် Data အရေအတွက်ကို ကန့်သတ်ကြည့်ရှုခြင်း (LIMIT & OFFSET) တို့ကို လေ့လာသွားပါဖို့။
+
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၁၅**
 
 ---
 
-## ORDER BY — Sort Your Results
+## 🎨 ORDER BY စီစဉ်ပုံ visual Diagram
 
-### Basic Format
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           ORDER BY SORTING                              │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  ASC (အနည်းမှ အများ / A ➔ Z):            DESC (အများမှ အနည်း / Z ➔ A):   │
+│  +----+---------+-------+                 +----+---------+-------+      │
+│  | id | name    | price |                 | id | name    | price |      │
+│  +----+---------+-------+                 +----+---------+-------+      │
+│  | 1  | Cap     | 14.99 | ◄─ သက်သာသူ   │ 15 | Jacket  | 129.9 | ◄─ စျေးကြီးသူ│
+│  | 2  | T-Shirt | 19.99 |                 | 14 | Sneakers| 69.99 |      │
+│  | 3  | Jeans   | 49.99 |                 | 13 | Jeans   | 49.99 |      │
+│  +----+---------+-------+                 +----+---------+-------+      │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🔼 ORDER BY အသုံးပြုနည်း
+
+### အခြေခံ ပုံစံ -
 
 ```sql
 SELECT * FROM table_name
-ORDER BY column_name ASC;   -- ASC = ascending (default)
-ORDER BY column_name DESC;  -- DESC = descending
+ORDER BY column_name ASC;   -- ASC = အနည်းမှ အများ (Default)
+ORDER BY column_name DESC;  -- DESC = အများမှ အနည်း
 ```
 
-```
-┌─────────────── ORDER BY SORTING ─────────────┐
-│                                              │
-│  Like arranging books on a shelf:            │
-│                                              │
-│  Unsorted:           ASC (A→Z):              │
-│  ┌────────────────┐   ┌────────────────┐    │
-│  │ 📕 Laptop      │   │ 📘 Cap         │    │
-│  │ 📘 Jeans       │ → │ 📘 Jeans       │    │
-│  │ 📗 Cap         │   │ 📕 Sneakers    │    │
-│  │ 📙 Sneakers    │   │ 📗 T-Shirt     │    │
-│  │ 📗 T-Shirt     │   │ 🔴 Winter Jkt  │    │
-│  └────────────────┘   └────────────────┘    │
-│                                              │
-│                    DESC (Z→A):               │
-│  ┌────────────────┐                           │
-│  │ 🔴 Winter Jkt  │ ← most expensive first   │
-│  │ 📕 Sneakers    │                          │
-│  │ 📘 Jeans       │                          │
-│  │ 📗 T-Shirt     │                          │
-│  │ 📘 Cap         │ ← cheapest last          │
-│  └────────────────┘                           │
-│                                              │
-│  Numbers sort same way:                      │
-│  5, 10, 3 → ASC: 3, 5, 10                    │
-│  5, 10, 3 → DESC: 10, 5, 3                   │
-└──────────────────────────────────────────────┘
-```
-
-### Example: Sort by Price
-
-Cheapest products first:
-
+### ဥပမာ (၁) - စျေးနှုန်း အသက်သာဆုံးမှ စတင်စီခြင်း
 ```sql
 SELECT name, price FROM products ORDER BY price ASC;
 ```
 
-Most expensive first:
-
+### ဥပမာ (၂) - စျေးနှုန်း အကြီးဆုံးမှ စတင်စီခြင်း
 ```sql
 SELECT name, price FROM products ORDER BY price DESC;
 ```
 
-### Example: Sort by Name
-
-Customers sorted alphabetically:
-
-```sql
-SELECT first_name, last_name FROM customers ORDER BY last_name ASC;
-```
-
-### Example: Sort by Multiple Columns
-
-Sort by city first, then by first name within each city:
-
-```sql
-SELECT first_name, city FROM customers 
-ORDER BY city ASC, first_name ASC;
-```
-
 ---
 
-## LIMIT — Show Fewer Rows
-
-### Basic Format
-
-```sql
-SELECT * FROM table_name
-LIMIT number;
-```
-
-```
-┌─────────────── LIMIT — Take Top N ───────────┐
-│                                              │
-│  Show only a few rows from many:             │
-│                                              │
-│  All products (sorted by price DESC):        │
-│  ┌────────────────────────────────────┐      │
-│  │ 1. Laptop Pro    $1299.99          │      │
-│  │ 2. Smart Watch   $399.99           │      │
-│  │ 3. Headphones    $149.99     ◀─┐   │      │
-│  │ 4. Mouse         $29.99      │  │   │      │
-│  │ 5. Keyboard        $79.99    │  │   │      │
-│  │ 6. Phone Case      $19.99    │  │   │      │
-│  │ 7. USB Cable       $9.99     │  │   │      │
-│  │ 8. Screen Protector  $5.99   │  │   │      │
-│  └────────────────────────────────────┘  │  │   │      │
-│                              LIMIT 3     │  │   │      │
-│                               takes top 3│  │   │      │
-│                                          ▼  ▼   ▼      │
-│  Result:                                   ┌──────────┐ │
-│  ┌────────────────┐                         │ Laptop   │ │
-│  │ 1. Laptop Pro  │                         │ Smart W. │ │
-│  │ 2. Smart Watch │                         │ Headph.  │ │
-│  │ 3. Headphones  │                         └──────────┘ │
-│  └────────────────┘                                    │
-└────────────────────────────────────────────────────────┘
-```
-
-### Examples
-
-Show only the top 3 most expensive products:
+## 🛑 LIMIT — အရေအတွက် ကန့်သတ်ကြည့်ရှုခြင်း
 
 ```sql
 SELECT name, price FROM products 
@@ -125,62 +58,29 @@ ORDER BY price DESC
 LIMIT 3;
 ```
 
-Show the first 5 customers:
-
-```sql
-SELECT * FROM customers LIMIT 5;
-```
-
-Show rows 6 to 10 (skip first 5, show next 5):
-
-```sql
-SELECT * FROM customers LIMIT 5 OFFSET 5;
-```
-
-```
-┌─────────── OFFSET — Skip Then Take ──────────┐
-│                                              │
-│  Pagination: skip N rows, then take M rows   │
-│                                              │
-│  All customers (sorted alphabetically):      │
-│  ┌──────────────────────────────────────┐    │
-│  │ 1. Alice        ◄── SKIP THESE     │    │
-│  │ 2. Bob          ◄── OFFSET 5       │    │
-│  │ 3. Charlie      ◄── (skip first 5) │    │
-│  │ 4. Diana        ◄                  │    │
-│  │ 5. Edward       ◄                  │    │
-│  │ 6. Fiona        ◄── TAKE THESE     │    │
-│  │ 7. George       ◄── LIMIT 5        │    │
-│  │ 8. Hannah       ◄                  │    │
-│  │ 9. Ivan         ◄                  │    │
-│  │10. Julia        ◄                  │    │
-│  │11. Karen        ◄                  │    │
-│  └──────────────────────────────────────┘    │
-│                                              │
-│  Page 1: LIMIT 5 OFFSET 0  → rows 1-5        │
-│  Page 2: LIMIT 5 OFFSET 5  → rows 6-10       │
-│  Page 3: LIMIT 5 OFFSET 10 → rows 11-15      │
-│                                              │
-│  Common pattern for web pagination:          │
-│  page = (pageNumber - 1) * limit             │
-│  SELECT ... LIMIT 10 OFFSET 0   -- page 1    │
-│  SELECT ... LIMIT 10 OFFSET 10  -- page 2    │
-└──────────────────────────────────────────────┘
-```
-
-Or shorter syntax:
-
-```sql
-SELECT * FROM customers LIMIT 5, 5;
-```
-
-(first number = skip, second number = show)
+စျေးနှုန်း အကြီးဆုံး ပစ္စည်း (၃) ခုကိုသာ သီးသန့် ထုတ်ပြပါမည်။
 
 ---
 
-## Combining WHERE, ORDER BY, and LIMIT
+## 📄 LIMIT & OFFSET — စာမျက်နှာ ခွဲကြည့်ခြင်း (Pagination)
 
-You can use all three together! The order matters:
+```
+┌───────────────── LIMIT & OFFSET Pagination Diagram ─────────────────┐
+│                                                                     │
+│  Page 1:  LIMIT 5 OFFSET 0   ➔ [ အတန်း ၁ မှ ၅ အထိ ပြသမည် ]             │
+│  Page 2:  LIMIT 5 OFFSET 5   ➔ [ အတန်း ၆ မှ ၁၀ အထိ ပြသမည် ]            │
+│  Page 3:  LIMIT 5 OFFSET 10  ➔ [ အတန်း ၁၁ မှ ၁၅ အထိ ပြသမည် ]           │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+```sql
+-- အတန်း ၅ ခုကျော်ပနာ နောက်ထပ် ၅ ခုကို ထုတ်ပြရန်
+SELECT * FROM customers LIMIT 5 OFFSET 5;
+```
+
+---
+
+## 🧩 WHERE, ORDER BY နန့် LIMIT အစဉ်လိုက် ရေးသားပုံ
 
 ```sql
 SELECT name, price FROM products 
@@ -189,52 +89,22 @@ ORDER BY price DESC
 LIMIT 5;
 ```
 
-This means:
-1. **WHERE**: Filter to products over $20
-2. **ORDER BY**: Sort from most expensive
-3. **LIMIT**: Show only top 5
-
-The result: The 5 most expensive products that cost more than $20.
+1. **WHERE**: စျေးနှုန်း $20 ထက် ကြီးသူများကို စစ်ထုတ်သည်
+2. **ORDER BY**: စျေးကြီးသူမှ စတင် စီစဉ်သည်
+3. **LIMIT**: ထိပ်ဆုံး ၅ ခုကိုသာ ထုတ်ပြသည်
 
 ---
 
-## Common Patterns
+## 📝 လေ့ကျင့်ခန်း (Exercise)
 
-| What You Want | Query |
-|---------------|-------|
-| Newest records first | `ORDER BY created_at DESC LIMIT 10` |
-| Most expensive item | `ORDER BY price DESC LIMIT 1` |
-| Cheapest 5 items | `ORDER BY price ASC LIMIT 5` |
-| Alphabetical list | `ORDER BY name ASC` |
-| Last 10 orders | `ORDER BY order_date DESC LIMIT 10` |
+၁. အသက်သာဆုံး ပစ္စည်း (၃) ခုကို ရှာပါ - `ORDER BY price ASC LIMIT 3;`
+၂. စျေးအကြီးဆုံး ပစ္စည်း (၅) ခုနန့် ယင်းတို့၏ Category ကို ထုတ်ပြပါ။
+၃. ဝယ်သူများကို အမည် (A-Z) အစဉ်လိုက် စီစဉ်ပြပါ။
 
 ---
 
-## Exercise
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
 
-Using the `shop` database:
+ယခုအခါ Single Table ကို ကျွမ်းကျင်စွာ ကိုင်တွယ်နိုင်ပြီဖြစ်လို့ Table များကို ပေါင်းစပ်ပနာ Data ထုတ်ယူနည်း (JOINs) ကို ဆက်လက် လေ့လာကြပါစို့။
 
-1. Show the 3 cheapest products
-2. Show the 5 most expensive products with their categories
-3. Show customers sorted by last name (A-Z)
-4. Show pending orders sorted by date (newest first), limit to 5
-5. Find the top 3 customers who spent the most (join orders later in Lesson 12)
-
----
-
-## Quick Reference
-
-| Keyword | Purpose |
-|---------|---------|
-| `ORDER BY col ASC` | Sort ascending (A-Z, small to large) |
-| `ORDER BY col DESC` | Sort descending (Z-A, large to small) |
-| `LIMIT 5` | Show only 5 rows |
-| `LIMIT 5 OFFSET 10` | Skip 10 rows, then show 5 |
-
----
-
-## Next Step
-
-Now let's combine data from multiple tables using JOINs.
-
-→ [Lesson 12: JOINs Made Simple](12-joins.md)
+→ [သင်ခန်းစာ ၁၂: Table များ ပေါင်းစပ်ကြည့်ရှုခြင်း (JOINs Made Simple)](12-joins.md)

@@ -1,102 +1,89 @@
-# MySQL Quick Reference Cheat Sheet
+# MySQL Quick Reference Cheat Sheet (ရခိုင်ဘာသာ အတိုကောက် မှတ်စု)
 
-A one-page guide for the most common MySQL commands. Keep this open while you practice!
+လေ့ကျင့်စဉ်မာ အလွယ်တကူ ကိုးကား ကြည့်ရှုနိုင်သော MySQL အသုံးများ အတိုကောက် မှတ်စု ဖြစ်ပါတယ်။
+
+---
+
+## 🎨 SQL Query စနစ် ပိုက်လိုင်း အပြည့်အစုံ (Execution Order)
 
 ```
-┌─────── COMPLETE SQL QUERY STRUCTURE ─────────┐
-│                                              │
-│  A SELECT query flows through stages like    │
-│  a pipeline — each step transforms the data: │
-│                                              │
-│   ┌──────────────────────────────────────┐   │
-│   │                                      │   │
-│   │  SELECT col1, col2, COUNT(*)         │   │   ← What to show
-│   │       FROM orders                     │   │   ← Where from
-│   │       WHERE total > 100               │   │   ← Filter rows
-│   │       GROUP BY customer_id            │   │   ← Group rows
-│   │       HAVING COUNT(*) > 3             │   │   ← Filter groups
-│   │       ORDER BY total DESC             │   │   ← Sort results
-│   │       LIMIT 10;                       │   │   ← Limit output
-│   │                                      │   │
-│   └──────────────────────────────────────┘   │
-│                                              │
-│  Execution order (NOT left-to-right!):       │
-│                                              │
-│  1. FROM        → which table(s)?            │
-│  2. WHERE       → filter individual rows     │
-│  3. GROUP BY    → group rows together        │
-│  4. HAVING      → filter groups              │
-│  5. SELECT      → pick columns to show       │
-│  6. ORDER BY    → sort the results           │
-│  7. LIMIT       → cut off after N rows       │
-│                                              │
-│  Full syntax template:                       │
-│  ┌────────────────────────────────────────┐  │
-│  │ SELECT [DISTINCT]                      │  │
-│  │   {columns | * | aggregates}           │  │
-│  │ FROM table                             │  │
-│  │ [JOIN ... ON ...]                      │  │
-│  │ [WHERE condition]                      │  │
-│  │ [GROUP BY column]                      │  │
-│  │ [HAVING group_condition]               │  │
-│  │ [ORDER BY column [ASC|DESC]]           │  │
-│  │ [LIMIT number [OFFSET number]];        │  │
-│  └────────────────────────────────────────┘  │
-└──────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      COMPLETE SQL QUERY PIPELINE                        │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│   ┌─────────────────────────────────────────────────────────────────┐   │
+│   │ SELECT col1, col2, COUNT(*)      ← ထုတ်ပြမည့် Column များ          │   │
+│   │   FROM orders                    ← ယူဆောင်မည့် Table                 │   │
+│   │   WHERE total > 100              ← အတန်းများကို စစ်ထုတ်ခြင်း          │   │
+│   │   GROUP BY customer_id           ← အုပ်စုဖွဲ့ခြင်း                     │   │
+│   │   HAVING COUNT(*) > 3            ← အုပ်စုများကို ပြန်စစ်ထုတ်ခြင်း      │   │
+│   │   ORDER BY total DESC            ← အစဉ်လိုက် စီစဉ်ခြင်း               │   │
+│   │   LIMIT 10;                      ← အရေအတွက် ကန့်သတ်ခြင်း            │   │
+│   └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│   Execution Order (နောက်ကွယ်မှ အမှန်တကယ် Run သည့် အစဉ်လိုက်):          │
+│   ၁။ FROM      ➔ မည်သည့် Table မှ ယူမည်နည်း                             │
+│   ၂။ WHERE     ➔ အတန်း တခုချင်းစီကို အလျင် စစ်ထုတ်မည်                     │
+│   ၃။ GROUP BY  ➔ အုပ်စု ဖွဲ့မည်                                         │
+│   ၄။ HAVING    ➔ အုပ်စုများကို စစ်ထုတ်မည်                                 │
+│   ၅။ SELECT    ➔ ထုတ်ပြမည့် Column များကို ရွေးမည်                        │
+│   ၆။ ORDER BY  ➔ အစဉ်လိုက် စီမည်                                       │
+│   ၇။ LIMIT     ➔ အရေအတွက် ကန့်သတ်မည်                                   │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Connecting to MySQL
+## 🔌 MySQL သို့ ချိတ်ဆက်ခြင်း
 
 ```bash
-# Connect via command line
+# Command line မှ ချိတ်ဆက်ရန်
 mysql -u root -p
 
-# Connect to a specific database
+# သီးသန့် Database သို့ တိုက်ရိုက် ဝင်ရန်
 mysql -u root -p shop
 
-# Run a single command without entering interactive mode
+# Command တစ်ခုတည်း Run ပနာ ပြန်ထွက်ရန်
 mysql -u root -p -e "SHOW DATABASES;"
 
-# Exit MySQL
+# MySQL မှ ပြန်ထွက်ရန်
 EXIT;
-# or
+# သို့မဟုတ်
 QUIT;
 ```
 
 ---
 
-## Database Commands
+## 🗄️ Database ဆိုင်ရာ Command များ
 
 ```sql
--- Show all databases
+-- Database အားလုံး ကြည့်ရန်
 SHOW DATABASES;
 
--- Create a new database
+-- Database အသစ် ဖန်တီးရန်
 CREATE DATABASE my_database;
 
--- Use (switch to) a database
+-- Database ရွေးချယ် အသုံးပြုရန်
 USE shop;
 
--- Delete a database
+-- Database ကို ဖျက်ပစ်ရန်
 DROP DATABASE my_database;
 ```
 
 ---
 
-## Table Commands
+## 📋 Table ဆိုင်ရာ Command များ
 
 ```sql
--- Show all tables in current database
+-- Table စာရင်း ကြည့်ရန်
 SHOW TABLES;
 
--- Show table structure
+-- Table အဆောက်အအုံ စစ်ဆေးရန်
 DESCRIBE table_name;
--- or shorter:
+-- သို့မဟုတ်:
 DESC table_name;
 
--- Create a table
+-- Table ဖန်တီးရန်
 CREATE TABLE students (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -104,29 +91,29 @@ CREATE TABLE students (
     age INT
 );
 
--- Delete a table
+-- Table ဖျက်ပစ်ရန်
 DROP TABLE table_name;
 
--- Rename a table
+-- Table အမည် ပြောင်းရန်
 RENAME TABLE old_name TO new_name;
 
--- Add a column
+-- Column အသစ် ထပ်တိုးရန်
 ALTER TABLE students ADD phone VARCHAR(20);
 
--- Drop a column
+-- Column ဖျက်ပစ်ရန်
 ALTER TABLE students DROP COLUMN phone;
 ```
 
 ---
 
-## INSERT — Adding Data
+## 📥 INSERT — Data ထည့်သွင်းခြင်း
 
 ```sql
--- Insert one row
+-- Data တန်း တစ်ခု ထည့်ရန်
 INSERT INTO customers (first_name, last_name, email)
-VALUES ('John', 'Smith', 'john@email.com');
+VALUES ('U', 'Ba', 'uba@gmail.com');
 
--- Insert multiple rows
+-- Data တန်း များစွာ တစ်ပြိုင်နက် ထည့်ရန်
 INSERT INTO products (name, price, category) VALUES
 ('Laptop', 999.99, 'Electronics'),
 ('Mouse', 29.99, 'Electronics'),
@@ -135,249 +122,156 @@ INSERT INTO products (name, price, category) VALUES
 
 ---
 
-## SELECT — Reading Data
+## 🔍 SELECT — Data ဖတ်ယူခြင်း
 
 ```sql
--- Select all columns
+-- Column အားလုံး ကြည့်ရန်
 SELECT * FROM customers;
 
--- Select specific columns
+-- သီးသန့် Column များကိုသာ ကြည့်ရန်
 SELECT first_name, email FROM customers;
 
--- With alias (rename column in output)
+-- Alias အမည်သစ် ဖြင့် ကြည့်ရန်
 SELECT first_name AS name, email AS contact FROM customers;
 
--- Remove duplicates
+-- မထပ်သော Data များကိုသာ ထုတ်ကြည့်ရန်
 SELECT DISTINCT city FROM customers;
 
--- Count rows
+-- အရေအတွက် ရေတွက်ရန်
 SELECT COUNT(*) FROM customers;
 
--- Do calculations
+-- တွက်ချက်မှု ပြုလုပ်ရန်
 SELECT name, price, price * 1.1 AS price_with_tax FROM products;
 
--- Combine text
+-- စာသားများ ပေါင်းစပ်ရန်
 SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM customers;
 ```
 
 ---
 
-## WHERE — Filtering Data
+## 🎯 WHERE — Data စစ်ထုတ်ခြင်း
 
 ```sql
--- Equal
+-- ညီမျှမှု စစ်ရန်
 SELECT * FROM products WHERE price = 29.99;
 
--- Greater / Less than
+-- ကြီး / ငယ် စစ်ရန်
 SELECT * FROM products WHERE price > 50;
 SELECT * FROM products WHERE price <= 30;
 
--- Range
+-- ကြားဟိ တန်ဖိုး စစ်ရန်
 SELECT * FROM products WHERE price BETWEEN 20 AND 60;
 
--- List of values
-SELECT * FROM customers WHERE city IN ('New York', 'Chicago', 'Houston');
+-- စာရင်းထဲမှ ရွေးရန်
+SELECT * FROM customers WHERE city IN ('Yangon', 'Mandalay', 'Sittwe');
 
--- Pattern matching (LIKE)
-SELECT * FROM customers WHERE email LIKE 'j%';      -- starts with j
-SELECT * FROM products WHERE name LIKE '%Pro%';      -- contains Pro
-SELECT * FROM customers WHERE city LIKE '%as';       -- ends with as
+-- စာသား ပုံစံ ရှာရန် (LIKE)
+SELECT * FROM customers WHERE email LIKE 'j%';      -- j ဖြင့် စသူများ
+SELECT * FROM products WHERE name LIKE '%Pro%';      -- Pro ပါသူများ
+SELECT * FROM customers WHERE city LIKE '%as';       -- as ဖြင့် ဆုံးသူများ
 
--- Conditions
+-- AND / OR ပေါင်းစပ်ရန်
 SELECT * FROM products WHERE price > 20 AND category = 'Electronics';
 SELECT * FROM products WHERE category = 'Books' OR category = 'Sports';
 
--- NULL check
+-- NULL စစ်ရန်
 SELECT * FROM customers WHERE phone IS NULL;
 SELECT * FROM customers WHERE phone IS NOT NULL;
 ```
 
 ---
 
-## ORDER BY and LIMIT
+## 🔼 ORDER BY နန့် LIMIT
 
 ```sql
--- Sort ascending (A-Z, small to large)
+-- အနည်းမှ အများ စီရန် (ASC)
 SELECT * FROM products ORDER BY price ASC;
 
--- Sort descending (Z-A, large to small)
+-- အများမှ အနည်း စီရန် (DESC)
 SELECT * FROM products ORDER BY price DESC;
 
--- Sort by multiple columns
-SELECT * FROM customers ORDER BY city, last_name;
-
--- Limit results
+-- အရေအတွက် ကန့်သတ်ရန်
 SELECT * FROM products ORDER BY price DESC LIMIT 5;
 
--- Skip + limit (pagination)
+-- စာမျက်နှာ ခွဲကြည့်ရန် (Pagination)
 SELECT * FROM products LIMIT 10 OFFSET 20;
--- or: LIMIT 20, 10
 ```
 
 ---
 
-## UPDATE — Changing Data
+## 🔄 UPDATE — Data ပြင်ဆင်ခြင်း
 
 ```sql
--- Update one row
+-- Data ပြောင်းလဲရန်
 UPDATE customers SET email = 'new@email.com' WHERE id = 1;
 
--- Update multiple columns
-UPDATE customers SET phone = '555-0000', city = 'Boston' WHERE id = 1;
+-- Column အများအပြား ပြောင်းရန်
+UPDATE customers SET phone = '555-0000', city = 'Sittwe' WHERE id = 1;
 
--- Update using calculation
-UPDATE products SET price = price * 1.10;
-
--- ⚠️ Always use WHERE! Without it, ALL rows are updated!
+-- ⚠️ WHERE အမြဲ သုံးပါ! မဟုတ်ပါက အတန်း အားလုံး ပြောင်းသွားပါဖို့!
 ```
 
 ---
 
-## DELETE — Removing Data
+## 🗑️ DELETE — Data ဖျက်ပစ်ခြင်း
 
 ```sql
--- Delete specific rows
+-- သီးသန့် အတန်း ဖျက်ရန်
 DELETE FROM customers WHERE id = 1;
 
--- Delete based on condition
-DELETE FROM order_items WHERE quantity < 2;
-
--- ⚠️ Always use WHERE! Without it, ALL rows are deleted!
+-- ⚠️ WHERE အမြဲ သုံးပါ! မဟုတ်ပါက အတန်း အားလုံး ပျက်သွားပါဖို့!
 ```
 
 ---
 
-## JOINs — Combining Tables
+## 🔗 JOINs — Table များ ပေါင်းစပ်ခြင်း
 
 ```sql
--- INNER JOIN (only matching rows)
+-- INNER JOIN (ကိုက်ညီသူများသာ)
 SELECT o.id, c.first_name
 FROM orders o
 INNER JOIN customers c ON o.customer_id = c.id;
 
--- LEFT JOIN (all from left + matches)
+-- LEFT JOIN (လက်ဝဲဘက် အားလုံး)
 SELECT c.first_name, o.id
 FROM customers c
 LEFT JOIN orders o ON c.id = o.customer_id;
-
--- Join three tables
-SELECT c.first_name, p.name, oi.quantity
-FROM order_items oi
-INNER JOIN orders o ON oi.order_id = o.id
-INNER JOIN customers c ON o.customer_id = c.id
-INNER JOIN products p ON oi.product_id = p.id;
 ```
 
 ---
 
-## Aggregations — Summarizing Data
+## 🔢 Aggregations — တွက်ချက်ခြင်း
 
 ```sql
--- Count
-SELECT COUNT(*) FROM orders;
+-- COUNT, SUM, AVG, MIN, MAX
+SELECT COUNT(*), SUM(total_amount), AVG(total_amount) FROM orders;
 
--- Sum
-SELECT SUM(total_amount) FROM orders;
-
--- Average
-SELECT AVG(total_amount) FROM orders;
-
--- Min / Max
-SELECT MIN(price), MAX(price) FROM products;
-
--- Group by
-SELECT category, COUNT(*) AS count
-FROM products
-GROUP BY category;
-
--- Filter groups
+-- GROUP BY & HAVING
 SELECT category, COUNT(*) AS count
 FROM products
 GROUP BY category
 HAVING COUNT(*) > 2;
-
--- Combined
-SELECT c.first_name, COUNT(o.id) AS orders, SUM(o.total_amount) AS total
-FROM customers c
-INNER JOIN orders o ON c.id = o.customer_id
-GROUP BY c.id, c.first_name
-ORDER BY total DESC;
 ```
 
 ---
 
-## Backup and Restore
+## 💾 Backup နန့် Restore
 
 ```bash
-# Backup a database
+# Backup ယူရန်
 mysqldump -u root -p shop > shop-backup.sql
 
-# Backup all databases
-mysqldump -u root -p --all-databases > all-backup.sql
-
-# Restore a database
+# Restore ပြန်လုပ်ရန်
 mysql -u root -p shop < shop-backup.sql
-
-# Restore into a new database
-mysql -u root -p -e "CREATE DATABASE shop_new;"
-mysql -u root -p shop_new < shop-backup.sql
-
-# Run a SQL file inside MySQL
-SOURCE /path/to/file.sql;
 ```
 
 ---
 
-## Useful Functions
+## ⌨️ Shortcuts များ
 
-```sql
--- Text functions
-CONCAT(first_name, ' ', last_name)          -- Join text
-LOWER(email)                                  -- Convert to lowercase
-UPPER(name)                                   -- Convert to uppercase
-LENGTH(city)                                  -- Count characters
-SUBSTRING(name, 1, 3)                        -- Extract part of text
-
--- Date functions
-NOW()                                         -- Current date and time
-CURDATE()                                     -- Current date
-DATE_FORMAT(order_date, '%Y-%m')             -- Format: 2025-01
-YEAR(created_at)                              -- Extract year
-DATEDIFF(end_date, start_date)               -- Days between dates
-
--- Math functions
-ROUND(price, 2)                               -- Round to 2 decimals
-CEIL(price)                                    -- Round up
-FLOOR(price)                                   -- Round down
-ABS(-10)                                       -- Absolute value
-
--- Conditional
-IF(status = 'active', 'Yes', 'No')           -- If/else in SQL
-COALESCE(phone, 'N/A')                       -- Use 'N/A' if phone is NULL
-```
-
----
-
-## Common Mistakes to Avoid
-
-| Mistake | Fix |
-|---------|-----|
-| Forgetting `;` at end of query | Always add semicolon |
-| Forgetting `WHERE` in UPDATE/DELETE | Always test with SELECT first |
-| Using `= NULL` instead of `IS NULL` | Use `IS NULL` or `IS NOT NULL` |
-| Mixing up WHERE and HAVING | WHERE filters rows, HAVING filters groups |
-| Not quoting text values | Use single quotes: `'text'` |
-| Wrong date format | Use YYYY-MM-DD: `'2025-01-15'` |
-
----
-
-## Keyboard Shortcuts
-
-| Shortcut | Workbench | Command Line |
-|----------|-----------|--------------|
-| Run query | `Ctrl + Enter` | Press Enter (after `;`) |
+| Action | Workbench | Command Line |
+|---|---|---|
+| Run query | `Ctrl + Enter` | Enter (Semicolon `;` ပြီးမှ) |
 | Save file | `Ctrl + S` | — |
-| Open file | `Ctrl + O` | `SOURCE file.sql;` |
 | Autocomplete | `Ctrl + Space` | `Tab` |
-| Comment line | `Ctrl + /` | — |
-| Previous command | — | `↑` arrow |
+| Previous command | — | `↑` Up Arrow |

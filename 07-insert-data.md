@@ -1,84 +1,88 @@
-# Lesson 7 — Inserting Data (INSERT)
+# သင်ခန်းစာ ၇ — Data အသစ် ထည့်သွင်းခြင်း (INSERT INTO)
 
-In this lesson, you will learn how to add rows of data into your tables.
+![INSERT INTO Illustration](images/lesson07.png)
 
-**Prerequisites:** Tables created (Lesson 6), can connect via Workbench or command line
+ဖန်တီးထားသော Table ဇယားများထဲသို့ Data အသစ်များကို `INSERT INTO` အသုံးပြုပနာ စနစ်တကျ ထည့်သွင်းနည်း ဖြစ်ပါတယ်။
+(INSERT) ကို လေ့လာသွားပါဖို့။
+
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၂၀**
 
 ---
 
-## The INSERT Command
+## 🎨 INSERT Command အလုပ်လုပ်ပုံ visual Diagram
 
-To add data, use `INSERT INTO`:
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          INSERT INTO Operation                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│  BEFORE (ယခင် တည်ရှိပြီး ဒေတာ):                                        │
+│  +----+------------+-------------------+                                │
+│  | id | name       | email             |                                │
+│  +----+------------+-------------------+                                │
+│  | 1  | U Ba       | uba@gmail.com     |                                │
+│  | 2  | Daw Hla    | hla@gmail.com     |                                │
+│  +----+------------+-------------------+                                │
+│                                                                         │
+│  INSERT Command Run လိုက်ချိန်:                                         │
+│  INSERT INTO customers (name, email) VALUES ('Ko Aung', 'aung@e.com');  │
+│                                                                         │
+│  AFTER (Data အသစ် ထပ်တိုးလာပုံ):                                       │
+│  +----+------------+-------------------+                                │
+│  | id | name       | email             |                                │
+│  +----+------------+-------------------+                                │
+│  | 1  | U Ba       | uba@gmail.com     |                                │
+│  | 2  | Daw Hla    | hla@gmail.com     |                                │
+│  | 3  | Ko Aung    | aung@e.com        |  ◄── [DATA အသစ် အောက်နားမာ တိုးလာသည်]│
+│  +----+------------+-------------------+                                │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 💡 INSERT Command ရေးသားပုံ အခြေခံ
 
 ```sql
 INSERT INTO table_name (column1, column2, column3)
 VALUES (value1, value2, value3);
 ```
 
-### Simple Example
+### ရိုးရှင်းသော ဥပမာ -
 
 ```sql
 INSERT INTO students (first_name, last_name, email, birth_date)
 VALUES ('Alice', 'Wong', 'alice@email.com', '2000-05-15');
 ```
 
-This adds one student to your table. Notice:
-
-```
-┌─────────────────── INSERT ───────────────────────┐
-│                                                   │
-│  BEFORE:                    AFTER:                │
-│  ┌─────────────────────┐   ┌─────────────────────┐
-│  │ id │ name  │ email  │   │ id │ name  │ email  │
-│  ├─────────────────────┤   ├─────────────────────┤
-│  │  1 │ Alice │ a@e.c  │   │  1 │ Alice │ a@e.c  │
-│  │  2 │ Bob   │ b@e.c  │   │  2 │ Bob   │ b@e.c  │
-│  └─────────────────────┘   │  3 │ Carol │ c@e.c  │ ← NEW ROW
-│                             └─────────────────────┘
-│                                                   │
-│         ▼ INSERT adds a new row at the bottom ▼    │
-└───────────────────────────────────────────────────┘
-```
-
-Notice:
-- We did NOT include `id` — because it is `AUTO_INCREMENT`, MySQL fills it automatically
-- Text values go inside single quotes: `'Alice'`
-- Dates go inside single quotes in `YYYY-MM-DD` format
+- `id` Column ကို ရိုက်ထည့်ရန် မလိုပါ (ယင်းသည် `AUTO_INCREMENT` ဖြစ်၍ MySQL မှ နံပါတ် 1, 2, 3... Auto ထည့်ပေးပါသည်)။
+- စာသားနန့် ရက်စွဲ တန်ဖိုးများကို Single Quote (`'...'`) ထဲမာ ထည့်ရပါမည်။
+- ရက်စွဲ Format မှာ `'YYYY-MM-DD'` ဖြစ်ပါသည်။
 
 ---
 
-## Step 1: Set Up Your Practice Database
-
-Use the sample database we created earlier:
+## 🚀 အဆင့် ၁ - အသုံးပြုမည့် Database ကို ရွေးပါ
 
 ```sql
 USE shop;
 ```
 
-Or create your own school database (from Lesson 6).
-
 ---
 
-## Step 2: Insert One Row
+## ⚡ အဆင့် ၂ - Data တန်း တစ်ကြောင်း ထည့်သွင်းခြင်း
 
 ```sql
 INSERT INTO customers (first_name, last_name, email, phone, city)
-VALUES ('Rachel', 'Green', 'rachel@email.com', '555-0200', 'Boston');
+VALUES ('Rachel', 'Green', 'rachel@email.com', '555-0200', 'Sittwe');
 ```
 
-Check if it worked:
+ထည့်သွင်းပြီးကြောင်း စစ်ဆေးရန် -
 
 ```sql
 SELECT * FROM customers WHERE first_name = 'Rachel';
 ```
 
-You should see Rachel's row with a new id number.
-
 ---
 
-## Step 3: Insert Multiple Rows at Once
-
-You can add many rows in one command:
+## 📊 အဆင့် ၃ - Data တန်း အများအပြား တစ်ပြိုင်နက် ထည့်သွင်းခြင်း (Multi-Row Insert)
 
 ```sql
 INSERT INTO products (name, description, price, stock, category) VALUES
@@ -90,96 +94,54 @@ INSERT INTO products (name, description, price, stock, category) VALUES
 ```
 
 ```
-┌─────────────── MULTI-ROW INSERT ───────────────┐
-│                                                 │
-│  One INSERT statement adds multiple rows:       │
-│                                                 │
-│  INSERT INTO products VALUES                   │
-│  ├── ('T-Shirt',  $19.99, 100, 'Clothing')     │
-│  ├── ('Jeans',    $49.99,  75, 'Clothing')     │
-│  ├── ('Sneakers', $69.99,  50, 'Footwear')     │
-│  ├── ('Jacket',  $129.99,  30, 'Clothing')     │
-│  └── ('Cap',     $14.99, 120, 'Accessories')   │
-│                                                 │
-│  Result:                                        │
-│  ┌──────┬──────────┬───────┬───────┬──────────┐│
-│  │ id   │ name     │ price │ stock │ category ││
-│  ├──────┼──────────┼───────┼───────┼──────────┤│
-│  │  12  │ T-Shirt  │ 19.99 │  100  │ Clothing ││
-│  │  13  │ Jeans    │ 49.99 │   75  │ Clothing ││
-│  │  14  │ Sneakers │ 69.99 │   50  │ Footwear ││
-│  │  15  │ Jacket   │129.99 │   30  │ Clothing ││
-│  │  16  │ Cap      │ 14.99 │  120  │ Access.  ││
-│  └──────┴──────────┴───────┴───────┴──────────┘│
-│                                                 │
-│  Note: Each row separated by commas             │
-│        Same column order as table definition    │
-└─────────────────────────────────────────────────┘
+┌───────────────── MULTI-ROW INSERT visual Diagram ─────────────────┐
+│                                                                   │
+│  INSERT INTO products (name, price, stock, category) VALUES       │
+│    ├── ('T-Shirt',  19.99, 100, 'Clothing'),                      │
+│    ├── ('Jeans',    49.99,  75, 'Clothing'),                      │
+│    └── ('Cap',      14.99, 120, 'Accessories');                   │
+│                                                                   │
+│  ရလဒ် ဇယား:                                                        │
+│  +----+---------+-------+-------+-------------+                   │
+│  | id | name    | price | stock | category    |                   │
+│  +----+---------+-------+-------+-------------+                   │
+│  | 1  | T-Shirt | 19.99 | 100   | Clothing    |                   │
+│  | 2  | Jeans   | 49.99 | 75    | Clothing    |                   │
+│  | 3  | Cap     | 14.99 | 120   | Accessories |                   │
+│  +----+---------+-------+-------+-------------+                   │
+└───────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Step 4: Insert Without Specifying Columns
+## ⚠️ INSERT ပြုလုပ်ရာမာ တွေ့ရတတ်သော အမှားများ
 
-If you insert values for **all columns** in order, you can skip the column names:
-
-```sql
-INSERT INTO customers VALUES
-(11, 'Chris', 'Evans', 'chris@email.com', '555-0201', 'Seattle');
-```
-
-⚠️ **Warning:** This is risky! If someone changes the table structure later, your insert might break. It is safer to always specify column names (Step 2 approach).
+| အမှားအယွင်း | မှားယွင်းသော ရေးသားပုံ | မှန်ကန်သော ရေးသားပုံ |
+|---|---|---|
+| စာသားမာ Single Quote မပါခြင်း | `VALUES (John)` | `VALUES ('John')` |
+| ရက်စွဲ Format မှားခြင်း | `VALUES ('15/05/2000')` | `VALUES ('2000-05-15')` |
+| ကော်မာ (,) ဖြုတ်ကျန်ခဲ့ခြင်း | `VALUES ('Alice' 'Bob')` | `VALUES ('Alice', 'Bob')` |
 
 ---
 
-## Step 5: Common Mistakes When Inserting
+## 🖥️ Workbench Visual ဖြင့် Data ထည့်သွင်းနည်း
 
-| Mistake | Wrong | Right |
-|---------|-------|-------|
-| Missing quotes around text | `VALUES (John)` | `VALUES ('John')` |
-| Wrong date format | `VALUES ('15/05/2000')` | `VALUES ('2000-05-15')` |
-| Forgetting comma between values | `VALUES ('Alice' 'Bob')` | `VALUES ('Alice', 'Bob')` |
-| Forgetting comma between rows | `VALUES (1), (2) (3)` | `VALUES (1), (2), (3)` |
-| Not enough values | `INSERT INTO users (name) VALUES ('A', 'B')` | `INSERT INTO users (name, age) VALUES ('A', 'B')` |
+၁. Left Panel မှ Table ပေါ် Right-click ထိပနာ **"Select Rows — Limit 1000"** ကို နှိပ်ပါ။
+၂. အောက်ဆုံးဟိ အလွတ် အတန်းမာ တန်ဖိုးများကို စာရိုက် ရိုက်ထည့်ပါ။
+၃. ထိပ်ပိုင်း လက်ညာဘက်ဟိ **"Apply"** ခလုတ်ကို နှိပ်ပါ။
 
 ---
 
-## Step 6: Insert Using Workbench (Visual Way)
+## 📝 လေ့ကျင့်ခန်း (Exercise)
 
-1. In the Schema Panel (left), expand your database and right-click the table
-2. Choose **"Select Rows — Limit 1000"**
-3. You will see a spreadsheet-like view
-4. Click the empty row at the bottom and type your values
-5. Click **"Apply"** (button at top right)
-
-This is great for adding a few rows quickly without typing SQL.
+၁. `customers` Table ထဲသို့ ဝယ်သူ အသစ် (၃) ယောက် ထည့်ပါ။
+၂. `products` Table ထဲသို့ ကုန်ပစ္စည်း အသစ် (၅) မျိုး ထည့်ပါ။
+၃. စစ်ဆေးရန် `SELECT COUNT(*) FROM customers;` ကို Run ကြည့်ပါ။
 
 ---
 
-## Exercise
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
 
-Using the `shop` database or your own database:
+Data အသစ်များ ထည့်သွင်းပြီးပြီ ဖြစ်လို့ ယင်း Data များကို အဆင့်မြင့် နည်းလမ်းများဖြင့် စစ်ထုတ် ဖတ်ယူနည်း (SELECT) ကို ဆက်လက် လေ့လာကြပါစို့။
 
-1. Insert 3 new customers into the customers table
-2. Insert 5 new products into the products table
-3. Verify by running: `SELECT COUNT(*) FROM customers;` (should show 13)
-4. Verify by running: `SELECT COUNT(*) FROM products;` (should show 17)
-
----
-
-## Quick Reference
-
-| Command | Purpose |
-|---------|---------|
-| `INSERT INTO table VALUES (...)` | Add one row |
-| `INSERT INTO table (col1, col2) VALUES (...), (...)` | Add multiple rows |
-| `SELECT * FROM table` | View all data |
-| `SELECT COUNT(*) FROM table` | Count total rows |
-
----
-
-## Next Step
-
-You can add data. Now let's learn how to read it properly with SELECT queries.
-
-→ [Lesson 8: Reading Data with SELECT](08-select-data.md)
+→ [သင်ခန်းစာ ၈: Data ဖတ်ယူခြင်း (SELECT)](08-select-data.md)

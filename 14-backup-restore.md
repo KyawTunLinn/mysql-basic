@@ -1,182 +1,118 @@
-# Lesson 14 — Backup and Restore
+# သင်ခန်းစာ ၁၄ — Backup ယူခြင်းနန့် ပြန် Restore လုပ်ခြင်း (Backup and Restore)
 
-In this lesson, you will learn how to save your database (backup) and bring it back (restore). This is essential for protecting your data.
+![Database Backup and Restore Illustration](images/lesson14.png)
 
-**Prerequisites:** Can connect via command line (Lesson 4), database has data (Lessons 5–13)
+ဒေသင်ခန်းစာမာ မိမိ၏ Database များကို ဘေးကင်းစွာ Backup သိမ်းဆည်းနည်းနန့် ပျက်စီးသွားပါက ပြန်လည် ယူငင်နည်း (Restore) တို့ကို လေ့လာသွားပါဖို့။ ဒေနည်းလမ်းစွာ ဒေတာ ပျက်စီးမှုမှ ကာကွယ်ရန် အရေးကြီးဆုံး လုပ်ဆောင်ချက် ဖြစ်ပါတယ်။
 
----
-
-## Why Back Up?
-
-- Prevent data loss from accidents or system failures
-- Create a safety net before making big changes
-- Share your database with others
-- Move data between servers
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၂၀**
 
 ---
 
-## Method 1: mysqldump (Recommended for Beginners)
+## 🎨 Backup & Restore စက်ဝန်း visual Diagram
 
-`mysqldump` creates a text file containing all your SQL commands to recreate the database.
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      BACKUP & RESTORE WORKFLOW                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  ┌───────────────────────────┐                ┌──────────────────────┐  │
+│  │   MySQL Database          │                │   shop-backup.sql    │  │
+│  │   (Live Server Data)      │                │   (Backup SQL File)  │  │
+│  └─────────────┬─────────────┘                └──────────┬───────────┘  │
+│                │                                         │              │
+│                │  mysqldump -u root -p shop > ...        │              │
+│                ├─────────────────────────────────────────►              │
+│                │  (1. BACKUP / EXPORT)                   │              │
+│                │                                         │              │
+│                │  mysql -u root -p shop < ...            │              │
+│                │◄────────────────────────────────────────┘              │
+│                │  (2. RESTORE / IMPORT)                                 │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
-### Backup a Single Database
+---
+
+## 💾 နည်းလမ်း (၁): `mysqldump` ဖြင့် Backup ယူနည်း (Command Line)
+
+`mysqldump` စွာ Database တစ်ခုလုံးကို ပြန်လည် တည်ဆောက်နိုင်သော SQL Command ဖိုင် (`.sql`) အဖြစ် သိမ်းဆည်းပေးပါသည်။
+
+### Database တစ်ခုတည်းကို Backup ယူရန် -
 
 ```bash
 mysqldump -u root -p shop > shop-backup.sql
 ```
 
-This saves everything (table structures + data) into `shop-backup.sql`.
-
-### Backup All Databases
+### Database အားလုံးကို တစ်ပြိုင်နက် Backup ယူရန် -
 
 ```bash
 mysqldump -u root -p --all-databases > all-databases-backup.sql
 ```
 
-### Backup Only the Table Structure (No Data)
-
-```bash
-mysqldump -u root -p --no-data shop > shop-structure.sql
-```
-
-### Backup Only the Data (No Structure)
-
-```bash
-mysqldump -u root -p --no-create-info shop > shop-data.sql
-```
-
 ---
 
-## Restoring From a Backup
+## 🔄 Backup ဖိုင်မှ ပြန်လည် ထည့်သွင်းခြင်း (Restore)
 
-### Restore Using Command Line
+### Command Line မှ ပြန်လည် ထည့်သွင်းနည်း -
 
 ```bash
 mysql -u root -p shop < shop-backup.sql
 ```
 
-This reads the backup file and recreates everything in the `shop` database.
-
-### Restore Into a New Database
+### Database အသစ်တစ်ခု ထဲသို့ ပြန်လည် ထည့်သွင်းနည်း -
 
 ```bash
-# First create a new empty database
+# ၁။ Database အလွတ် တစ်ခု အလျင် ဖန်တီးပါ
 mysql -u root -p -e "CREATE DATABASE shop_restore;"
 
-# Then restore into it
+# ၂။ ယင်း Database အသစ် ထဲသို့ Restore လုပ်ပါ
 mysql -u root -p shop_restore < shop-backup.sql
 ```
 
 ---
 
-## Method 2: Workbench Export/Import
+## 🖥️ နည်းလမ်း (၂): Workbench GUI ဖြင့် Export / Import လုပ်နည်း
 
-### Export (Backup) in Workbench:
+### Export (Backup ယူနည်း) -
 
-1. Right-click your database in the Schema Panel
-2. Choose **"Export Wizard"**
-3. Follow the steps:
-   - Select tables to export
-   - Choose output format (SQL recommended)
-   - Save the file
-4. Click **Start Export**
+၁. Schema Panel မှ Database ပေါ် Right-click ထိပနာ **"Export Wizard"** ကို ရွေးပါ။
+၂. အဆင့်များကို လိုက်နာပနာ **"Start Export"** ကို နှိပ်ပါ။
 
-### Import (Restore) in Workbench:
+### Import (Restore ပြန်လုပ်နည်း) -
 
-1. Right-click your database → **"Import Wizard"**
-2. Choose the `.sql` backup file
-3. Follow the steps
-4. Click **Start Import**
+၁. Right-click ➔ **"Import Wizard"** ကို ရွေးပါ။
+၂. `.sql` Backup ဖိုင်ကို ရွေးချယ်ပနာ **"Start Import"** ကို နှိပ်ပါ။
 
 ---
 
-## Method 3: Schedule Automatic Backups
+## 📝 လေ့ကျင့်ခန်း (Exercise)
 
-For daily automatic backups, create a schedule:
+၁. Command Line မှတစ်ဆင့် `shop` Database ကို Backup ယူကြည့်ပါ - `mysqldump -u root -p shop > shop-backup.sql`
+၂. `shop` Database ကို ဖျက်ပစ်ပါ - `DROP DATABASE shop;`
+၃. Backup ဖိုင်မှတစ်ဆင့် `shop` Database ကို ပြန် Restore လုပ်ပါ - `mysql -u root -p shop < shop-backup.sql`
 
-### On Linux/Mac (using cron):
+---
 
-```bash
-# Run backup every day at 2 AM
-0 2 * * * mysqldump -u root -pyourpassword shop > /backups/shop-$(date +\%Y\%m\%d).sql
+## 🎉 ဂုဏ်ယူပါတယ်! (Course Completed!)
+
+သင်စွာ MySQL အခြေခံ သင်ခန်းစာ (၁၄) ခုလုံးကို အောင်မြင်စွာ လေ့လာ ပြီးဆုံးခဲ့ပြီ ဖြစ်ပါတယ်။
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      CONGRATULATIONS! COURSE COMPLETED!                 │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  သင် တတ်မြောက်သွားသော အသိပညာများ:                                      │
+│  ✔ MySQL Server & Workbench တပ်ဆင်/အသုံးပြုနည်း                        │
+│  ✔ Command Line ဖြင့် Database မိုင်တိုင်စိုက် ကိုင်တွယ်နည်း                     │
+│  ✔ Database & Table များ ဖန်တီးတည်ဆောက်နည်း                             │
+│  ✔ Data များ အသစ်ထည့်၊ ဖတ်ယူ၊ ပြင်ဆင်၊ ဖျက်ပစ်နည်း (CRUD)                 │
+│  ✔ WHERE, ORDER BY, LIMIT ဖြင့် စစ်ထုတ် စီစဉ်နည်း                       │
+│  ✔ JOINs ဖြင့် Table များ ပေါင်းစပ်နည်း                                │
+│  ✔ GROUP BY နန့် Aggregations ဖြင့် အနှစ်ချုပ် တွက်ချက်နည်း                │
+│  ✔ Database Backup & Restore စနစ်တကျ ပြုလုပ်နည်း                        │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### On Windows (using Task Scheduler):
-
-1. Open Task Scheduler
-2. Create a basic task
-3. Set it to run daily
-4. Action: Start a program
-5. Program: `mysqldump.exe`
-6. Arguments: `-u root -p password shop > C:\backups\shop-%DATE%.sql`
-
----
-
-## Important Tips
-
-| Tip | Reason |
-|-----|--------|
-| Always test your backup | A backup that cannot be restored is useless |
-| Keep multiple backups | Delete old ones to save space |
-| Store backups outside your computer | Use cloud storage or external drive |
-| Compress large backups | Use gzip: `mysqldump ... \| gzip > backup.sql.gz` |
-| Include date in filename | Makes it easy to find the right backup |
-
----
-
-## Exercise
-
-1. Create a backup of the `shop` database using mysqldump
-2. Verify the backup file was created and has content
-3. Delete the `shop` database: `DROP DATABASE shop;`
-4. Restore from your backup
-5. Verify all tables and data are back
-6. Try exporting via Workbench Export Wizard and importing back
-
----
-
-## Quick Reference
-
-| Command | Purpose |
-|---------|---------|
-| `mysqldump -u root -p dbname > file.sql` | Backup a database |
-| `mysql -u root -p dbname < file.sql` | Restore from backup |
-| Workbench → Export Wizard | Visual backup method |
-| Workbench → Import Wizard | Visual restore method |
-
----
-
-## 🎉 Congratulations!
-
-You have completed the MySQL Beginner Course! You now know:
-
-- How to install MySQL Server
-- How to use MySQL Workbench (visual tool)
-- How to use the command line
-- How to create databases and tables
-- How to add, read, update, and delete data
-- How to filter, sort, and combine data
-- How to summarize data with aggregations
-- How to back up and restore your database
-
-## What's Next?
-
-Here are some topics to explore further:
-
-- **JOINs with more tables** — Practice combining 3+ tables
-- **Views** — Save complex queries as virtual tables
-- **Stored Procedures** — Write reusable SQL code
-- **Indexes** — Make your queries faster
-- **User Management** — Create users with specific permissions
-
-Keep practicing and building databases. The more you use MySQL, the better you become!
-
----
-
-## Useful Resources
-
-- [MySQL Official Documentation](https://dev.mysql.com/doc/)
-- [MySQL Cheat Sheet](mysql-cheat-sheet.md) — Keep this handy!
-- [Sample Database](sample-database.sql) — Practice anytime
-
-Happy querying! 🚀
+ကျေးဇူးတင်ပါသည်! 🚀

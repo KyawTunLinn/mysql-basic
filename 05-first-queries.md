@@ -1,71 +1,53 @@
-# Lesson 5 — Your First Queries
+# သင်ခန်းစာ ၅ — ပထမဆုံး Query များကို ရေးသားခြင်း
 
-In this lesson, you will run your first real SQL queries. We will use the sample database that helps you practice.
+![SQL First Queries Concept Illustration](images/lesson05.png)
 
-**Estimated time: 20 minutes**
+ဒေသင်ခန်းစာမာ မူလ Sample Database ကို အသုံးပြုပနာ ပထမဆုံး SQL Query များ ရေးသားပနာ Data ထုတ်ယူနည်းကို လေ့လာသွားပါဖို့။
 
-**Prerequisites:** MySQL Server installed (Lesson 2), Workbench OR command line working (Lessons 3–4)
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၂၀**
 
 ---
 
-## Step 1: Load the Sample Database
+## 📥 အဆင့် ၁ - စမ်းသပ် Database ကို ထည့်သွင်းခြင်း
 
-First, create and fill the practice database.
-
-### Using Command Line:
+### Command Line မှ ထည့်သွင်းနည်း:
 
 ```bash
 mysql -u root -p < sample-database.sql
 ```
 
-Or inside MySQL:
+သို့မဟုတ် MySQL ထဲမာ ရောက်ရှိနေပါက -
 
 ```sql
-SOURCE /full/path/to/sample-database.sql;
+SOURCE /path/to/sample-database.sql;
 ```
-(Replace `/full/path/to/` with the actual path on your computer)
 
-### Using Workbench:
+### Workbench မှ ထည့်သွင်းနည်း:
 
-1. Open Workbench and connect to your server
-2. Click **File → Open SQL Script**
-3. Select `sample-database.sql`
-4. Click the **lightning bolt** icon (⚡) or press `Ctrl + Enter`
-5. Wait for "0 rows affected" messages — this means it worked!
+1. Workbench ကို ဖွင့်ပနာ Server နန့် ချိတ်ဆက်ပါ။
+2. **File ➔ Open SQL Script** မှတစ်ဆင့် `sample-database.sql` ကို ရွေးချယ်ပါ။
+3. **လျှပ်စီးကြောင်းပုံ (⚡)** ခလုတ်ကို နှိပ်ပနာ Run ပါ။
 
 ---
 
-## Step 2: Choose Your Database
-
-After loading the sample data, tell MySQL which database to use:
+## 🗄️ အဆင့် ၂ - အသုံးပြုမည့် Database ကို ရွေးချယ်ခြင်း
 
 ```sql
 USE shop;
 ```
 
-You should see: `Database changed`
-
-Now all your commands will work on the `shop` database.
+`Database changed` ဟု ပေါ်လာပါမည်။ ယခုအခါ ပြုလုပ်သမျှ Command အားလုံးစွာ `shop` Database ပေါ်မာ သက်ရောက်ပါဖို့။
 
 ---
 
-## Step 3: See What Databases You Have
-
-```sql
-SHOW DATABASES;
-```
-
-You will see a list including `shop`, `mysql`, `performance_schema`, etc.
-
----
-
-## Step 4: See What Tables Exist
+## 📋 အဆင့် ၃ - ဟိနေသော Table စာရင်းများကို ကြည့်ရှုခြင်း
 
 ```sql
 SHOW TABLES;
 ```
 
-You should see:
+ရလဒ် ပေါ်လာပါမည် -
+
 ```
 +----------------+
 | Tables_in_shop |
@@ -77,193 +59,138 @@ You should see:
 +----------------+
 ```
 
-The `shop` database has 4 tables:
-- **customers** — information about people who buy things
-- **products** — items available for sale
-- **orders** — records of purchases
-- **order_items** — what products are in each order
+---
 
-### How the Tables Connect
+## 🎨 အဆင့် ၄ - Table များ ချိတ်ဆက်နေပုံ visual (ER Diagram)
+
+`shop` Database မာ Table (၄) ခု ပါဝင်ပါတယ် -
 
 ```
-┌──────────────┐       ┌──────────────┐
-│  customers   │       │   products   │
-│──────────────│       │──────────────│
-│ id (PK)      │       │ id (PK)      │
-│ first_name   │       │ name         │
-│ last_name    │       │ price        │
-│ email        │       │ category     │
-└──────┬───────┘       └──────────────┘
-       │                          │
-       │ customer_id (FK)         │ product_id (FK)
-       ▼                          ▼
-┌──────────────┐       ┌──────────────────┐
-│    orders    │       │    order_items   │
-│──────────────│       │──────────────────│
-│ id (PK)      │◄──────│ order_id (FK)    │
-│ customer_id  │       │ product_id (FK)  │
-│ order_date   │       │ quantity         │
-│ status       │       │ unit_price       │
-│ total_amount │       └──────────────────┘
-└──────────────┘
+┌─────────────────┐       ┌─────────────────┐
+│   customers     │       │    products     │
+├─────────────────┤       ├─────────────────┤
+│ id (PK)         │       │ id (PK)         │
+│ first_name      │       │ name            │
+│ last_name       │       │ price           │
+│ email           │       │ category        │
+└────────┬────────┘       └────────┬────────┘
+         │                         │
+         │ customer_id (FK)        │ product_id (FK)
+         ▼                         ▼
+┌─────────────────┐       ┌─────────────────┐
+│     orders      │       │   order_items   │
+├─────────────────┤       ├─────────────────┤
+│ id (PK)         │◄──────│ order_id (FK)   │
+│ customer_id (FK)│       │ product_id (FK) │
+│ order_date      │       │ quantity        │
+│ total_amount    │       │ unit_price      │
+└─────────────────┘       └─────────────────┘
 
-PK = Primary Key (unique identifier)
-FK = Foreign Key (link to another table)
+PK = Primary Key (သီးသန့်ခွဲခြားသည့် ပင်မသေတ္တာသော့)
+FK = Foreign Key (အခြား Table သို့ ချိတ်ဆက်ထားသော သော့)
 ```
 
-In simple words:
-- Each **order** belongs to one **customer** (via customer_id)
-- Each **order_item** links one **order** to one **product**
-- An **order** can have many **order_items** (one order, multiple products)
+- **customers** — ဝယ်သူများ၏ အချက်အလက်များ
+- **products** — ရောင်းချသော ကုန်ပစ္စည်း စာရင်းများ
+- **orders** — ဝယ်ယူခဲ့သော အော်ဒါ မှတ်တမ်းများ
+- **order_items** — အော်ဒါတစ်ခုစီမာ ပါဝင်သော ပစ္စည်းအသေးစိတ်များ
 
 ---
 
-## Step 5: Look at Table Structure
-
-Before viewing data, let's see what columns each table has:
+## 🔍 အဆင့် ၅ - Table ၏ အဆောက်အအုံကို စစ်ဆေးခြင်း
 
 ```sql
 DESCRIBE customers;
 ```
 
-You will see something like:
-
 | Field | Type | Null | Key | Default | Extra |
-|-------|------|------|-----|---------|-------|
+|---|---|---|---|---|---|
 | id | int | NO | PRI | NULL | auto_increment |
 | first_name | varchar(50) | NO | | NULL | |
 | last_name | varchar(50) | NO | | NULL | |
 | email | varchar(100) | YES | UNI | NULL | |
-| phone | varchar(20) | YES | | NULL | |
 | city | varchar(50) | YES | | NULL | |
-| created_at | timestamp | YES | | CURRENT_TIMESTAMP | |
 
-This tells you:
-- **Field** = column name
-- **Type** = what kind of data (text, number, date, etc.)
-- **Null** = can this column be empty? (NO = must have a value)
-- **Key** = is this a special key? (PRI = primary key, UNI = unique)
+---
 
-Try this for other tables too:
+## 📐 အဆင့် ၆ - SQL Query ရေးသားပုံ အခြေခံ ပုံစံ
 
 ```sql
-DESCRIBE products;
-DESCRIBE orders;
-DESCRIBE order_items;
+SELECT   [မည်သည့် Column များကို ယူမည်နည်း]
+FROM     [မည်သည့် Table မှ ယူမည်နည်း]
+LIMIT    [မည်မျှ ကန့်သတ်မည်နည်း];
+```
+
+```
+           ┌──────────┐            ┌──────────┐
+           │  SELECT  │ ───────►   │  Column  │ (အမည်၊ စျေးနှုန်း စသည်)
+           └──────────┘            └──────────┘
+                │
+                ▼
+           ┌──────────┐            ┌──────────┐
+           │   FROM   │ ───────►   │  Table   │ (products, customers စသည်)
+           └──────────┘            └──────────┘
 ```
 
 ---
 
-## Step 6: Understanding the Basic Query Format
+## ⚡ အဆင့် ၇ - ပထမဆုံး Query — SELECT * (Data အားလုံး ထုတ်ကြည့်ခြင်း)
 
-Before running queries, learn the basic SELECT pattern:
-
-```sql
-SELECT   [which columns]
-FROM     [which table]
-[optional extra rules];
-```
-
-- `SELECT` = tell MySQL which columns you want
-- `FROM` = tell MySQL which table to read from
-- `*` = means "all columns"
-
-Simple examples:
-
-```sql
--- Get all columns from products
-SELECT * FROM products;
-
--- Get only name and price from products
-SELECT name, price FROM products;
-
--- Get first name and email from customers
-SELECT first_name, email FROM customers;
-```
-
-Now let's run your first real query!
-
----
-
-## Step 7: Your Very First Query — SELECT ALL
-
-The most basic query is `SELECT * FROM table_name`. The `*` means "everything."
+`*` သင်္ကေတမှာ "Column အားလုံး" ကို ညွှန်းပါသည်။
 
 ```sql
 SELECT * FROM customers LIMIT 5;
 ```
 
-This shows: "Give me all columns from the customers table, but only 5 rows."
+ရလဒ် ပေါ်လာပါမည် -
 
-You will see output like:
+| id | first_name | last_name | email | city |
+|---|---|---|---|---|
+| 1 | U | Ba | uba@gmail.com | Yangon |
+| 2 | Daw | Hla | hla@gmail.com | Mandalay |
+| 3 | Ko | Aung | aung@gmail.com | Sittwe |
+| 4 | Ma | Suu | suu@gmail.com | Taunggyi |
+| 5 | U | Kyaw | kyaw@gmail.com | Pyin Oo Lwin |
 
-| id | first_name | last_name | email | phone | city | created_at |
-|----|------------|-----------|-------|-------|------|------------|
-| 1 | John | Smith | john@email.com | 555-0101 | New York | 2025-... |
-| 2 | Sarah | Johnson | sarah@email.com | 555-0102 | Los Angeles | 2025-... |
-| ... | ... | ... | ... | ... | ... | ... |
-
-**Why `LIMIT 5`?** Without LIMIT, you would see all 10 rows. LIMIT helps you see just a few rows at a time so the output is not overwhelming.
+**LIMIT 5 ကို ဇာဖြစ်လို့ သုံးရလဲ?**
+Data တန်းပေါင်း ထောင်ချီ ဟိနေပါက အားလုံး ပေါ်လာလျှင် ကြည့်ရ ခက်ခဲပါဖို့။ ထို့ကြောင့် စတင် ကြည့်ရှုချိန်မာ `LIMIT` ကို အသုံးပြုပနာ အရေအတွက် ကန့်သတ်ကြည့်ရပါတယ်။
 
 ---
 
-## Step 8: Select Specific Columns
-
-You do not always need all columns. You can choose which ones you want:
+## 🎯 အဆင့် ၈ - သီးသန့် Column များကိုသာ ရွေးထုတ်ကြည့်ခြင်း
 
 ```sql
 SELECT first_name, last_name, city FROM customers;
 ```
 
-Output:
-
 | first_name | last_name | city |
-|------------|-----------|------|
-| John | Smith | New York |
-| Sarah | Johnson | Los Angeles |
-| Mike | Williams | Chicago |
-| ... | ... | ... |
+|---|---|---|
+| U | Ba | Yangon |
+| Daw | Hla | Mandalay |
+| Ko | Aung | Sittwe |
 
 ---
 
-## Common Problems and Fixes
+## ⚠️ ကြုံတွေ့ရတတ်သော အမှားများနန့် ဖြေရှင်းနည်း
 
-| Problem | Why It Happens | Fix |
-|---------|---------------|-----|
-| `ERROR 1049: Unknown database 'shop'` | You forgot to run sample-database.sql first | Run `mysql -u root -p < sample-database.sql` again |
-| `ERROR 1064: Syntax error` | Missing semicolon or misspelled keyword | Check for `;` at the end, and spell SELECT/FROM correctly |
-| `ERROR 1146: Table 'shop.customers' doesn't exist` | Database loaded but not selected | Run `USE shop;` first |
-| Output is too long / hard to read | No LIMIT used | Add `LIMIT 10` to your query |
-| Workbench shows red error text | SQL has a syntax mistake | Look for missing commas, quotes, or semicolons |
+| ပြဿနာ error | အကြောင်းအရင်း | ဖြေရှင်းနည်း |
+|---|---|---|
+| `Unknown database 'shop'` | sample-database.sql မထည့်ရသေးပါ | `mysql -u root -p < sample-database.sql` ကို ပြန် Run ပါ |
+| `Syntax error` | Semicolon မပါ သို့ စာလုံးပေါင်း မှားနိပါသည် | `;` ပါမပါနန့် SELECT/FROM စာလုံးပေါင်း စစ်ပါ |
+| `Table 'shop.customers' doesn't exist` | Database ကို ရွေးမထားပါ | အလျင် `USE shop;` ကို Run ပါ |
 
 ---
 
-## Exercise
+## 📝 လေ့ကျင့်ခန်း (Exercise)
 
-Try these queries yourself (use Workbench or command line):
-
-1. Show all products: `SELECT * FROM products;`
-2. Show only product names: `SELECT name FROM products;`
-3. Show customer names and cities: `SELECT first_name, last_name, city FROM customers;`
-4. Show order IDs and dates: `SELECT id, order_date, status FROM orders;`
-5. Show first 3 order items: `SELECT * FROM order_items LIMIT 3;`
+၁. Products Table ထဲဟိ ကုန်ပစ္စည်း အားလုံးကို ထုတ်ကြည့်ပါ - `SELECT * FROM products;`
+၂. ကုန်ပစ္စည်း အမည်နန့် စျေးနှုန်းကိုသာ ထုတ်ကြည့်ပါ - `SELECT name, price FROM products;`
+၃. Orders Table ထဲမှ ပထမဆုံး အော်ဒါ (၃) ခုကို ထုတ်ကြည့်ပါ - `SELECT * FROM orders LIMIT 3;`
 
 ---
 
-## Quick Reference
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
 
-| Symbol | Meaning |
-|--------|---------|
-| `SELECT` | Tell MySQL what columns you want |
-| `*` | Means "all columns" |
-| `FROM` | Tell MySQL which table to get data from |
-| `LIMIT 5` | Show only 5 rows |
-| `,` | Separate multiple column names |
+ယခုအခါ ဒေတာများကို ကြည့်ရှုတတ်သွားပြီဖြစ်လို့ မိမိကိုယ်တိုင် Table များ စတင် ဖန်တီးနည်းကို ဆက်လက် လေ့လာကြပါစို့။
 
----
-
-## Next Step
-
-Now you know how to view data. Let's learn how to create your own tables from scratch.
-
-→ [Lesson 6: Creating Tables](06-create-tables.md)
+→ [သင်ခန်းစာ ၆: Table (ဇယား) ဖန်တီးခြင်း](06-create-tables.md)

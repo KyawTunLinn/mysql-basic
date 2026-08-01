@@ -1,130 +1,110 @@
-# Lesson 4 — MySQL Command Line Basics
+# သင်ခန်းစာ ၄ — Command Line (Terminal) အသုံးပြုနည်း
 
-The command line (also called terminal or console) is where you type SQL commands directly. Many developers prefer this method because it is fast and powerful.
+![MySQL Command Line Console Illustration](images/lesson04.png)
 
-### Visual: How Command Line Works
-
-```
-┌─────────────────────────────────────────────────────┐
-│                  Your Terminal Window                 │
-│                                                     │
-│  user@computer:~$ mysql -u root -p                   │
-│  Enter password: ********                            │
-│                                                      │
-│  Welcome to the MySQL monitor!                       │
-│  mysql> USE shop;                                    │
-│  Database changed                                    │
-│                                                      │
-│  mysql> SELECT * FROM customers LIMIT 3;             │
-│  +----+--------------+-----------+------------------+│
-│  | id | first_name   | last_name | email            ││
-│  +----+--------------+-----------+------------------+│
-│  | 1  | John         | Smith     | john@email.com   ││
-│  | 2  | Sarah        | Johnson   | sarah@email.com  ││
-│  | 3  | Mike         | Williams  | mike@email.com   ││
-│  +----+--------------+-----------+------------------+│
-│  3 rows in set (0.01 sec)                            │
-│                                                      │
-│  mysql> EXIT;                                        │
-│  Bye                                                 │
-│                                                     │
-│  user@computer:~$                                    │
-└─────────────────────────────────────────────────────┘
-```
-
-**Estimated time: 30 minutes**
+Command Line Client သို့မဟုတ် Terminal မှတစ်ဆင့် MySQL Server သို့ တိုက်ရိုက် စာရိုက် ရေးသားပနာ ချိတ်ဆက် အသုံးပြုနည်း ဖြစ်ပါသည်။ Command Line (Terminal သို့ Console ဟုလည်း ခေါ်သည်) ဆိုစွာ SQL Command များကို စာရိုက်ပနာ တိုက်ရိုက် ခိုင်းစေသည့် နေရာဖြစ်ပါတယ်။ Developer များစွာစွာ လျင်မြန်ပနာ စွမ်းအားထက်မြက်သည့်အတွက် ဒေနည်းလမ်းကို ပိုမို ကြိုက်နှစ်သက်ကြပါတယ်။
 
 ---
 
-## What Is the Command Line?
+## 🎨 Command Line အလုပ်လုပ်ပုံ မျက်မြင် visual ပုံရိပ်
 
-The command line is a text-based interface where you type commands instead of clicking buttons. Think of it like talking directly to MySQL.
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      Your Computer Terminal Window                      │
+├─────────────────────────────────────────────────────────────────────────┤
+│  user@computer:~$ mysql -u root -p                                      │
+│  Enter password: ********                                               │
+│                                                                         │
+│  Welcome to the MySQL monitor! Commands end with ; or \g.               │
+│                                                                         │
+│  mysql> USE shop;                                                       │
+│  Database changed                                                       │
+│                                                                         │
+│  mysql> SELECT * FROM customers LIMIT 3;                                │
+│  +----+--------------+-----------+--------------------+                 │
+│  | id | first_name   | last_name | email              |                 │
+│  +----+--------------+-----------+--------------------+                 │
+│  | 1  | U            | Ba        | uba@gmail.com      |                 │
+│  | 2  | Daw          | Hla       | hla@gmail.com      |                 │
+│  | 3  | Ko           | Aung      | aung@gmail.com     |                 │
+│  +----+--------------+-----------+--------------------+                 │
+│  3 rows in set (0.01 sec)                                               │
+│                                                                         │
+│  mysql> EXIT;                                                           │
+│  Bye                                                                    │
+│                                                                         │
+│  user@computer:~$                                                       │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
-| Tool | How You Use It | Best For |
-|------|----------------|----------|
-| Workbench | Click buttons and menus | Beginners, visual browsing |
-| Command Line | Type text commands | Speed, automation, servers |
-
-You will learn **both**, so you can choose what works best for you.
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၃၀**
 
 ---
 
-## Step 1: Open Your Terminal
+## 💡 Command Line ဆိုစွာ ဇာလဲ?
 
-### On Windows:
-1. Press `Windows Key + R`
-2. Type `cmd` and press Enter
-3. Or search "Command Prompt" in the Start menu
+Command Line ဆိုစွာ မျက်ပြင် ခလုတ်များကို နှိပ်စရာ မလိုဘဲ စာသား Command များ ရိုက်ထည့်ပနာ MySQL နန့် တိုက်ရိုက် စကားပြောသည့် စနစ်ဖြစ်ပါတယ်။
 
-### On Mac:
-1. Press `Cmd + Space` to open Spotlight
-2. Type "Terminal" and press Enter
-
-### On Linux:
-1. Press `Ctrl + Alt + T`
-2. Or search "Terminal" in your application menu
-
-You should see a black or dark window with a blinking cursor like this:
-
-```
-C:\Users\yourname>     (Windows)
-user@computer:~$        (Mac/Linux)
-```
-
-This blinking cursor means: **type your command here**.
+| Tool | အသုံးပြုပုံ | အသင့်တော်ဆုံး နေရာ |
+|---|---|---|
+| **Workbench** | ခလုတ်များ၊ Menu များကို နှိပ်သည် | အစပျိုးသူများနန့် မျက်ပြင် ကြည့်ရှုလိုသူများ |
+| **Command Line** | စာရိုက်ပနာ Command ပေးသည် | မြန်ဆန်မှု၊ Auto စနစ်များနန့် Server အသုံးပြုသူများ |
 
 ---
 
-## Step 2: Connect to MySQL
+## 🚀 အဆင့် ၁ - Terminal ကို ဖွင့်ပါ
 
-Type this command and press Enter:
+- **Windows မာ:** `Windows Key + R` ကို နှိပ်ပနာ `cmd` ဟု ရိုက်ထည့်ပနာ Enter နှိပ်ပါ။
+- **Mac မာ:** `Cmd + Space` နှိပ်ပနာ "Terminal" ဟု ရိုက်ရှာပါ။
+- **Linux မာ:** `Ctrl + Alt + T` ကို နှိပ်ပါ။
+
+မီးလင်းနိသော Cursor လေး ပါသည့် Terminal စာမျက်နှာ ပေါ်လာပါဖို့ -
+
+```bash
+C:\Users\yourname>       (Windows)
+user@computer:~$          (Mac/Linux)
+```
+
+---
+
+## 🔌 အဆင့် ၂ - MySQL ထို့ ချိတ်ဆက်ပါ (Connect)
+
+Terminal မာ အောက်ပါ command ကို ရိုက်ထည့်ပနာ Enter နှိပ်ပါ -
 
 ```bash
 mysql -u root -p
 ```
 
-Explanation:
-- `mysql` — tells the computer to open MySQL
-- `-u root` — log in as the "root" user (the administrator)
-- `-p` — means "please ask for a password"
+### 🔍 Command တစ်ခုချင်းစီ၏ အဓိပ္ပာယ် -
 
-### How the Connection Works
-
-```
-┌──────────────┐     ┌──────────────────┐     ┌─────────────┐
-│  Terminal    │     │   MySQL Client   │     │ MySQL Server│
-│              │     │                  │     │             │
-│  $ mysql -u  │────▶│  Sends login     │────▶│  Checks     │
-│        root  │     │  + SQL commands  │     │  password   │
-│              │◀────│                  │◀────│  & returns  │
-│  mysql>      │     │  Receives data   │     │  results    │
-└──────────────┘     └──────────────────┘     └─────────────┘
-```
-
-You will see: `Enter password:`
-
-Type your root password (you will not see the characters as you type — this is normal for security). Then press Enter.
-
-If the password is correct, you will see:
+- `mysql` — MySQL Program ကို ဖွင့်ရန် ခိုင်းခြင်း
+- `-u root` — "root" user (အုပ်ချုပ်သူ အကောင့်) ဖြင့် Log in ဝင်ခြင်း
+- `-p` — Password တောင်းဆိုခိုင်းခြင်း
 
 ```
-Welcome to the MySQL monitor...
-mysql>
+┌──────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│  Terminal    │     │   MySQL Client   │     │  MySQL Server   │
+│  Command     │────►│  Login & SQL     │────►│  Password စစ်   │
+│  $ mysql -u  │     │  Commands ပို့    │     │  ရလဒ် ပြန်ပို့   │
+│    root -p   │◄────│  Data ပြန်လက်ခံ  │◄────│                 │
+└──────────────┘     └──────────────────┘     └─────────────────┘
 ```
 
-**Congratulations!** You are now inside MySQL through the command line. The `mysql>` prompt means MySQL is waiting for your commands.
+`Enter password:` ဟု ပေါ်လာပါက Root Password ကို ရိုက်ထည့်ပါ (Password ရိုက်နေချိန် စာလုံးများ ပေါ်မည်မဟုတ်ပါ၊ စိတ်မပူပါနန့်)။
+
+အတည်ပြုပြီးပါက `mysql>` ဟု ပေါ်လာပါဖို့။ ယင်းသည် MySQL ထဲသို့ အောင်မြင်စွာ ရောက်ရှိသွားပြီဖြစ်ပါတယ်။
 
 ---
 
-## Step 3: Your First Command
+## ⚡ အဆင့် ၃ - ပထမဆုံး Command ကို စမ်းသပ်ပါ
 
-At the `mysql>` prompt, type:
+`mysql>` Prompt မာ အောက်ပါအတိုင်း ရိုက်ထည့်ပနာ Enter နှိပ်ပါ -
 
 ```sql
 SELECT 'Hello, MySQL!';
 ```
 
-Press Enter. You should see:
+အောက်ပါအတိုင်း ရလဒ် ထွက်လာပါဖို့ -
 
 ```
 +------------------+
@@ -135,71 +115,54 @@ Press Enter. You should see:
 1 row in set (0.00 sec)
 ```
 
-You just ran your first SQL query from the command line!
-
 ---
 
-## Step 4: Useful Commands at the mysql> Prompt
+## 🛠️ အဆင့် ၄ - အသုံးဝင်သော command များ
 
-### See All Databases
-
+### Database စာရင်း ကြည့်ရန် -
 ```sql
 SHOW DATABASES;
 ```
 
-### See Current Database
-
+### လက်ရှိ အသုံးပြုနေသော Database ကို ကြည့်ရန် -
 ```sql
 SELECT DATABASE();
 ```
 
-### See Table Structure
-
+### Table ၏ အဆောက်အအုံကို စစ်ဆေးရန် -
 ```sql
 DESCRIBE table_name;
 ```
-Or shorter:
-```sql
-DESC table_name;
-```
 
-### Get Help
-
+### MySQL ထွက်ရန် -
 ```sql
-HELP;
+EXIT;
 ```
-Then type the topic you want help with, like `HELP SELECT;`
+*(သို့မဟုတ် `QUIT;` ဟုလည်း ရိုက်နိုင်ပါသည်)*
 
 ---
 
-## Step 5: Important Rules for Command Line
+## ⚠️ အရေးကြီးသော စည်းမျဉ်း - Semicolon (;) ပါရမည်
 
-### Every SQL Statement Ends With Semicolon
+SQL Command တိုင်း၏ အဆုံးမာ Semicolon (`;`) မဖြစ်မနေ ပါရပါမည်။
+
+```
+Semicolon မပါပါက (MySQL မှ စောင့်ဆိုင်းနေမည်):
+mysql> SELECT * FROM users
+    -> 
+    -> ; (Semicolon ရိုက်ထည့်မှသာ Run ပါမည်)
+```
 
 ```sql
-SELECT * FROM users;   -- Correct ✓
-SELECT * FROM users    -- Wrong ✗ (missing semicolon)
+SELECT * FROM users;   -- မှန်ကန်သည် ✓
+SELECT * FROM users    -- မှားယွင်းသည် ✗ (Semicolon မပါပါ)
 ```
 
-The semicolon (`;`) tells MySQL: "This command is finished, please run it."
+---
 
-```
-Without semicolon:          With semicolon:
-mysql> SELECT *             mysql> SELECT * FROM users;
-       FROM users;                  +----+----------+
-       ->                          | id | name     |
-       -> FROM users;               +----+----------+
-       -> ;                         | 1  | John     |
-       ->                          | 2  | Sarah    |
-       ->                          +----+----------+
-       -> 2 rows in set
-```
+## 🎨 Multi-Line Query ရေးသားပုံ Illustration
 
-When you forget the `;`, MySQL shows `->` to tell you it is waiting for more input.
-
-### Multi-Line Commands
-
-You can spread a command across multiple lines. MySQL knows you are not done until you type `;`:
+SQL Command များကို စာကြောင်း တစ်ကြောင်းမက ခွဲပနာ ရေးသားနိုင်ပါတယ်။ Semicolon ရိုက်မချင်း MySQL မှ ဆက်လက် စောင့်ဆိုင်းပေးထားပါဖို့ -
 
 ```sql
 SELECT first_name,
@@ -208,109 +171,46 @@ SELECT first_name,
 FROM users;
 ```
 
-### Exit MySQL
-
-To leave the MySQL command line:
-
-```sql
-EXIT;
-```
-or
-```sql
-QUIT;
-```
-
-Both work the same way. You will return to your normal terminal.
-
 ---
 
-## Step 6: Running a Single Command (Without Entering Interactive Mode)
+## 📄 SQL Script File ကို Command Line မှ Run နည်း
 
-If you just want to run one quick command without entering the MySQL prompt:
+`.sql` ဖိုင်ထဲဟိ Command များကို တိုက်ရိုက် Run လိုပါက -
 
 ```bash
-mysql -u root -p -e "SHOW DATABASES;"
+mysql -u root -p shop < /path/to/script.sql
 ```
 
-The `-e` flag means "execute this command and exit."
-
----
-
-## Step 7: Running a SQL File From Command Line
-
-If you have a file with many SQL commands (like `setup.sql`):
-
-```bash
-mysql -u root -p my_database < setup.sql
-```
-
-This runs all commands in the file against `my_database`.
-
-Or you can do it inside MySQL:
+သို့မဟုတ် MySQL ထဲရောက်မှ Run လိုပါက -
 
 ```sql
-SOURCE /path/to/setup.sql;
+SOURCE /path/to/script.sql;
 ```
 
 ---
 
-## Step 8: Common Command Line Tips
+## ⌨️ Command Line သုံးစွဲသူများအတွက် အသုံးဝင်သော Tips
 
-### Auto-Complete
-
-While typing a command, press `Tab` to autocomplete table names or column names.
-
-### Command History
-
-- Press `↑` (up arrow) to see previous commands
-- Press `↓` (down arrow) to go back down
-- This saves you from retyping long commands!
-
-### Clear Screen
-
-```sql
--- Type this to clear the output on screen
-system clear          (Mac/Linux)
-system cls            (Windows)
-```
-
-### Copy and Paste
-
-- **Windows**: Right-click to paste, or use `Ctrl + Shift + V`
-- **Mac**: `Cmd + Shift + V`
-- **Linux**: `Ctrl + Shift + V`
+- **Up Arrow (↑)** — ယခင် ရိုက်ခဲ့သော Command များကို ပြန်ခေါ်ရန်
+- **Tab Key** — Table သို့မဟုတ် Column အမည်များကို Auto စာလုံး ဖြည့်ရန်
+- **Screen ရှင်းရန်:**
+  - Mac/Linux မာ: `system clear`
+  - Windows မာ: `system cls`
 
 ---
 
-## Step 9: Connecting Without Password Prompt
+## 📝 လေ့ကျင့်ခန်း (Exercise)
 
-If you do not want to type your password every time, you can add it to the command:
-
-```bash
-mysql -u root -pyourpassword
-```
-
-Note: There is **no space** between `-p` and the password.
-
-⚠️ **Warning**: This is not secure because anyone can see your password by looking at the process list. Only use this on your personal computer for practice.
+1. Terminal ကို ဖွင့်ပါ။
+2. MySQL သို့ ချိတ်ဆက်ပါ (`mysql -u root -p`)
+3. `SHOW DATABASES;` ကို Run ပါ။
+4. `SELECT VERSION();` ဖြင့် MySQL Version ကို ကြည့်ပါ။
+5. `EXIT;` ဖြင့် ပြန်ထွက်ပါ။
 
 ---
 
-## Exercise
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
 
-Try these tasks in your terminal:
+ယခုဆိုရင် Workbench နန့် Command Line နှစ်ခုလုံး သုံးတတ်သွားပြီဖြစ်လို့ အချက်အလက်များပါဝင်သော Sample Database ထည့်သွင်းပနာ ပထမဆုံး Query များကို စတင် ရေးသားကြပါစို့။
 
-1. Open your terminal/command prompt
-2. Connect to MySQL: `mysql -u root -p`
-3. Run: `SHOW DATABASES;`
-4. Run: `SELECT VERSION();` (this shows your MySQL version)
-5. Run: `STATUS;` (this shows connection details)
-6. Exit MySQL: `EXIT;`
-
----
-
-## Next Step
-
-Now you can connect using both Workbench and the command line. Let's run your very first real queries!
-
-→ [Lesson 5: Your First Queries](05-first-queries.md)
+→ [သင်ခန်းစာ ၅: ပထမဆုံး Query များ ရေးသားခြင်း](05-first-queries.md)

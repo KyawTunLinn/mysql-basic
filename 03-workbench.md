@@ -1,191 +1,171 @@
-# Lesson 3 — MySQL Workbench Guide
+# သင်ခန်းစာ ၃ — MySQL Workbench GUI အသုံးပြုနည်း
 
-MySQL Workbench is a visual program that lets you work with databases using clicks and menus instead of typing commands. This is the **best tool for beginners**.
+![MySQL Workbench Interface Illustration](images/lesson03.png)
 
-**Estimated time: 30 minutes**
+MySQL Workbench စွာ Graphical User Interface (GUI) Tool ဖြစ်ပနာ မောက်စ် (Mouse) ဖြင့် နှိပ်ပနာ Database များကို လွယ်ကူစွာ ကိုင်တွယ်နိုင်အောင် ကူညီပေးပါသည် -
+ဝဲလ် ဖြစ်ပါတယ်။ **အစပျိုးသူများအတွက် အကောင်းဆုံး Tool ဖြစ်ပါတယ်**။
 
----
-
-## Step 1: Open MySQL Workbench
-
-### On Windows:
-- Search "MySQL Workbench" in the Start menu and click it
-
-### On Mac:
-- Open Finder → Applications → MySQL Workbench
-
-### On Linux:
-- Search "MySQL Workbench" in your application menu
+**ခန့်မှန်း ကြာချိန် - မိနစ် ၃၀**
 
 ---
 
-## Step 2: Create a Connection
+## 🎨 MySQL Workbench GUI Layout Illustration (မျက်ပြင် ပြင်ဆင်ပုံ ပုံရိပ်)
 
-When you first open Workbench, you will see a blank screen with **"MySQL Connections"** section.
+```
+┌───────────────────────────────────────────────────────────────────────────┐
+│                      MySQL Workbench Graphical Interface                  │
+├───────────────────────────────────────────────────────────────────────────┤
+│ [ File ]  [ Edit ]  [ View ]  [ Query ]  [ Database ]  [ Help ]           │
+├───────────────────────────────────────────────────────────────────────────┤
+│  ⚡ (Run Query)   💾 (Save)   📁 (Open)   ➕ (New Tab)                       │
+├───────────────────────────┬───────────────────────────────────────────────┤
+│ SCHEMAS (Left Panel)      │  SQL EDITOR (Center Panel)                    │
+│                           │                                               │
+│ 📁 sys                    │  1  USE shop;                                 │
+│ 📁 mysql                  │  2  SELECT * FROM customers;                  │
+│ 📁 performance_schema     │  3                                            │
+│ 📁 shop (Our Database)    │                                               │
+│   ├── 🗄️ Tables           ├───────────────────────────────────────────────┤
+│   │   ├── customers       │  QUERY OUTPUT (Bottom Results Panel)          │
+│   │   ├── products        │  +----+------------+-------------------+      │
+│   │   ├── orders          │  | id | first_name | email             |      │
+│   │   └── order_items     │  +----+------------+-------------------+      │
+│   └── 👁️ Views             │  | 1  | U Ba       | uba@gmail.com     |      │
+│                           │  +----+------------+-------------------+      │
+└───────────────────────────┴───────────────────────────────────────────────┘
+```
 
-### Create Your First Connection:
+---
 
-1. Click the **+** icon next to **"MySQL Connections"** (or double-click "Local instance MySQL80")
-2. A setup window will appear
+## 🚀 အဆင့် ၁ - MySQL Workbench ကို ဖွင့်ပါ
 
-### Fill in these settings:
+- **Windows ပေါ်မာ:** Start Menu မာ "MySQL Workbench" ဟု ရိုက်ရှာပနာ ဖွင့်ပါ။
+- **Mac ပေါ်မာ:** Finder ➔ Applications ➔ MySQL Workbench ကို ဖွင့်ပါ။
+- **Linux ပေါ်မာ:** Application Menu မာ "MySQL Workbench" ကို ရှာပနာ ဖွင့်ပါ။
 
-| Setting | What to Enter |
-|---------|---------------|
-| **Connection Name** | `Local MySQL` (or any name you like) |
-| **Hostname** | `localhost` (this means your own computer) |
-| **Port** | `3306` (default port, leave as is) |
+---
+
+## 🔌 အဆင့် ၂ - MySQL Server နန့် ချိတ်ဆက်မှု (Connection) ပြုလုပ်ပါ
+
+Workbench စတင်ပွင့်လာချိန်မာ **"MySQL Connections"** ခေါင်းစဉ်ကို တွေ့ရပါဖို့။
+
+```
+                       ┌──────────────────────────────┐
+                       │   New Connection Setup Window│
+                       ├──────────────────────────────┤
+                       │ Connection Name: Local MySQL │
+                       │ Hostname:        localhost   │
+                       │ Port:            3306        │
+                       │ Username:        root        │
+                       │ Password:        [Store ...] │
+                       └──────────────┬───────────────┘
+                                      │
+                                      ▼
+                             [ Test Connection ] ➔ (Connection Succeeded! ✓)
+```
+
+1. **"MySQL Connections"** ဘေးမာဟိသော **"+"** လက္ခဏာကို နှိပ်ပါ။
+2. အောက်ပါ အချက်အလက်များကို ဖြည့်သွင်းပါ -
+
+| Setting (သတ်မှတ်ချက်) | ဖြည့်သွင်းရမည့် အချက် |
+|---|---|
+| **Connection Name** | `Local MySQL` (သို့ မိမိ ကြိုက်နှစ်သက်ရာ အမည်) |
+| **Hostname** | `localhost` (မိမိ ကွန်ပျူတာကို ညွှန်းပါသည်) |
+| **Port** | `3306` (Default Port ဖြစ်သည်) |
 | **Username** | `root` |
-| **Password** | The password you set during installation |
+| **Password** | MySQL Install စဉ်က ပေးခဲ့သော Root Password |
 
-3. Click **"Test Connection"** — if it says "Connection succeeded", you are good!
-4. Click **"OK"** to save
-
----
-
-## Step 3: Connect to the Server
-
-1. Double-click your connection name in the main screen
-2. Enter your root password when prompted
-3. You will see the Workbench dashboard — congratulations, you are connected!
+3. **"Test Connection"** ကို နှိပ်ပါ။ "Connection succeeded" ဟု ပေါ်လာပါက အဆင်ပြေပါပြီ။
+4. **"OK"** နှိပ်ပနာ သိမ်းဆည်းပါ။
 
 ---
 
-## Step 4: Explore the Workbench Interface
+## 🔑 အဆင့် ၃ - Server ထို့ ဝင်ရောက်ပါ
 
-Here is what you will see:
-
-```
-+--------------------------------------------------+
-|  Schema Panel (left side)                        |
-|  - InnoDB Schema (system database)              |
-|  - mysql (system database)                      |
-|  - performance_schema                           |
-|  - sys                                          |
-+---------------------------+----------------------+
-|                            |                     |
-|   SQL Editor (center)     |  Query Output       |
-|   Type your SQL here      |  Results appear     |
-|                            |  here               |
-+---------------------------+----------------------+
-```
-
-### Key Areas:
-
-| Area | What It Does |
-|------|--------------|
-| **Schema Panel** (left) | Shows all your databases. Like folders in File Explorer |
-| **SQL Editor** (center) | Where you type SQL commands. Like a text editor |
-| **Query Output** (bottom/right) | Shows results of your queries. Like a table view |
-| **Toolbar** (top) | Buttons to run queries, save files, etc. |
+1. ပင်မမျက်နှာပြင်မာ ပေါ်နေသော Connection သေတ္တာလေးကို Double-click နှိပ်ပါ။
+2. Root Password တောင်းပါက ရိုက်ထည့်ပါ။
+3. Workbench Dashboard သို့ ရောက်ရှိသွားပါပြီ။
 
 ---
 
-## Step 5: Your First Action in Workbench
+## 🧩 အဆင့် ၄ - Workbench ၏ အဓိက ဧရိယာ (၄) ခု
 
-Let's look at what databases exist on your server:
+| ဧရိယာ | လုပ်ဆောင်ချက် |
+|---|---|
+| **Schema Panel** (လက်ဝဲဘက်) | Database များကို ဖိုင်တွဲများပိုင် ပြသပေးသော နေရာ |
+| **SQL Editor** (အလယ်) | SQL Query များကို စာရိုက် ရေးသားသည့် နေရာ |
+| **Query Output** (အောက်/လက်ညာ) | ရေးသားလိုက်သော Query ၏ ရလဒ် ဇယား ပေါ်လာသည့် နေရာ |
+| **Toolbar** (ထိပ်ပိုင်း) | Query Run ရန် လျှပ်စီးကြောင်းပုံ (⚡) ခလုတ်နန့် အခြား ခလုတ်များ |
 
-1. Click the **lightning bolt** icon (⚡) or press `Ctrl + Enter` to run a query
-2. Type this in the SQL Editor:
+---
+
+## ⚡ အဆင့် ၅ - ပထမဆုံး Query ကို Run ကြည့်ပါ
+
+1. SQL Editor မာ အောက်ပါအတိုင်း ရိုက်ထည့်ပါ -
 
 ```sql
 SHOW DATABASES;
 ```
 
-3. Click the **lightning bolt** icon to run it
-4. Look at the bottom panel — you will see a list of databases!
-
-You should see something like:
-- `information_schema`
-- `mysql`
-- `performance_schema`
-- `sys`
-
-These are system databases created by MySQL automatically. We will create our own soon!
+2. ထိပ်ပိုင်း Toolbar ဟိ **လျှပ်စီးကြောင်းပုံ (⚡)** ခလုတ်ကို နှိပ်ပါ (သို့မဟုတ် Keyboard မှ `Ctrl + Enter` နှိပ်ပါ)။
+3. အောက်ဘက် Output Panel မာ Database စာရင်းများ ပေါ်လာသည်ကို တွေ့ရပါဖို့ -
+   - `information_schema`
+   - `mysql`
+   - `performance_schema`
+   - `sys`
 
 ---
 
-## Step 6: Create Your First Database
+## 🛠️ အဆင့် ၆ - ကိုယ်ပိုင် Database တစ်ခု ဖန်တီးခြင်း
 
-1. Type this in the SQL Editor:
+SQL Editor မာ အောက်ပါအတိုင်း ရိုက်ထည့်ပနာ Run ပါ -
 
 ```sql
 CREATE DATABASE my_first_db;
 ```
 
-2. Press `Ctrl + Enter` to run it
-3. In the left Schema Panel, **right-click** anywhere and choose **"Refresh All"**
-4. You should now see `my_first_db` appear in the list!
-
-### Alternative Way (using the GUI):
-
-1. Right-click anywhere in the Schema Panel
-2. Choose **"Create Schema..."**
-3. Type `my_first_db` as the name
-4. Click **Apply**, then **Apply** again
-5. Click **Finish**
-
-Both methods do the same thing!
+`Ctrl + Enter` နှိပ်ပနာ Run ပြီးပါက လက်ဝဲဘက် **Schema Panel** မာ Right-click ထိပနာ **"Refresh All"** ကို နှိပ်ပါ။ `my_first_db` ပေါ်လာသည်ကို တွေ့ရပါဖို့။
 
 ---
 
-## Step 7: Browse Tables Visually
+## 📊 အဆင့် ၇ - Table ထဲဟိ Data များကို Visual ဖြင့် ကြည့်ရှုခြင်း
 
-Once you have tables in your database, you can view them without typing SQL:
+SQL ရေးရန် မလိုဘဲ visual အတိုင်း ကြည့်လိုပါက -
 
-1. In the Schema Panel, click the arrow next to your database name to expand it
-2. You will see sections: **Tables**, **Views**, **Functions**, etc.
-3. **Double-click a table name** to see its data in a spreadsheet-like view
-4. You can **add, edit, or delete rows** directly from this view
-
----
-
-## Step 8: Save Your Queries
-
-1. Click **File → Save Script As...**
-2. Choose a folder and give your script a name (e.g., `my-first-query.sql`)
-3. Next time, open it with **File → Open Script**
+1. Schema Panel ဟိ Database အမည်ဘေးမှ မျှားလေးကို နှိပ်ပနာ ချဲ့ပါ။
+2. **Tables** အပိုင်းအောက်ဟိ Table တစ်ခု၏ ဘေးမာပေါ်နေသော **ဇယားကွက်ပုံ (Table Icon)** ကို နှိပ်ပါ။
+3. Excel Spreadsheet ပိုင် Data များကို တိုက်ရိုက် ကြည့်ရှု/ပြင်ဆင်နိုင်ပါသည်။
 
 ---
 
-## Step 9: Useful Workbench Shortcuts
+## ⌨️ အသုံးဝင်သော Keyboard Shortcuts များ
 
-| Shortcut | What It Does |
-|----------|--------------|
-| `Ctrl + Enter` | Run current query |
-| `Ctrl + Shift + Enter` | Run all queries in the editor |
-| `Ctrl + S` | Save the script |
-| `Ctrl + O` | Open a script file |
-| `Ctrl + R` | Refresh schema panel |
-| `Ctrl + /` | Comment/uncomment a line |
-| `Shift + Space` | Show autocomplete suggestions |
-
----
-
-## Step 10: Tips for Using Workbench
-
-- **Use autocomplete** — Start typing a table or column name, then press `Ctrl + Space` to see suggestions
-- **Color coding** — MySQL keywords (SELECT, FROM, WHERE) turn blue automatically. This helps you read queries
-- **Tab completion** — Type part of a word and press `Tab` to complete it
-- **Multiple tabs** — You can open multiple query tabs at once
-- **Dark mode** — Go to Edit → Preferences → Appearance to change colors
+```
+  ┌───────────────────────────────┬────────────────────────────────────────┐
+  │ Shortcut Key                  │ လုပ်ဆောင်ချက်                          │
+  ├───────────────────────────────┼────────────────────────────────────────┤
+  │ Ctrl + Enter                  │ လက်ရှိ Query ကို Run ရန်               │
+  │ Ctrl + Shift + Enter          │ Editor ထဲဟိ Query အားလုံးကို Run ရန်   │
+  │ Ctrl + S                      │ SQL Script ကို သိမ်းဆည်းရန်             │
+  │ Ctrl + /                      │ စာကြောင်းကို Comment ပိတ်/ဖွင့်ရန်      │
+  │ Ctrl + Space                  │ Autocomplete စာလုံး အကြံဉာဏ် တောင်းရန် │
+  └───────────────────────────────┴────────────────────────────────────────┘
+```
 
 ---
 
-## Exercise
+## 📝 လေ့ကျင့်ခန်း (Exercise)
 
-Try these tasks in Workbench:
+Workbench မာ အောက်ပါတို့ကို စမ်းသပ်ကြည့်ပါ -
 
-1. Create a database called `school_db`
-2. Run `SHOW DATABASES;` to confirm it was created
-3. Close Workbench and reopen it
-4. Reconnect to your server
-5. Refresh the schema panel to see your database
+1. `school_db` အမည်ဖြင့် Database တစ်ခု ဖန်တီးပါ။
+2. `SHOW DATABASES;` ကို Run ပနာ စစ်ဆေးပါ။
+3. Workbench ကို ပိတ်ပနာ ပြန်ဖွင့်ကြည့်ပါ။
 
 ---
 
-## Next Step
+## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
 
-Now you know Workbench! Let's also learn the command line (terminal) way, which many professionals prefer.
+Workbench ဖြင့် Visual သုံးတတ်ပြီဖြစ်လို့ ကျွမ်းကျင်သူများ နှစ်သက်ကြသော **Command Line (Terminal)** ဖြင့် MySQL အသုံးပြုနည်းကို ဆက်လက် လေ့လာကြပါစို့။
 
-→ [Lesson 4: Command Line Basics](04-command-line.md)
+→ [သင်ခန်းစာ ၄: Command Line Basics](04-command-line.md)
