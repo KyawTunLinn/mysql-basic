@@ -194,6 +194,36 @@
 id   first_name  last_name    email
 (column) (column)  (column)   (column)
 </code></pre>
+<h3 id="visual-how-data-fits-into-a-database"><a class="header" href="#visual-how-data-fits-into-a-database">Visual: How Data Fits Into a Database</a></h3>
+<pre><code>┌──────────────────────────────────────────────────────┐
+│                    Database: &quot;school&quot;                  │
+│                                                      │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  │
+│  │  students   │  │   teachers  │  │   courses   │  │
+│  │─────────────│  │─────────────│  │─────────────│  │
+│  │ 🆔 INT PK   │  │ 🆔 INT PK   │  │ 🆔 INT PK   │  │
+│  │ name VARCHAR│  │ name VARCHAR│  │ name VARCHAR│  │
+│  │ email UNI   │  │ subject     │  │ teacher_id  │  │
+│  │ birth_date  │  │ email UNI   │  │ max_students│  │
+│  └─────────────┘  └─────────────┘  └─────────────┘  │
+│       ▲                    ▲              ▲          │
+│       │                    │              │          │
+│       │ student_id (FK)    │ course_id(FK)│          │
+│       │                    │              │          │
+│  ┌─────────────────────────┘              │          │
+│  │  enrollments                            │          │
+│  │─────────────────────────┐               │          │
+│  │ 🆔 INT PK               │               │          │
+│  │ student_id (FK) ────────┼───────────────┘          │
+│  │ course_id    (FK) ──────┼─────────────────────────┘│
+│  │ grade DECIMAL            │                          │
+│  └─────────────────────────┘                          │
+└──────────────────────────────────────────────────────┘
+
+PK = Primary Key (unique ID for each row)
+FK = Foreign Key (link to another table's PK)
+UNI = Unique (no duplicates allowed)
+</code></pre>
 <hr />
 <h2 id="step-1-create-a-new-database"><a class="header" href="#step-1-create-a-new-database">Step 1: Create a New Database</a></h2>
 <p>First, let's create a database for our practice:</p>

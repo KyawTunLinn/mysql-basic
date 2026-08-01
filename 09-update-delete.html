@@ -201,6 +201,26 @@ SET email = 'john.new@email.com'
 WHERE id = 1;
 </code></pre>
 <p>This changes John's email to the new one. Without the <code>WHERE</code> clause, ALL customers would get the new email!</p>
+<pre><code>┌─────────── UPDATE with WHERE ────────────────┐
+│                                              │
+│  Targeting ONE row with crosshair:           │
+│                                              │
+│  ┌──────────────────────────────────────┐    │
+│  │ id │ name   │ city      │ phone      │    │
+│  ├──────────────────────────────────────┤    │
+│  │  1 │ John   │ New York  │ 555-0100   │    │
+│  │     👆 CHANGE THIS ROW ONLY          │    │
+│  │  2 │ Sara   │ Chicago   │ 555-0200   │    │
+│  │  3 │ Bob    │ Houston   │ 555-0300   │    │
+│  │  4 │ Alice  │ Phoenix   │ 555-0400   │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  SET email = 'john.new@email.com'             │
+│  WHERE id = 1   → only row #1 is affected    │
+│                                              │
+│  ❌ No WHERE? Every single row gets updated!  │
+└──────────────────────────────────────────────┘
+</code></pre>
 <h3 id="example-change-multiple-fields"><a class="header" href="#example-change-multiple-fields">Example: Change Multiple Fields</a></h3>
 <pre><code class="language-sql">UPDATE customers
 SET phone = '555-9999', city = 'Miami'
@@ -224,6 +244,24 @@ WHERE condition;
 WHERE id = 10;
 </code></pre>
 <p>This removes only customer with id 10.</p>
+<pre><code>┌─────────── DELETE with WHERE ────────────────┐
+│                                              │
+│  Removing specific rows:                     │
+│                                              │
+│  BEFORE:                    AFTER:           │
+│  ┌──────────────────────┐   ┌──────────────┐│
+│  │ id │ name   │ city   │   │ id │ name │  ││
+│  ├──────────────────────┤   ├──────────────┤│
+│  │  8 │ Dave   │ Dallas │   │  8 │ Dave │  ││
+│  │  9 │ Eva    │ Seattle│ → │  9 │ Eva  │  ││
+│  │ 10 │ Frank  │ Miami  │ ✘ │          │  ││ ← REMOVED!
+│  │ 11 │ Grace  │ Boston │   │ 11 │ Grace│  ││
+│  └──────────────────────┘   └──────────────┘│
+│      ▲ row #10 deleted                       │
+│                                              │
+│  ❌ No WHERE? Every single row is deleted!   │
+└──────────────────────────────────────────────┘
+</code></pre>
 <h3 id="example-delete-multiple-rows"><a class="header" href="#example-delete-multiple-rows">Example: Delete Multiple Rows</a></h3>
 <pre><code class="language-sql">DELETE FROM order_items
 WHERE quantity &lt; 2;
@@ -243,6 +281,35 @@ SELECT * FROM customers WHERE city = 'Chicago';
 
 -- If the results look correct, run the DELETE
 DELETE FROM customers WHERE city = 'Chicago';
+</code></pre>
+<pre><code>┌─────────── SAFETY: FORGETTING WHERE ─────────┐
+│                                              │
+│  ┌──────────────────────────────────────┐    │
+│  │  🚨 DANGER ZONE 🚨                   │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  UPDATE products SET price = 0;               │
+│  ❌ ALL product prices become $0!            │
+│                                              │
+│  DELETE FROM customers;                       │
+│  ❌ ALL customers are gone!                  │
+│                                              │
+│  ┌──────────────────────────────────────┐    │
+│  │  ✅ SAFE WORKFLOW:                   │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  Step 1: SELECT first (preview)              │
+│  SELECT * FROM products WHERE category = ... │
+│       → See which rows will change           │
+│                                              │
+│  Step 2: Run UPDATE / DELETE                 │
+│  UPDATE products SET ... WHERE ...           │
+│       → Only affected rows change            │
+│                                              │
+│  Step 3: Verify                              │
+│  SELECT * FROM products WHERE ...            │
+│       → Confirm changes look right           │
+└──────────────────────────────────────────────┘
 </code></pre>
 <hr />
 <h2 id="using-workbench-to-updatedelete-safely"><a class="header" href="#using-workbench-to-updatedelete-safely">Using Workbench to Update/Delete Safely</a></h2>

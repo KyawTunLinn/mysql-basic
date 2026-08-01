@@ -186,6 +186,33 @@
 ORDER BY column_name ASC;   -- ASC = ascending (default)
 ORDER BY column_name DESC;  -- DESC = descending
 </code></pre>
+<pre><code>┌─────────────── ORDER BY SORTING ─────────────┐
+│                                              │
+│  Like arranging books on a shelf:            │
+│                                              │
+│  Unsorted:           ASC (A→Z):              │
+│  ┌────────────────┐   ┌────────────────┐    │
+│  │ 📕 Laptop      │   │ 📘 Cap         │    │
+│  │ 📘 Jeans       │ → │ 📘 Jeans       │    │
+│  │ 📗 Cap         │   │ 📕 Sneakers    │    │
+│  │ 📙 Sneakers    │   │ 📗 T-Shirt     │    │
+│  │ 📗 T-Shirt     │   │ 🔴 Winter Jkt  │    │
+│  └────────────────┘   └────────────────┘    │
+│                                              │
+│                    DESC (Z→A):               │
+│  ┌────────────────┐                           │
+│  │ 🔴 Winter Jkt  │ ← most expensive first   │
+│  │ 📕 Sneakers    │                          │
+│  │ 📘 Jeans       │                          │
+│  │ 📗 T-Shirt     │                          │
+│  │ 📘 Cap         │ ← cheapest last          │
+│  └────────────────┘                           │
+│                                              │
+│  Numbers sort same way:                      │
+│  5, 10, 3 → ASC: 3, 5, 10                    │
+│  5, 10, 3 → DESC: 10, 5, 3                   │
+└──────────────────────────────────────────────┘
+</code></pre>
 <h3 id="example-sort-by-price"><a class="header" href="#example-sort-by-price">Example: Sort by Price</a></h3>
 <p>Cheapest products first:</p>
 <pre><code class="language-sql">SELECT name, price FROM products ORDER BY price ASC;
@@ -208,6 +235,32 @@ ORDER BY city ASC, first_name ASC;
 <pre><code class="language-sql">SELECT * FROM table_name
 LIMIT number;
 </code></pre>
+<pre><code>┌─────────────── LIMIT — Take Top N ───────────┐
+│                                              │
+│  Show only a few rows from many:             │
+│                                              │
+│  All products (sorted by price DESC):        │
+│  ┌────────────────────────────────────┐      │
+│  │ 1. Laptop Pro    $1299.99          │      │
+│  │ 2. Smart Watch   $399.99           │      │
+│  │ 3. Headphones    $149.99     ◀─┐   │      │
+│  │ 4. Mouse         $29.99      │  │   │      │
+│  │ 5. Keyboard        $79.99    │  │   │      │
+│  │ 6. Phone Case      $19.99    │  │   │      │
+│  │ 7. USB Cable       $9.99     │  │   │      │
+│  │ 8. Screen Protector  $5.99   │  │   │      │
+│  └────────────────────────────────────┘  │  │   │      │
+│                              LIMIT 3     │  │   │      │
+│                               takes top 3│  │   │      │
+│                                          ▼  ▼   ▼      │
+│  Result:                                   ┌──────────┐ │
+│  ┌────────────────┐                         │ Laptop   │ │
+│  │ 1. Laptop Pro  │                         │ Smart W. │ │
+│  │ 2. Smart Watch │                         │ Headph.  │ │
+│  │ 3. Headphones  │                         └──────────┘ │
+│  └────────────────┘                                    │
+└────────────────────────────────────────────────────────┘
+</code></pre>
 <h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
 <p>Show only the top 3 most expensive products:</p>
 <pre><code class="language-sql">SELECT name, price FROM products 
@@ -219,6 +272,35 @@ LIMIT 3;
 </code></pre>
 <p>Show rows 6 to 10 (skip first 5, show next 5):</p>
 <pre><code class="language-sql">SELECT * FROM customers LIMIT 5 OFFSET 5;
+</code></pre>
+<pre><code>┌─────────── OFFSET — Skip Then Take ──────────┐
+│                                              │
+│  Pagination: skip N rows, then take M rows   │
+│                                              │
+│  All customers (sorted alphabetically):      │
+│  ┌──────────────────────────────────────┐    │
+│  │ 1. Alice        ◄── SKIP THESE     │    │
+│  │ 2. Bob          ◄── OFFSET 5       │    │
+│  │ 3. Charlie      ◄── (skip first 5) │    │
+│  │ 4. Diana        ◄                  │    │
+│  │ 5. Edward       ◄                  │    │
+│  │ 6. Fiona        ◄── TAKE THESE     │    │
+│  │ 7. George       ◄── LIMIT 5        │    │
+│  │ 8. Hannah       ◄                  │    │
+│  │ 9. Ivan         ◄                  │    │
+│  │10. Julia        ◄                  │    │
+│  │11. Karen        ◄                  │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  Page 1: LIMIT 5 OFFSET 0  → rows 1-5        │
+│  Page 2: LIMIT 5 OFFSET 5  → rows 6-10       │
+│  Page 3: LIMIT 5 OFFSET 10 → rows 11-15      │
+│                                              │
+│  Common pattern for web pagination:          │
+│  page = (pageNumber - 1) * limit             │
+│  SELECT ... LIMIT 10 OFFSET 0   -- page 1    │
+│  SELECT ... LIMIT 10 OFFSET 10  -- page 2    │
+└──────────────────────────────────────────────┘
 </code></pre>
 <p>Or shorter syntax:</p>
 <pre><code class="language-sql">SELECT * FROM customers LIMIT 5, 5;

@@ -182,6 +182,27 @@
 <hr />
 <h2 id="aggregate-functions"><a class="header" href="#aggregate-functions">Aggregate Functions</a></h2>
 <p>These functions combine multiple rows into a single result:</p>
+<pre><code>┌─────── AGGREGATE FUNCTIONS ──────────────────┐
+│                                              │
+│  Multiple rows → One summary value           │
+│                                              │
+│  ┌──────────────────────────────┐            │
+│  │ price   │ product            │            │
+│  ├──────────────────────────────┤            │
+│  │ $999.99 │ Laptop             │            │
+│  │ $29.99  │ Mouse              │            │
+│  │ $199.99 │ Keyboard           │            │
+│  │ $49.99  │ Monitor            │            │
+│  │ $14.99  │ USB Cable          │            │
+│  └──────────────────────────────┘            │
+│                                              │
+│  COUNT(*)    → 5 products        👆 count    │
+│  SUM(price)  → $1294.95      👆 sum all      │
+│  AVG(price)  → $258.99       👆 average      │
+│  MIN(price)  → $14.99        👆 cheapest     │
+│  MAX(price)  → $999.99       👆 most expensive│
+└──────────────────────────────────────────────┘
+</code></pre>
 <div class="table-wrapper"><table><thead><tr><th>Function</th><th>What It Does</th><th>Example</th></tr></thead><tbody>
 <tr><td><code>COUNT()</code></td><td>Count rows</td><td><code>COUNT(*)</code> = total rows</td></tr>
 <tr><td><code>SUM()</code></td><td>Add up values</td><td><code>SUM(price)</code> = total of all prices</td></tr>
@@ -212,12 +233,48 @@ GROUP BY category;
 <hr />
 <h2 id="step-2-group-by-explained"><a class="header" href="#step-2-group-by-explained">Step 2: GROUP BY Explained</a></h2>
 <p><code>GROUP BY</code> groups rows that have the same value together. Think of it like putting items into buckets:</p>
-<pre><code>Products by Category:
-├─ Electronics (3 items)
-├─ Sports (3 items)
-├─ Books (2 items)
-├─ Home (2 items)
-└─ Accessories (2 items)
+<pre><code>┌─────────── GROUP BY — BUCKET METHOD ────────┐
+│                                             │
+│  Products table → Grouped by category       │
+│                                             │
+│  Before GROUP BY:                          │
+│  ┌─────────────────────────────────────┐    │
+│  │ 📦 Laptop    | Electronics          │    │
+│  │ 📦 Mouse     | Electronics          │    │
+│  │ 📦 Keyboard  | Electronics          │    │
+│  │ 📦 Tennis Rkt| Sports               │    │
+│  │ 📦 Yoga Mat  | Sports               │    │
+│  │ 📦 Novel     | Books                │    │
+│  │ 📦 Cookbook  | Books                │    │
+│  │ 📦 Lamp      | Home                 │    │
+│  │ 📦 Pillow    | Home                 │    │
+│  └─────────────────────────────────────┘    │
+│              ▼                                │
+│         GROUP BY                              │
+│           category                            │
+│              ▼                                │
+│  After GROUP BY:                             │
+│  ┌─────────────────────────────────────┐    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Electronics (3 items)     │   │    │
+│  │ │    Laptop, Mouse, Keyboard    │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Sports (2 items)          │   │    │
+│  │ │    Tennis Rkt, Yoga Mat       │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Books (2 items)           │   │    │
+│  │ │    Novel, Cookbook             │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Home (2 items)            │   │    │
+│  │ │    Lamp, Pillow                │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  └─────────────────────────────────────┘    │
+│                                             │
+│  Each bucket = one row in results!          │
+└─────────────────────────────────────────────┘
 </code></pre>
 <h3 id="format"><a class="header" href="#format">Format</a></h3>
 <pre><code class="language-sql">SELECT column, COUNT(*)
@@ -278,6 +335,43 @@ GROUP BY category
 HAVING COUNT(*) &gt; 2;
 </code></pre>
 <p>⚠️ You cannot use <code>WHERE</code> for aggregate conditions. Always use <code>HAVING</code>.</p>
+<pre><code>┌─────────── WHERE vs HAVING ──────────────────┐
+│                                              │
+│  WHERE filters INDIVIDUAL rows before        │
+│  GROUP BY groups them                        │
+│  HAVING filters GROUPS after grouping        │
+│                                              │
+│  Query execution order:                      │
+│                                              │
+│  ┌──────────────┐                            │
+│  │ FROM table   │ ← get all rows             │
+│  └──────┬───────┘                            │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ WHERE cond   │ ← filter individual rows   │
+│  └──────┬───────┘    (before grouping)       │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ GROUP BY     │ ← group into buckets       │
+│  └──────┬───────┘                            │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ Aggregates   │ ← COUNT, SUM, AVG...       │
+│  └──────┬───────┘                            │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ HAVING cond  │ ← filter the groups!       │
+│  └──────┬───────┘    (after grouping)        │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ RESULT       │ ← final output             │
+│  └──────────────┘                            │
+│                                              │
+│  WHERE → acts on rows                         │
+│  HAVING → acts on groups                      │
+│  They CANNOT be swapped!                      │
+└───────────────────────────────────────────────┘
+</code></pre>
 <p>Wrong:</p>
 <pre><code class="language-sql">-- This does NOT work!
 SELECT category, COUNT(*) FROM products

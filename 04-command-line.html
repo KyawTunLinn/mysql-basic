@@ -178,6 +178,33 @@
                     <main>
                         <h1 id="lesson-4--mysql-command-line-basics"><a class="header" href="#lesson-4--mysql-command-line-basics">Lesson 4 — MySQL Command Line Basics</a></h1>
 <p>The command line (also called terminal or console) is where you type SQL commands directly. Many developers prefer this method because it is fast and powerful.</p>
+<h3 id="visual-how-command-line-works"><a class="header" href="#visual-how-command-line-works">Visual: How Command Line Works</a></h3>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│                  Your Terminal Window                 │
+│                                                     │
+│  user@computer:~$ mysql -u root -p                   │
+│  Enter password: ********                            │
+│                                                      │
+│  Welcome to the MySQL monitor!                       │
+│  mysql&gt; USE shop;                                    │
+│  Database changed                                    │
+│                                                      │
+│  mysql&gt; SELECT * FROM customers LIMIT 3;             │
+│  +----+--------------+-----------+------------------+│
+│  | id | first_name   | last_name | email            ││
+│  +----+--------------+-----------+------------------+│
+│  | 1  | John         | Smith     | john@email.com   ││
+│  | 2  | Sarah        | Johnson   | sarah@email.com  ││
+│  | 3  | Mike         | Williams  | mike@email.com   ││
+│  +----+--------------+-----------+------------------+│
+│  3 rows in set (0.01 sec)                            │
+│                                                      │
+│  mysql&gt; EXIT;                                        │
+│  Bye                                                 │
+│                                                     │
+│  user@computer:~$                                    │
+└─────────────────────────────────────────────────────┘
+</code></pre>
 <p><strong>Estimated time: 30 minutes</strong></p>
 <hr />
 <h2 id="what-is-the-command-line"><a class="header" href="#what-is-the-command-line">What Is the Command Line?</a></h2>
@@ -222,6 +249,16 @@ user@computer:~$        (Mac/Linux)
 <li><code>-u root</code> — log in as the &quot;root&quot; user (the administrator)</li>
 <li><code>-p</code> — means &quot;please ask for a password&quot;</li>
 </ul>
+<h3 id="how-the-connection-works"><a class="header" href="#how-the-connection-works">How the Connection Works</a></h3>
+<pre><code>┌──────────────┐     ┌──────────────────┐     ┌─────────────┐
+│  Terminal    │     │   MySQL Client   │     │ MySQL Server│
+│              │     │                  │     │             │
+│  $ mysql -u  │────▶│  Sends login     │────▶│  Checks     │
+│        root  │     │  + SQL commands  │     │  password   │
+│              │◀────│                  │◀────│  &amp; returns  │
+│  mysql&gt;      │     │  Receives data   │     │  results    │
+└──────────────┘     └──────────────────┘     └─────────────┘
+</code></pre>
 <p>You will see: <code>Enter password:</code></p>
 <p>Type your root password (you will not see the characters as you type — this is normal for security). Then press Enter.</p>
 <p>If the password is correct, you will see:</p>
@@ -268,6 +305,17 @@ mysql&gt;
 SELECT * FROM users    -- Wrong ✗ (missing semicolon)
 </code></pre>
 <p>The semicolon (<code>;</code>) tells MySQL: &quot;This command is finished, please run it.&quot;</p>
+<pre><code>Without semicolon:          With semicolon:
+mysql&gt; SELECT *             mysql&gt; SELECT * FROM users;
+       FROM users;                  +----+----------+
+       -&gt;                          | id | name     |
+       -&gt; FROM users;               +----+----------+
+       -&gt; ;                         | 1  | John     |
+       -&gt;                          | 2  | Sarah    |
+       -&gt;                          +----+----------+
+       -&gt; 2 rows in set
+</code></pre>
+<p>When you forget the <code>;</code>, MySQL shows <code>-&gt;</code> to tell you it is waiting for more input.</p>
 <h3 id="multi-line-commands"><a class="header" href="#multi-line-commands">Multi-Line Commands</a></h3>
 <p>You can spread a command across multiple lines. MySQL knows you are not done until you type <code>;</code>:</p>
 <pre><code class="language-sql">SELECT first_name,

@@ -284,13 +284,44 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lesson-1--introduction-to-mysql"><a class="header" href="#lesson-1--introduction-to-mysql">Lesson 1 — Introduction to MySQL</a></h1>
 <h2 id="what-is-mysql"><a class="header" href="#what-is-mysql">What Is MySQL?</a></h2>
 <p>MySQL is a <strong>database program</strong>. It stores information in an organized way so you can find, add, update, or delete data quickly.</p>
-<p>Think of it like a digital filing cabinet:</p>
-<ul>
-<li>A <strong>database</strong> is like a whole cabinet</li>
-<li>A <strong>table</strong> is like one drawer in that cabinet</li>
-<li>A <strong>row</strong> is like one piece of paper in that drawer</li>
-<li>A <strong>column</strong> is like a field on that paper (name, age, email, etc.)</li>
-</ul>
+<h3 id="visual-analogy-database--filing-cabinet"><a class="header" href="#visual-analogy-database--filing-cabinet">Visual Analogy: Database = Filing Cabinet</a></h3>
+<pre><code>┌───────────────────────────────────────────┐
+│          MySQL Server (Your Computer)      │
+│                                           │
+│  ┌─────────────────────────────────────┐  │
+│  │   📁 Database: &quot;shop&quot;               │  │
+│  │  ┌─────────────┐  ┌─────────────┐   │  │
+│  │  │ 🗄️ Table:   │  │ 🗄️ Table:   │   │  │
+│  │  │ customers   │  │  products   │   │  │
+│  │  │─────────────│  │─────────────│   │  │
+│  │  │ id: 1       │  │ id: 1       │   │  │
+│  │  │ name: John  │  │ name: Laptop│   │  │
+│  │  │ email: ...  │  │ price: $999 │   │  │
+│  │  ├─────────────│  ├─────────────│   │  │
+│  │  │ id: 2       │  │ id: 2       │   │  │
+│  │  │ name: Sarah │  │ name: Mouse │   │  │
+│  │  │ email: ...  │  │ price: $29  │   │  │
+│  │  └─────────────┘  └─────────────┘   │  │
+│  │                                     │  │
+│  │  ┌─────────────┐  ┌─────────────┐   │  │
+│  │  │ 🗄️ Table:   │  │ 🗄️ Table:   │   │  │
+│  │  │  orders     │  │ order_items │   │  │
+│  │  │─────────────│  │─────────────│   │  │
+│  │  │ id: 101     │  │ id: 1       │   │  │
+│  │  │ cust_id: 1  │  │ order_id:1  │   │  │
+│  │  │ total:$1K   │  │ prod_id: 1  │   │  │
+│  │  └─────────────┘  └─────────────┘   │  │
+│  └─────────────────────────────────────┘  │
+└───────────────────────────────────────────┘
+</code></pre>
+<p>Key terms mapped to the analogy:</p>
+<div class="table-wrapper"><table><thead><tr><th>Term</th><th>Real World</th><th>In MySQL</th></tr></thead><tbody>
+<tr><td><strong>Database</strong></td><td>Whole filing cabinet</td><td>Collection of related tables (<code>shop</code>)</td></tr>
+<tr><td><strong>Table</strong></td><td>One drawer</td><td>Organized list (<code>customers</code>, <code>products</code>)</td></tr>
+<tr><td><strong>Row</strong></td><td>One piece of paper</td><td>One record (one customer, one product)</td></tr>
+<tr><td><strong>Column</strong></td><td>A field on the paper</td><td>One type of info (<code>name</code>, <code>price</code>, <code>email</code>)</td></tr>
+</tbody></table>
+</div>
 <h2 id="why-learn-mysql"><a class="header" href="#why-learn-mysql">Why Learn MySQL?</a></h2>
 <p>MySQL is one of the most popular databases in the world. You will find it used by:</p>
 <ul>
@@ -319,6 +350,24 @@
 </tbody></table>
 </div>
 <h2 id="two-ways-to-use-mysql"><a class="header" href="#two-ways-to-use-mysql">Two Ways to Use MySQL</a></h2>
+<pre><code>┌──────────────────────┐    ┌──────────────────────┐
+│  MySQL Workbench     │    │   Command Line       │
+│  (Visual / Point &amp;   │    │   (Type Commands)    │
+│    Click)            │    │                      │
+│                      │    │                      │
+│  ┌────────────────┐  │    │  $ mysql -u root -p │
+│  │ ╔════════════╗ │  │    │  &gt; USE shop;        │
+│  │ ║ Database: 🗄️║ │  │    │  &gt; SELECT *         │
+│  │ ║ Table: cust │  │    │    FROM customers;   │
+│  │ ╚════════════╝ │  │    │                      │
+│  │ [▶ Run] [✓]   │  │    │  +----+------------+ │
+│  └────────────────┘  │    │  | id | first_name | │
+│                      │    │  | 1  | John       | │
+│  ✅ Easy for beginners│   │  | 2  | Sarah      | │
+│  ❌ Slower for big   │   │  +----+------------+ │
+│     operations       │   │                      │
+└──────────────────────┘    └──────────────────────┘
+</code></pre>
 <ol>
 <li><strong>MySQL Workbench</strong> — A visual program with buttons and menus. Good for beginners.</li>
 <li><strong>Command Line</strong> — Type commands directly. More powerful once you learn it.</li>
@@ -333,6 +382,28 @@
 </ul>
 <p>Example of a simple SQL query:</p>
 <pre><code class="language-sql">SELECT * FROM users;
+</code></pre>
+<h3 id="how-mysql-reads-your-query"><a class="header" href="#how-mysql-reads-your-query">How MySQL Reads Your Query</a></h3>
+<pre><code>  &quot;Show me everything&quot;     &quot;from this table&quot;
+         ↓                       ↓
+   ┌─────────┐              ┌──────────┐
+   │ SELECT  │              │  FROM    │
+   │   *     │              │  users   │
+   └─────────┘              └──────────┘
+        │                          │
+        ▼                          ▼
+   ┌─────────────────────────────────┐
+   │         MySQL Engine            │
+   │                                 │
+   │  🔍 Search → Filter → Return    │
+   │                                 │
+   │  +----+----------+-------+      │
+   │  | id | name     | email |      │
+   │  +----+----------+-------+      │
+   │  | 1  | John     | ...   |      │
+   │  | 2  | Sarah    | ...   |      │
+   │  +----+----------+-------+      │
+   └─────────────────────────────────┘
 </code></pre>
 <p>This means: &quot;Show me everything in the users table.&quot;</p>
 <p>Simple, right?</p>
@@ -645,6 +716,33 @@ To start again: <code>docker start mysql-beginner</code></p>
 <p>→ <a href="04-command-line.html">Lesson 4: Command Line Basics</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lesson-4--mysql-command-line-basics"><a class="header" href="#lesson-4--mysql-command-line-basics">Lesson 4 — MySQL Command Line Basics</a></h1>
 <p>The command line (also called terminal or console) is where you type SQL commands directly. Many developers prefer this method because it is fast and powerful.</p>
+<h3 id="visual-how-command-line-works"><a class="header" href="#visual-how-command-line-works">Visual: How Command Line Works</a></h3>
+<pre><code>┌─────────────────────────────────────────────────────┐
+│                  Your Terminal Window                 │
+│                                                     │
+│  user@computer:~$ mysql -u root -p                   │
+│  Enter password: ********                            │
+│                                                      │
+│  Welcome to the MySQL monitor!                       │
+│  mysql&gt; USE shop;                                    │
+│  Database changed                                    │
+│                                                      │
+│  mysql&gt; SELECT * FROM customers LIMIT 3;             │
+│  +----+--------------+-----------+------------------+│
+│  | id | first_name   | last_name | email            ││
+│  +----+--------------+-----------+------------------+│
+│  | 1  | John         | Smith     | john@email.com   ││
+│  | 2  | Sarah        | Johnson   | sarah@email.com  ││
+│  | 3  | Mike         | Williams  | mike@email.com   ││
+│  +----+--------------+-----------+------------------+│
+│  3 rows in set (0.01 sec)                            │
+│                                                      │
+│  mysql&gt; EXIT;                                        │
+│  Bye                                                 │
+│                                                     │
+│  user@computer:~$                                    │
+└─────────────────────────────────────────────────────┘
+</code></pre>
 <p><strong>Estimated time: 30 minutes</strong></p>
 <hr />
 <h2 id="what-is-the-command-line"><a class="header" href="#what-is-the-command-line">What Is the Command Line?</a></h2>
@@ -689,6 +787,16 @@ user@computer:~$        (Mac/Linux)
 <li><code>-u root</code> — log in as the &quot;root&quot; user (the administrator)</li>
 <li><code>-p</code> — means &quot;please ask for a password&quot;</li>
 </ul>
+<h3 id="how-the-connection-works"><a class="header" href="#how-the-connection-works">How the Connection Works</a></h3>
+<pre><code>┌──────────────┐     ┌──────────────────┐     ┌─────────────┐
+│  Terminal    │     │   MySQL Client   │     │ MySQL Server│
+│              │     │                  │     │             │
+│  $ mysql -u  │────▶│  Sends login     │────▶│  Checks     │
+│        root  │     │  + SQL commands  │     │  password   │
+│              │◀────│                  │◀────│  &amp; returns  │
+│  mysql&gt;      │     │  Receives data   │     │  results    │
+└──────────────┘     └──────────────────┘     └─────────────┘
+</code></pre>
 <p>You will see: <code>Enter password:</code></p>
 <p>Type your root password (you will not see the characters as you type — this is normal for security). Then press Enter.</p>
 <p>If the password is correct, you will see:</p>
@@ -735,6 +843,17 @@ mysql&gt;
 SELECT * FROM users    -- Wrong ✗ (missing semicolon)
 </code></pre>
 <p>The semicolon (<code>;</code>) tells MySQL: &quot;This command is finished, please run it.&quot;</p>
+<pre><code>Without semicolon:          With semicolon:
+mysql&gt; SELECT *             mysql&gt; SELECT * FROM users;
+       FROM users;                  +----+----------+
+       -&gt;                          | id | name     |
+       -&gt; FROM users;               +----+----------+
+       -&gt; ;                         | 1  | John     |
+       -&gt;                          | 2  | Sarah    |
+       -&gt;                          +----+----------+
+       -&gt; 2 rows in set
+</code></pre>
+<p>When you forget the <code>;</code>, MySQL shows <code>-&gt;</code> to tell you it is waiting for more input.</p>
 <h3 id="multi-line-commands"><a class="header" href="#multi-line-commands">Multi-Line Commands</a></h3>
 <p>You can spread a command across multiple lines. MySQL knows you are not done until you type <code>;</code>:</p>
 <pre><code class="language-sql">SELECT first_name,
@@ -1024,6 +1143,36 @@ SELECT first_name, email FROM customers;
 id   first_name  last_name    email
 (column) (column)  (column)   (column)
 </code></pre>
+<h3 id="visual-how-data-fits-into-a-database"><a class="header" href="#visual-how-data-fits-into-a-database">Visual: How Data Fits Into a Database</a></h3>
+<pre><code>┌──────────────────────────────────────────────────────┐
+│                    Database: &quot;school&quot;                  │
+│                                                      │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  │
+│  │  students   │  │   teachers  │  │   courses   │  │
+│  │─────────────│  │─────────────│  │─────────────│  │
+│  │ 🆔 INT PK   │  │ 🆔 INT PK   │  │ 🆔 INT PK   │  │
+│  │ name VARCHAR│  │ name VARCHAR│  │ name VARCHAR│  │
+│  │ email UNI   │  │ subject     │  │ teacher_id  │  │
+│  │ birth_date  │  │ email UNI   │  │ max_students│  │
+│  └─────────────┘  └─────────────┘  └─────────────┘  │
+│       ▲                    ▲              ▲          │
+│       │                    │              │          │
+│       │ student_id (FK)    │ course_id(FK)│          │
+│       │                    │              │          │
+│  ┌─────────────────────────┘              │          │
+│  │  enrollments                            │          │
+│  │─────────────────────────┐               │          │
+│  │ 🆔 INT PK               │               │          │
+│  │ student_id (FK) ────────┼───────────────┘          │
+│  │ course_id    (FK) ──────┼─────────────────────────┘│
+│  │ grade DECIMAL            │                          │
+│  └─────────────────────────┘                          │
+└──────────────────────────────────────────────────────┘
+
+PK = Primary Key (unique ID for each row)
+FK = Foreign Key (link to another table's PK)
+UNI = Unique (no duplicates allowed)
+</code></pre>
 <hr />
 <h2 id="step-1-create-a-new-database"><a class="header" href="#step-1-create-a-new-database">Step 1: Create a New Database</a></h2>
 <p>First, let's create a database for our practice:</p>
@@ -1223,6 +1372,21 @@ VALUES (value1, value2, value3);
 VALUES ('Alice', 'Wong', 'alice@email.com', '2000-05-15');
 </code></pre>
 <p>This adds one student to your table. Notice:</p>
+<pre><code>┌─────────────────── INSERT ───────────────────────┐
+│                                                   │
+│  BEFORE:                    AFTER:                │
+│  ┌─────────────────────┐   ┌─────────────────────┐
+│  │ id │ name  │ email  │   │ id │ name  │ email  │
+│  ├─────────────────────┤   ├─────────────────────┤
+│  │  1 │ Alice │ a@e.c  │   │  1 │ Alice │ a@e.c  │
+│  │  2 │ Bob   │ b@e.c  │   │  2 │ Bob   │ b@e.c  │
+│  └─────────────────────┘   │  3 │ Carol │ c@e.c  │ ← NEW ROW
+│                             └─────────────────────┘
+│                                                   │
+│         ▼ INSERT adds a new row at the bottom ▼    │
+└───────────────────────────────────────────────────┘
+</code></pre>
+<p>Notice:</p>
 <ul>
 <li>We did NOT include <code>id</code> — because it is <code>AUTO_INCREMENT</code>, MySQL fills it automatically</li>
 <li>Text values go inside single quotes: <code>'Alice'</code></li>
@@ -1252,6 +1416,32 @@ VALUES ('Rachel', 'Green', 'rachel@email.com', '555-0200', 'Boston');
 ('Sneakers',          'Casual sneakers for everyday wear',     69.99,   50, 'Footwear'),
 ('Winter Jacket',     'Warm jacket for cold weather',         129.99,   30, 'Clothing'),
 ('Cap',               'Baseball cap with adjustable strap',    14.99,  120, 'Accessories');
+</code></pre>
+<pre><code>┌─────────────── MULTI-ROW INSERT ───────────────┐
+│                                                 │
+│  One INSERT statement adds multiple rows:       │
+│                                                 │
+│  INSERT INTO products VALUES                   │
+│  ├── ('T-Shirt',  $19.99, 100, 'Clothing')     │
+│  ├── ('Jeans',    $49.99,  75, 'Clothing')     │
+│  ├── ('Sneakers', $69.99,  50, 'Footwear')     │
+│  ├── ('Jacket',  $129.99,  30, 'Clothing')     │
+│  └── ('Cap',     $14.99, 120, 'Accessories')   │
+│                                                 │
+│  Result:                                        │
+│  ┌──────┬──────────┬───────┬───────┬──────────┐│
+│  │ id   │ name     │ price │ stock │ category ││
+│  ├──────┼──────────┼───────┼───────┼──────────┤│
+│  │  12  │ T-Shirt  │ 19.99 │  100  │ Clothing ││
+│  │  13  │ Jeans    │ 49.99 │   75  │ Clothing ││
+│  │  14  │ Sneakers │ 69.99 │   50  │ Footwear ││
+│  │  15  │ Jacket   │129.99 │   30  │ Clothing ││
+│  │  16  │ Cap      │ 14.99 │  120  │ Access.  ││
+│  └──────┴──────────┴───────┴───────┴──────────┘│
+│                                                 │
+│  Note: Each row separated by commas             │
+│        Same column order as table definition    │
+└─────────────────────────────────────────────────┘
 </code></pre>
 <hr />
 <h2 id="step-4-insert-without-specifying-columns"><a class="header" href="#step-4-insert-without-specifying-columns">Step 4: Insert Without Specifying Columns</a></h2>
@@ -1308,6 +1498,23 @@ VALUES ('Rachel', 'Green', 'rachel@email.com', '555-0200', 'Boston');
 <hr />
 <h2 id="the-select-statement"><a class="header" href="#the-select-statement">The SELECT Statement</a></h2>
 <p><code>SELECT</code> is how you ask MySQL questions about your data. It is like searching in a spreadsheet.</p>
+<pre><code>┌─────────────── HOW SELECT WORKS ───────────────┐
+│                                                │
+│   Full Table                          Results  │
+│   (all columns)                            ▼   │
+│                                                │
+│  ┌──────────────────────────┐                  │
+│  │ id │ name │ email │ age  │       ┌────────┐│
+│  ├──────────────────────────┤       │  name  ││
+│  │  1 │ John │ j@e.com │ 25 │ ──▶   │  John  ││
+│  │  2 │ Sara │ s@e.com │ 30 │ ──▶   │  Sara  ││
+│  │  3 │ Bob  │ b@e.com │ 22 │ ──▶   │  Bob   ││
+│  └──────────────────────────┘       └────────┘│
+│        ▲                    ▲                  │
+│        │  SELECT picks      │  only these      │
+│        │  specific columns  │  columns shown   │
+└────────────────────────────────────────────────┘
+</code></pre>
 <h3 id="basic-format"><a class="header" href="#basic-format">Basic Format</a></h3>
 <pre><code class="language-sql">SELECT columns FROM table;
 </code></pre>
@@ -1390,6 +1597,27 @@ SELECT quantity, unit_price, quantity * unit_price AS line_total FROM order_item
 <tr><td>San Jose</td></tr>
 </tbody></table>
 </div>
+<pre><code>┌─────────── DISTINCT removes duplicates ─────────┐
+│                                                 │
+│  Without DISTINCT:         With DISTINCT:       │
+│  SELECT city               SELECT DISTINCT city │
+│  ┌──────────┐             ┌──────────┐          │
+│  │   city   │             │   city   │          │
+│  ├──────────┤             ├──────────┤          │
+│  │ New York │             │ New York │          │
+│  │ Los Angeles│           │ Los Angeles│         │
+│  │ Chicago  │             │ Chicago  │          │
+│  │ Houston  │             │ Houston  │          │
+│  │ Phoenix  │             │ Phoenix  │          │
+│  │ New York │ ✘ removed!  │ Philadelphia│        │
+│  │ ...      │             │ San Antonio│         │
+│  └──────────┘             │ San Diego │          │
+│    10 rows              │ Dallas     │          │
+│                          │ San Jose   │          │
+│                          └──────────┘            │
+│                           10 unique cities       │
+└─────────────────────────────────────────────────┘
+</code></pre>
 <p>Another example:</p>
 <pre><code class="language-sql">SELECT DISTINCT category FROM products;
 </code></pre>
@@ -1411,6 +1639,28 @@ SELECT quantity, unit_price, quantity * unit_price AS line_total FROM order_item
 <pre><code class="language-sql">SELECT * FROM customers WHERE phone IS NOT NULL;
 </code></pre>
 <p>⚠️ You cannot use <code>= NULL</code> or <code>!= NULL</code>. Always use <code>IS NULL</code> or <code>IS NOT NULL</code>.</p>
+<pre><code>┌─────────── UNDERSTANDING NULL ────────────────┐
+│                                               │
+│  NULL means &quot;no value&quot; — not zero, not empty  │
+│                                               │
+│  ┌──────────────────────────────────────┐     │
+│  │ id │ name   │ phone      │ city      │     │
+│  ├──────────────────────────────────────┤     │
+│  │  1 │ John   │ 555-0100   │ New York  │     │
+│  │  2 │ Sara   │ NULL       │ Chicago   │ ← no phone!     │
+│  │  3 │ Bob    │ 555-0300   │ Houston   │     │
+│  │  4 │ Alice  │ NULL       │ Phoenix   │ ← no phone!     │
+│  └──────────────────────────────────────┘     │
+│                                               │
+│  NULL ≠ '' (empty string)                     │
+│  NULL ≠ 0                                     │
+│  NULL = unknown / missing data                │
+│                                               │
+│  ❌ WHERE phone = NULL    → doesn't work!     │
+│  ✅ WHERE phone IS NULL  → correct!           │
+│  ✅ WHERE phone IS NOT NULL → correct!        │
+└───────────────────────────────────────────────┘
+</code></pre>
 <hr />
 <h2 id="exercise-5"><a class="header" href="#exercise-5">Exercise</a></h2>
 <p>Using the <code>shop</code> database:</p>
@@ -1464,6 +1714,26 @@ SET email = 'john.new@email.com'
 WHERE id = 1;
 </code></pre>
 <p>This changes John's email to the new one. Without the <code>WHERE</code> clause, ALL customers would get the new email!</p>
+<pre><code>┌─────────── UPDATE with WHERE ────────────────┐
+│                                              │
+│  Targeting ONE row with crosshair:           │
+│                                              │
+│  ┌──────────────────────────────────────┐    │
+│  │ id │ name   │ city      │ phone      │    │
+│  ├──────────────────────────────────────┤    │
+│  │  1 │ John   │ New York  │ 555-0100   │    │
+│  │     👆 CHANGE THIS ROW ONLY          │    │
+│  │  2 │ Sara   │ Chicago   │ 555-0200   │    │
+│  │  3 │ Bob    │ Houston   │ 555-0300   │    │
+│  │  4 │ Alice  │ Phoenix   │ 555-0400   │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  SET email = 'john.new@email.com'             │
+│  WHERE id = 1   → only row #1 is affected    │
+│                                              │
+│  ❌ No WHERE? Every single row gets updated!  │
+└──────────────────────────────────────────────┘
+</code></pre>
 <h3 id="example-change-multiple-fields"><a class="header" href="#example-change-multiple-fields">Example: Change Multiple Fields</a></h3>
 <pre><code class="language-sql">UPDATE customers
 SET phone = '555-9999', city = 'Miami'
@@ -1487,6 +1757,24 @@ WHERE condition;
 WHERE id = 10;
 </code></pre>
 <p>This removes only customer with id 10.</p>
+<pre><code>┌─────────── DELETE with WHERE ────────────────┐
+│                                              │
+│  Removing specific rows:                     │
+│                                              │
+│  BEFORE:                    AFTER:           │
+│  ┌──────────────────────┐   ┌──────────────┐│
+│  │ id │ name   │ city   │   │ id │ name │  ││
+│  ├──────────────────────┤   ├──────────────┤│
+│  │  8 │ Dave   │ Dallas │   │  8 │ Dave │  ││
+│  │  9 │ Eva    │ Seattle│ → │  9 │ Eva  │  ││
+│  │ 10 │ Frank  │ Miami  │ ✘ │          │  ││ ← REMOVED!
+│  │ 11 │ Grace  │ Boston │   │ 11 │ Grace│  ││
+│  └──────────────────────┘   └──────────────┘│
+│      ▲ row #10 deleted                       │
+│                                              │
+│  ❌ No WHERE? Every single row is deleted!   │
+└──────────────────────────────────────────────┘
+</code></pre>
 <h3 id="example-delete-multiple-rows"><a class="header" href="#example-delete-multiple-rows">Example: Delete Multiple Rows</a></h3>
 <pre><code class="language-sql">DELETE FROM order_items
 WHERE quantity &lt; 2;
@@ -1506,6 +1794,35 @@ SELECT * FROM customers WHERE city = 'Chicago';
 
 -- If the results look correct, run the DELETE
 DELETE FROM customers WHERE city = 'Chicago';
+</code></pre>
+<pre><code>┌─────────── SAFETY: FORGETTING WHERE ─────────┐
+│                                              │
+│  ┌──────────────────────────────────────┐    │
+│  │  🚨 DANGER ZONE 🚨                   │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  UPDATE products SET price = 0;               │
+│  ❌ ALL product prices become $0!            │
+│                                              │
+│  DELETE FROM customers;                       │
+│  ❌ ALL customers are gone!                  │
+│                                              │
+│  ┌──────────────────────────────────────┐    │
+│  │  ✅ SAFE WORKFLOW:                   │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  Step 1: SELECT first (preview)              │
+│  SELECT * FROM products WHERE category = ... │
+│       → See which rows will change           │
+│                                              │
+│  Step 2: Run UPDATE / DELETE                 │
+│  UPDATE products SET ... WHERE ...           │
+│       → Only affected rows change            │
+│                                              │
+│  Step 3: Verify                              │
+│  SELECT * FROM products WHERE ...            │
+│       → Confirm changes look right           │
+└──────────────────────────────────────────────┘
 </code></pre>
 <hr />
 <h2 id="using-workbench-to-updatedelete-safely"><a class="header" href="#using-workbench-to-updatedelete-safely">Using Workbench to Update/Delete Safely</a></h2>
@@ -1552,6 +1869,34 @@ DELETE FROM customers WHERE first_name = 'Test';
 <hr />
 <h2 id="the-where-clause"><a class="header" href="#the-where-clause">The WHERE Clause</a></h2>
 <p>The <code>WHERE</code> clause filters your results. It says: &quot;Only show me rows that match this condition.&quot;</p>
+<pre><code>┌─────────── WHERE CLAUSE AS A FILTER ────────┐
+│                                             │
+│   All Rows              Filter (WHERE)      │
+│   go in here          checks each row       │
+│                                             │
+│  ┌──────────┐     ┌──────────────┐    ┌───┐│
+│  │ id=1 TRUE│────▶│ 1 &gt; 5? NO ✘ │───▶│   ││
+│  │ id=2 TRUE│────▶│ 2 &gt; 5? NO ✘ │───▶│   ││
+│  │ id=3 TRUE│────▶│ 3 &gt; 5? NO ✘ │───▶│   ││
+│  │ id=4 TRUE│────▶│ 4 &gt; 5? NO ✘ │───▶│   ││
+│  │ id=5 TRUE│────▶│ 5 &gt; 5? NO ✘ │───▶│   ││
+│  │ id=6 TRUE│────▶│ 6 &gt; 5? YES✔ │───▶│ ✔ ││ ← passes through
+│  │ id=7 TRUE│────▶│ 7 &gt; 5? YES✔ │───▶│ ✔ ││ ← passes through
+│  │ id=8 TRUE│────▶│ 8 &gt; 5? YES✔ │───▶│ ✔ ││ ← passes through
+│  │ id=9 TRUE│────▶│ 9 &gt; 5? YES✔ │───▶│ ✔ ││ ← passes through
+│  │ id=10TRUE│────▶│10 &gt; 5? YES✔ │───▶│ ✔ ││ ← passes through
+│  └──────────┘     └──────────────┘    └───┘│
+│                                             │
+│  Result: only matching rows come out!        │
+│  ┌──────────┐                               │
+│  │ id=6     │                               │
+│  │ id=7     │                               │
+│  │ id=8     │                               │
+│  │ id=9     │                               │
+│  │ id=10    │                               │
+│  └──────────┘                               │
+└─────────────────────────────────────────────┘
+</code></pre>
 <h3 id="basic-format-3"><a class="header" href="#basic-format-3">Basic Format</a></h3>
 <pre><code class="language-sql">SELECT * FROM table_name
 WHERE condition;
@@ -1662,6 +2007,37 @@ SELECT email FROM customers WHERE email LIKE '%@email.com';
 <tr><td><code>'%@gmail.com'</code></td><td>Gmail addresses</td></tr>
 </tbody></table>
 </div>
+<pre><code>┌─────────── LIKE PATTERN MATCHING ────────────┐
+│                                              │
+│  % = matches ANY number of characters        │
+│  _ = matches EXACTLY ONE character           │
+│                                              │
+│  'J%'                                          │
+│  ┌───────┐                                     │
+│  │ J ___ │ ← starts with J, anything after    │
+│  └───────┘   John, Jane, Jessica              │
+│                                              │
+│  '%as'                                         │
+│  ┌───────┐                                     │
+│  │ ___ as│ ← ends with &quot;as&quot;, anything before  │
+│  └───────┘   Dallas, Las Vegas                │
+│                                              │
+│  '%Pro%'                                       │
+│  ┌───────┐                                     │
+│  │ _Pro_ │ ← contains &quot;Pro&quot; anywhere          │
+│  └───────┘   Laptop Pro, Pro Tool, Pro Max    │
+│                                              │
+│  '_ohn'                                        │
+│  ┌───────┐                                     │
+│  │ ? o h n │ ← exactly 4 chars, ends in ohn   │
+│  └───────┘   John, John (not Johnson!)        │
+│                                              │
+│  '%@email.com'                                 │
+│  ┌────────────┐                                │
+│  │ _____@...  │ ← any email ending with ...    │
+│  └────────────┘   a@email.com, hello@email.com│
+└──────────────────────────────────────────────┘
+</code></pre>
 <hr />
 <h2 id="step-9-handling-null-values"><a class="header" href="#step-9-handling-null-values">Step 9: Handling NULL Values</a></h2>
 <p>Some columns might be empty (NULL). To check for NULL:</p>
@@ -1713,6 +2089,33 @@ WHERE phone IS NOT NULL;
 ORDER BY column_name ASC;   -- ASC = ascending (default)
 ORDER BY column_name DESC;  -- DESC = descending
 </code></pre>
+<pre><code>┌─────────────── ORDER BY SORTING ─────────────┐
+│                                              │
+│  Like arranging books on a shelf:            │
+│                                              │
+│  Unsorted:           ASC (A→Z):              │
+│  ┌────────────────┐   ┌────────────────┐    │
+│  │ 📕 Laptop      │   │ 📘 Cap         │    │
+│  │ 📘 Jeans       │ → │ 📘 Jeans       │    │
+│  │ 📗 Cap         │   │ 📕 Sneakers    │    │
+│  │ 📙 Sneakers    │   │ 📗 T-Shirt     │    │
+│  │ 📗 T-Shirt     │   │ 🔴 Winter Jkt  │    │
+│  └────────────────┘   └────────────────┘    │
+│                                              │
+│                    DESC (Z→A):               │
+│  ┌────────────────┐                           │
+│  │ 🔴 Winter Jkt  │ ← most expensive first   │
+│  │ 📕 Sneakers    │                          │
+│  │ 📘 Jeans       │                          │
+│  │ 📗 T-Shirt     │                          │
+│  │ 📘 Cap         │ ← cheapest last          │
+│  └────────────────┘                           │
+│                                              │
+│  Numbers sort same way:                      │
+│  5, 10, 3 → ASC: 3, 5, 10                    │
+│  5, 10, 3 → DESC: 10, 5, 3                   │
+└──────────────────────────────────────────────┘
+</code></pre>
 <h3 id="example-sort-by-price"><a class="header" href="#example-sort-by-price">Example: Sort by Price</a></h3>
 <p>Cheapest products first:</p>
 <pre><code class="language-sql">SELECT name, price FROM products ORDER BY price ASC;
@@ -1735,6 +2138,32 @@ ORDER BY city ASC, first_name ASC;
 <pre><code class="language-sql">SELECT * FROM table_name
 LIMIT number;
 </code></pre>
+<pre><code>┌─────────────── LIMIT — Take Top N ───────────┐
+│                                              │
+│  Show only a few rows from many:             │
+│                                              │
+│  All products (sorted by price DESC):        │
+│  ┌────────────────────────────────────┐      │
+│  │ 1. Laptop Pro    $1299.99          │      │
+│  │ 2. Smart Watch   $399.99           │      │
+│  │ 3. Headphones    $149.99     ◀─┐   │      │
+│  │ 4. Mouse         $29.99      │  │   │      │
+│  │ 5. Keyboard        $79.99    │  │   │      │
+│  │ 6. Phone Case      $19.99    │  │   │      │
+│  │ 7. USB Cable       $9.99     │  │   │      │
+│  │ 8. Screen Protector  $5.99   │  │   │      │
+│  └────────────────────────────────────┘  │  │   │      │
+│                              LIMIT 3     │  │   │      │
+│                               takes top 3│  │   │      │
+│                                          ▼  ▼   ▼      │
+│  Result:                                   ┌──────────┐ │
+│  ┌────────────────┐                         │ Laptop   │ │
+│  │ 1. Laptop Pro  │                         │ Smart W. │ │
+│  │ 2. Smart Watch │                         │ Headph.  │ │
+│  │ 3. Headphones  │                         └──────────┘ │
+│  └────────────────┘                                    │
+└────────────────────────────────────────────────────────┘
+</code></pre>
 <h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
 <p>Show only the top 3 most expensive products:</p>
 <pre><code class="language-sql">SELECT name, price FROM products 
@@ -1746,6 +2175,35 @@ LIMIT 3;
 </code></pre>
 <p>Show rows 6 to 10 (skip first 5, show next 5):</p>
 <pre><code class="language-sql">SELECT * FROM customers LIMIT 5 OFFSET 5;
+</code></pre>
+<pre><code>┌─────────── OFFSET — Skip Then Take ──────────┐
+│                                              │
+│  Pagination: skip N rows, then take M rows   │
+│                                              │
+│  All customers (sorted alphabetically):      │
+│  ┌──────────────────────────────────────┐    │
+│  │ 1. Alice        ◄── SKIP THESE     │    │
+│  │ 2. Bob          ◄── OFFSET 5       │    │
+│  │ 3. Charlie      ◄── (skip first 5) │    │
+│  │ 4. Diana        ◄                  │    │
+│  │ 5. Edward       ◄                  │    │
+│  │ 6. Fiona        ◄── TAKE THESE     │    │
+│  │ 7. George       ◄── LIMIT 5        │    │
+│  │ 8. Hannah       ◄                  │    │
+│  │ 9. Ivan         ◄                  │    │
+│  │10. Julia        ◄                  │    │
+│  │11. Karen        ◄                  │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  Page 1: LIMIT 5 OFFSET 0  → rows 1-5        │
+│  Page 2: LIMIT 5 OFFSET 5  → rows 6-10       │
+│  Page 3: LIMIT 5 OFFSET 10 → rows 11-15      │
+│                                              │
+│  Common pattern for web pagination:          │
+│  page = (pageNumber - 1) * limit             │
+│  SELECT ... LIMIT 10 OFFSET 0   -- page 1    │
+│  SELECT ... LIMIT 10 OFFSET 10  -- page 2    │
+└──────────────────────────────────────────────┘
 </code></pre>
 <p>Or shorter syntax:</p>
 <pre><code class="language-sql">SELECT * FROM customers LIMIT 5, 5;
@@ -1963,6 +2421,27 @@ ORDER BY total_spent DESC;
 <hr />
 <h2 id="aggregate-functions"><a class="header" href="#aggregate-functions">Aggregate Functions</a></h2>
 <p>These functions combine multiple rows into a single result:</p>
+<pre><code>┌─────── AGGREGATE FUNCTIONS ──────────────────┐
+│                                              │
+│  Multiple rows → One summary value           │
+│                                              │
+│  ┌──────────────────────────────┐            │
+│  │ price   │ product            │            │
+│  ├──────────────────────────────┤            │
+│  │ $999.99 │ Laptop             │            │
+│  │ $29.99  │ Mouse              │            │
+│  │ $199.99 │ Keyboard           │            │
+│  │ $49.99  │ Monitor            │            │
+│  │ $14.99  │ USB Cable          │            │
+│  └──────────────────────────────┘            │
+│                                              │
+│  COUNT(*)    → 5 products        👆 count    │
+│  SUM(price)  → $1294.95      👆 sum all      │
+│  AVG(price)  → $258.99       👆 average      │
+│  MIN(price)  → $14.99        👆 cheapest     │
+│  MAX(price)  → $999.99       👆 most expensive│
+└──────────────────────────────────────────────┘
+</code></pre>
 <div class="table-wrapper"><table><thead><tr><th>Function</th><th>What It Does</th><th>Example</th></tr></thead><tbody>
 <tr><td><code>COUNT()</code></td><td>Count rows</td><td><code>COUNT(*)</code> = total rows</td></tr>
 <tr><td><code>SUM()</code></td><td>Add up values</td><td><code>SUM(price)</code> = total of all prices</td></tr>
@@ -1993,12 +2472,48 @@ GROUP BY category;
 <hr />
 <h2 id="step-2-group-by-explained"><a class="header" href="#step-2-group-by-explained">Step 2: GROUP BY Explained</a></h2>
 <p><code>GROUP BY</code> groups rows that have the same value together. Think of it like putting items into buckets:</p>
-<pre><code>Products by Category:
-├─ Electronics (3 items)
-├─ Sports (3 items)
-├─ Books (2 items)
-├─ Home (2 items)
-└─ Accessories (2 items)
+<pre><code>┌─────────── GROUP BY — BUCKET METHOD ────────┐
+│                                             │
+│  Products table → Grouped by category       │
+│                                             │
+│  Before GROUP BY:                          │
+│  ┌─────────────────────────────────────┐    │
+│  │ 📦 Laptop    | Electronics          │    │
+│  │ 📦 Mouse     | Electronics          │    │
+│  │ 📦 Keyboard  | Electronics          │    │
+│  │ 📦 Tennis Rkt| Sports               │    │
+│  │ 📦 Yoga Mat  | Sports               │    │
+│  │ 📦 Novel     | Books                │    │
+│  │ 📦 Cookbook  | Books                │    │
+│  │ 📦 Lamp      | Home                 │    │
+│  │ 📦 Pillow    | Home                 │    │
+│  └─────────────────────────────────────┘    │
+│              ▼                                │
+│         GROUP BY                              │
+│           category                            │
+│              ▼                                │
+│  After GROUP BY:                             │
+│  ┌─────────────────────────────────────┐    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Electronics (3 items)     │   │    │
+│  │ │    Laptop, Mouse, Keyboard    │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Sports (2 items)          │   │    │
+│  │ │    Tennis Rkt, Yoga Mat       │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Books (2 items)           │   │    │
+│  │ │    Novel, Cookbook             │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Home (2 items)            │   │    │
+│  │ │    Lamp, Pillow                │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  └─────────────────────────────────────┘    │
+│                                             │
+│  Each bucket = one row in results!          │
+└─────────────────────────────────────────────┘
 </code></pre>
 <h3 id="format-1"><a class="header" href="#format-1">Format</a></h3>
 <pre><code class="language-sql">SELECT column, COUNT(*)
@@ -2059,6 +2574,43 @@ GROUP BY category
 HAVING COUNT(*) &gt; 2;
 </code></pre>
 <p>⚠️ You cannot use <code>WHERE</code> for aggregate conditions. Always use <code>HAVING</code>.</p>
+<pre><code>┌─────────── WHERE vs HAVING ──────────────────┐
+│                                              │
+│  WHERE filters INDIVIDUAL rows before        │
+│  GROUP BY groups them                        │
+│  HAVING filters GROUPS after grouping        │
+│                                              │
+│  Query execution order:                      │
+│                                              │
+│  ┌──────────────┐                            │
+│  │ FROM table   │ ← get all rows             │
+│  └──────┬───────┘                            │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ WHERE cond   │ ← filter individual rows   │
+│  └──────┬───────┘    (before grouping)       │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ GROUP BY     │ ← group into buckets       │
+│  └──────┬───────┘                            │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ Aggregates   │ ← COUNT, SUM, AVG...       │
+│  └──────┬───────┘                            │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ HAVING cond  │ ← filter the groups!       │
+│  └──────┬───────┘    (after grouping)        │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ RESULT       │ ← final output             │
+│  └──────────────┘                            │
+│                                              │
+│  WHERE → acts on rows                         │
+│  HAVING → acts on groups                      │
+│  They CANNOT be swapped!                      │
+└───────────────────────────────────────────────┘
+</code></pre>
 <p>Wrong:</p>
 <pre><code class="language-sql">-- This does NOT work!
 SELECT category, COUNT(*) FROM products
@@ -2257,6 +2809,47 @@ mysql -u root -p shop_restore &lt; shop-backup.sql
 <p>Happy querying! 🚀</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="mysql-quick-reference-cheat-sheet"><a class="header" href="#mysql-quick-reference-cheat-sheet">MySQL Quick Reference Cheat Sheet</a></h1>
 <p>A one-page guide for the most common MySQL commands. Keep this open while you practice!</p>
+<pre><code>┌─────── COMPLETE SQL QUERY STRUCTURE ─────────┐
+│                                              │
+│  A SELECT query flows through stages like    │
+│  a pipeline — each step transforms the data: │
+│                                              │
+│   ┌──────────────────────────────────────┐   │
+│   │                                      │   │
+│   │  SELECT col1, col2, COUNT(*)         │   │   ← What to show
+│   │       FROM orders                     │   │   ← Where from
+│   │       WHERE total &gt; 100               │   │   ← Filter rows
+│   │       GROUP BY customer_id            │   │   ← Group rows
+│   │       HAVING COUNT(*) &gt; 3             │   │   ← Filter groups
+│   │       ORDER BY total DESC             │   │   ← Sort results
+│   │       LIMIT 10;                       │   │   ← Limit output
+│   │                                      │   │
+│   └──────────────────────────────────────┘   │
+│                                              │
+│  Execution order (NOT left-to-right!):       │
+│                                              │
+│  1. FROM        → which table(s)?            │
+│  2. WHERE       → filter individual rows     │
+│  3. GROUP BY    → group rows together        │
+│  4. HAVING      → filter groups              │
+│  5. SELECT      → pick columns to show       │
+│  6. ORDER BY    → sort the results           │
+│  7. LIMIT       → cut off after N rows       │
+│                                              │
+│  Full syntax template:                       │
+│  ┌────────────────────────────────────────┐  │
+│  │ SELECT [DISTINCT]                      │  │
+│  │   {columns | * | aggregates}           │  │
+│  │ FROM table                             │  │
+│  │ [JOIN ... ON ...]                      │  │
+│  │ [WHERE condition]                      │  │
+│  │ [GROUP BY column]                      │  │
+│  │ [HAVING group_condition]               │  │
+│  │ [ORDER BY column [ASC|DESC]]           │  │
+│  │ [LIMIT number [OFFSET number]];        │  │
+│  └────────────────────────────────────────┘  │
+└──────────────────────────────────────────────┘
+</code></pre>
 <hr />
 <h2 id="connecting-to-mysql"><a class="header" href="#connecting-to-mysql">Connecting to MySQL</a></h2>
 <pre><code class="language-bash"># Connect via command line

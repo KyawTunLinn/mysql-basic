@@ -179,13 +179,44 @@
                         <h1 id="lesson-1--introduction-to-mysql"><a class="header" href="#lesson-1--introduction-to-mysql">Lesson 1 — Introduction to MySQL</a></h1>
 <h2 id="what-is-mysql"><a class="header" href="#what-is-mysql">What Is MySQL?</a></h2>
 <p>MySQL is a <strong>database program</strong>. It stores information in an organized way so you can find, add, update, or delete data quickly.</p>
-<p>Think of it like a digital filing cabinet:</p>
-<ul>
-<li>A <strong>database</strong> is like a whole cabinet</li>
-<li>A <strong>table</strong> is like one drawer in that cabinet</li>
-<li>A <strong>row</strong> is like one piece of paper in that drawer</li>
-<li>A <strong>column</strong> is like a field on that paper (name, age, email, etc.)</li>
-</ul>
+<h3 id="visual-analogy-database--filing-cabinet"><a class="header" href="#visual-analogy-database--filing-cabinet">Visual Analogy: Database = Filing Cabinet</a></h3>
+<pre><code>┌───────────────────────────────────────────┐
+│          MySQL Server (Your Computer)      │
+│                                           │
+│  ┌─────────────────────────────────────┐  │
+│  │   📁 Database: &quot;shop&quot;               │  │
+│  │  ┌─────────────┐  ┌─────────────┐   │  │
+│  │  │ 🗄️ Table:   │  │ 🗄️ Table:   │   │  │
+│  │  │ customers   │  │  products   │   │  │
+│  │  │─────────────│  │─────────────│   │  │
+│  │  │ id: 1       │  │ id: 1       │   │  │
+│  │  │ name: John  │  │ name: Laptop│   │  │
+│  │  │ email: ...  │  │ price: $999 │   │  │
+│  │  ├─────────────│  ├─────────────│   │  │
+│  │  │ id: 2       │  │ id: 2       │   │  │
+│  │  │ name: Sarah │  │ name: Mouse │   │  │
+│  │  │ email: ...  │  │ price: $29  │   │  │
+│  │  └─────────────┘  └─────────────┘   │  │
+│  │                                     │  │
+│  │  ┌─────────────┐  ┌─────────────┐   │  │
+│  │  │ 🗄️ Table:   │  │ 🗄️ Table:   │   │  │
+│  │  │  orders     │  │ order_items │   │  │
+│  │  │─────────────│  │─────────────│   │  │
+│  │  │ id: 101     │  │ id: 1       │   │  │
+│  │  │ cust_id: 1  │  │ order_id:1  │   │  │
+│  │  │ total:$1K   │  │ prod_id: 1  │   │  │
+│  │  └─────────────┘  └─────────────┘   │  │
+│  └─────────────────────────────────────┘  │
+└───────────────────────────────────────────┘
+</code></pre>
+<p>Key terms mapped to the analogy:</p>
+<div class="table-wrapper"><table><thead><tr><th>Term</th><th>Real World</th><th>In MySQL</th></tr></thead><tbody>
+<tr><td><strong>Database</strong></td><td>Whole filing cabinet</td><td>Collection of related tables (<code>shop</code>)</td></tr>
+<tr><td><strong>Table</strong></td><td>One drawer</td><td>Organized list (<code>customers</code>, <code>products</code>)</td></tr>
+<tr><td><strong>Row</strong></td><td>One piece of paper</td><td>One record (one customer, one product)</td></tr>
+<tr><td><strong>Column</strong></td><td>A field on the paper</td><td>One type of info (<code>name</code>, <code>price</code>, <code>email</code>)</td></tr>
+</tbody></table>
+</div>
 <h2 id="why-learn-mysql"><a class="header" href="#why-learn-mysql">Why Learn MySQL?</a></h2>
 <p>MySQL is one of the most popular databases in the world. You will find it used by:</p>
 <ul>
@@ -214,6 +245,24 @@
 </tbody></table>
 </div>
 <h2 id="two-ways-to-use-mysql"><a class="header" href="#two-ways-to-use-mysql">Two Ways to Use MySQL</a></h2>
+<pre><code>┌──────────────────────┐    ┌──────────────────────┐
+│  MySQL Workbench     │    │   Command Line       │
+│  (Visual / Point &amp;   │    │   (Type Commands)    │
+│    Click)            │    │                      │
+│                      │    │                      │
+│  ┌────────────────┐  │    │  $ mysql -u root -p │
+│  │ ╔════════════╗ │  │    │  &gt; USE shop;        │
+│  │ ║ Database: 🗄️║ │  │    │  &gt; SELECT *         │
+│  │ ║ Table: cust │  │    │    FROM customers;   │
+│  │ ╚════════════╝ │  │    │                      │
+│  │ [▶ Run] [✓]   │  │    │  +----+------------+ │
+│  └────────────────┘  │    │  | id | first_name | │
+│                      │    │  | 1  | John       | │
+│  ✅ Easy for beginners│   │  | 2  | Sarah      | │
+│  ❌ Slower for big   │   │  +----+------------+ │
+│     operations       │   │                      │
+└──────────────────────┘    └──────────────────────┘
+</code></pre>
 <ol>
 <li><strong>MySQL Workbench</strong> — A visual program with buttons and menus. Good for beginners.</li>
 <li><strong>Command Line</strong> — Type commands directly. More powerful once you learn it.</li>
@@ -228,6 +277,28 @@
 </ul>
 <p>Example of a simple SQL query:</p>
 <pre><code class="language-sql">SELECT * FROM users;
+</code></pre>
+<h3 id="how-mysql-reads-your-query"><a class="header" href="#how-mysql-reads-your-query">How MySQL Reads Your Query</a></h3>
+<pre><code>  &quot;Show me everything&quot;     &quot;from this table&quot;
+         ↓                       ↓
+   ┌─────────┐              ┌──────────┐
+   │ SELECT  │              │  FROM    │
+   │   *     │              │  users   │
+   └─────────┘              └──────────┘
+        │                          │
+        ▼                          ▼
+   ┌─────────────────────────────────┐
+   │         MySQL Engine            │
+   │                                 │
+   │  🔍 Search → Filter → Return    │
+   │                                 │
+   │  +----+----------+-------+      │
+   │  | id | name     | email |      │
+   │  +----+----------+-------+      │
+   │  | 1  | John     | ...   |      │
+   │  | 2  | Sarah    | ...   |      │
+   │  +----+----------+-------+      │
+   └─────────────────────────────────┘
 </code></pre>
 <p>This means: &quot;Show me everything in the users table.&quot;</p>
 <p>Simple, right?</p>
