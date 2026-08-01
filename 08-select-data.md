@@ -10,6 +10,25 @@ In this lesson, you will master the SELECT statement — the most important SQL 
 
 `SELECT` is how you ask MySQL questions about your data. It is like searching in a spreadsheet.
 
+```
+┌─────────────── HOW SELECT WORKS ───────────────┐
+│                                                │
+│   Full Table                          Results  │
+│   (all columns)                            ▼   │
+│                                                │
+│  ┌──────────────────────────┐                  │
+│  │ id │ name │ email │ age  │       ┌────────┐│
+│  ├──────────────────────────┤       │  name  ││
+│  │  1 │ John │ j@e.com │ 25 │ ──▶   │  John  ││
+│  │  2 │ Sara │ s@e.com │ 30 │ ──▶   │  Sara  ││
+│  │  3 │ Bob  │ b@e.com │ 22 │ ──▶   │  Bob   ││
+│  └──────────────────────────┘       └────────┘│
+│        ▲                    ▲                  │
+│        │  SELECT picks      │  only these      │
+│        │  specific columns  │  columns shown   │
+└────────────────────────────────────────────────┘
+```
+
 ### Basic Format
 
 ```sql
@@ -135,6 +154,29 @@ Output (only unique cities):
 | Dallas |
 | San Jose |
 
+```
+┌─────────── DISTINCT removes duplicates ─────────┐
+│                                                 │
+│  Without DISTINCT:         With DISTINCT:       │
+│  SELECT city               SELECT DISTINCT city │
+│  ┌──────────┐             ┌──────────┐          │
+│  │   city   │             │   city   │          │
+│  ├──────────┤             ├──────────┤          │
+│  │ New York │             │ New York │          │
+│  │ Los Angeles│           │ Los Angeles│         │
+│  │ Chicago  │             │ Chicago  │          │
+│  │ Houston  │             │ Houston  │          │
+│  │ Phoenix  │             │ Phoenix  │          │
+│  │ New York │ ✘ removed!  │ Philadelphia│        │
+│  │ ...      │             │ San Antonio│         │
+│  └──────────┘             │ San Diego │          │
+│    10 rows              │ Dallas     │          │
+│                          │ San Jose   │          │
+│                          └──────────┘            │
+│                           10 unique cities       │
+└─────────────────────────────────────────────────┘
+```
+
 Another example:
 
 ```sql
@@ -176,6 +218,30 @@ SELECT * FROM customers WHERE phone IS NOT NULL;
 ```
 
 ⚠️ You cannot use `= NULL` or `!= NULL`. Always use `IS NULL` or `IS NOT NULL`.
+
+```
+┌─────────── UNDERSTANDING NULL ────────────────┐
+│                                               │
+│  NULL means "no value" — not zero, not empty  │
+│                                               │
+│  ┌──────────────────────────────────────┐     │
+│  │ id │ name   │ phone      │ city      │     │
+│  ├──────────────────────────────────────┤     │
+│  │  1 │ John   │ 555-0100   │ New York  │     │
+│  │  2 │ Sara   │ NULL       │ Chicago   │ ← no phone!     │
+│  │  3 │ Bob    │ 555-0300   │ Houston   │     │
+│  │  4 │ Alice  │ NULL       │ Phoenix   │ ← no phone!     │
+│  └──────────────────────────────────────┘     │
+│                                               │
+│  NULL ≠ '' (empty string)                     │
+│  NULL ≠ 0                                     │
+│  NULL = unknown / missing data                │
+│                                               │
+│  ❌ WHERE phone = NULL    → doesn't work!     │
+│  ✅ WHERE phone IS NULL  → correct!           │
+│  ✅ WHERE phone IS NOT NULL → correct!        │
+└───────────────────────────────────────────────┘
+```
 
 ---
 

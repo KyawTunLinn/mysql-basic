@@ -4,11 +4,47 @@
 
 MySQL is a **database program**. It stores information in an organized way so you can find, add, update, or delete data quickly.
 
-Think of it like a digital filing cabinet:
-- A **database** is like a whole cabinet
-- A **table** is like one drawer in that cabinet
-- A **row** is like one piece of paper in that drawer
-- A **column** is like a field on that paper (name, age, email, etc.)
+### Visual Analogy: Database = Filing Cabinet
+
+```
+┌───────────────────────────────────────────┐
+│          MySQL Server (Your Computer)      │
+│                                           │
+│  ┌─────────────────────────────────────┐  │
+│  │   📁 Database: "shop"               │  │
+│  │  ┌─────────────┐  ┌─────────────┐   │  │
+│  │  │ 🗄️ Table:   │  │ 🗄️ Table:   │   │  │
+│  │  │ customers   │  │  products   │   │  │
+│  │  │─────────────│  │─────────────│   │  │
+│  │  │ id: 1       │  │ id: 1       │   │  │
+│  │  │ name: John  │  │ name: Laptop│   │  │
+│  │  │ email: ...  │  │ price: $999 │   │  │
+│  │  ├─────────────│  ├─────────────│   │  │
+│  │  │ id: 2       │  │ id: 2       │   │  │
+│  │  │ name: Sarah │  │ name: Mouse │   │  │
+│  │  │ email: ...  │  │ price: $29  │   │  │
+│  │  └─────────────┘  └─────────────┘   │  │
+│  │                                     │  │
+│  │  ┌─────────────┐  ┌─────────────┐   │  │
+│  │  │ 🗄️ Table:   │  │ 🗄️ Table:   │   │  │
+│  │  │  orders     │  │ order_items │   │  │
+│  │  │─────────────│  │─────────────│   │  │
+│  │  │ id: 101     │  │ id: 1       │   │  │
+│  │  │ cust_id: 1  │  │ order_id:1  │   │  │
+│  │  │ total:$1K   │  │ prod_id: 1  │   │  │
+│  │  └─────────────┘  └─────────────┘   │  │
+│  └─────────────────────────────────────┘  │
+└───────────────────────────────────────────┘
+```
+
+Key terms mapped to the analogy:
+
+| Term | Real World | In MySQL |
+|------|-----------|----------|
+| **Database** | Whole filing cabinet | Collection of related tables (`shop`) |
+| **Table** | One drawer | Organized list (`customers`, `products`) |
+| **Row** | One piece of paper | One record (one customer, one product) |
+| **Column** | A field on the paper | One type of info (`name`, `price`, `email`) |
 
 ## Why Learn MySQL?
 
@@ -42,6 +78,26 @@ MySQL is one of the most popular databases in the world. You will find it used b
 
 ## Two Ways to Use MySQL
 
+```
+┌──────────────────────┐    ┌──────────────────────┐
+│  MySQL Workbench     │    │   Command Line       │
+│  (Visual / Point &   │    │   (Type Commands)    │
+│    Click)            │    │                      │
+│                      │    │                      │
+│  ┌────────────────┐  │    │  $ mysql -u root -p │
+│  │ ╔════════════╗ │  │    │  > USE shop;        │
+│  │ ║ Database: 🗄️║ │  │    │  > SELECT *         │
+│  │ ║ Table: cust │  │    │    FROM customers;   │
+│  │ ╚════════════╝ │  │    │                      │
+│  │ [▶ Run] [✓]   │  │    │  +----+------------+ │
+│  └────────────────┘  │    │  | id | first_name | │
+│                      │    │  | 1  | John       | │
+│  ✅ Easy for beginners│   │  | 2  | Sarah      | │
+│  ❌ Slower for big   │   │  +----+------------+ │
+│     operations       │   │                      │
+└──────────────────────┘    └──────────────────────┘
+```
+
 1. **MySQL Workbench** — A visual program with buttons and menus. Good for beginners.
 2. **Command Line** — Type commands directly. More powerful once you learn it.
 
@@ -58,6 +114,31 @@ Example of a simple SQL query:
 
 ```sql
 SELECT * FROM users;
+```
+
+### How MySQL Reads Your Query
+
+```
+  "Show me everything"     "from this table"
+         ↓                       ↓
+   ┌─────────┐              ┌──────────┐
+   │ SELECT  │              │  FROM    │
+   │   *     │              │  users   │
+   └─────────┘              └──────────┘
+        │                          │
+        ▼                          ▼
+   ┌─────────────────────────────────┐
+   │         MySQL Engine            │
+   │                                 │
+   │  🔍 Search → Filter → Return    │
+   │                                 │
+   │  +----+----------+-------+      │
+   │  | id | name     | email |      │
+   │  +----+----------+-------+      │
+   │  | 1  | John     | ...   |      │
+   │  | 2  | Sarah    | ...   |      │
+   │  +----+----------+-------+      │
+   └─────────────────────────────────┘
 ```
 
 This means: "Show me everything in the users table."

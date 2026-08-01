@@ -10,6 +10,29 @@ In this lesson, you will learn how to summarize data using counting, summing, av
 
 These functions combine multiple rows into a single result:
 
+```
+┌─────── AGGREGATE FUNCTIONS ──────────────────┐
+│                                              │
+│  Multiple rows → One summary value           │
+│                                              │
+│  ┌──────────────────────────────┐            │
+│  │ price   │ product            │            │
+│  ├──────────────────────────────┤            │
+│  │ $999.99 │ Laptop             │            │
+│  │ $29.99  │ Mouse              │            │
+│  │ $199.99 │ Keyboard           │            │
+│  │ $49.99  │ Monitor            │            │
+│  │ $14.99  │ USB Cable          │            │
+│  └──────────────────────────────┘            │
+│                                              │
+│  COUNT(*)    → 5 products        👆 count    │
+│  SUM(price)  → $1294.95      👆 sum all      │
+│  AVG(price)  → $258.99       👆 average      │
+│  MIN(price)  → $14.99        👆 cheapest     │
+│  MAX(price)  → $999.99       👆 most expensive│
+└──────────────────────────────────────────────┘
+```
+
 | Function | What It Does | Example |
 |----------|-------------|---------|
 | `COUNT()` | Count rows | `COUNT(*)` = total rows |
@@ -53,12 +76,48 @@ Output:
 `GROUP BY` groups rows that have the same value together. Think of it like putting items into buckets:
 
 ```
-Products by Category:
-├─ Electronics (3 items)
-├─ Sports (3 items)
-├─ Books (2 items)
-├─ Home (2 items)
-└─ Accessories (2 items)
+┌─────────── GROUP BY — BUCKET METHOD ────────┐
+│                                             │
+│  Products table → Grouped by category       │
+│                                             │
+│  Before GROUP BY:                          │
+│  ┌─────────────────────────────────────┐    │
+│  │ 📦 Laptop    | Electronics          │    │
+│  │ 📦 Mouse     | Electronics          │    │
+│  │ 📦 Keyboard  | Electronics          │    │
+│  │ 📦 Tennis Rkt| Sports               │    │
+│  │ 📦 Yoga Mat  | Sports               │    │
+│  │ 📦 Novel     | Books                │    │
+│  │ 📦 Cookbook  | Books                │    │
+│  │ 📦 Lamp      | Home                 │    │
+│  │ 📦 Pillow    | Home                 │    │
+│  └─────────────────────────────────────┘    │
+│              ▼                                │
+│         GROUP BY                              │
+│           category                            │
+│              ▼                                │
+│  After GROUP BY:                             │
+│  ┌─────────────────────────────────────┐    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Electronics (3 items)     │   │    │
+│  │ │    Laptop, Mouse, Keyboard    │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Sports (2 items)          │   │    │
+│  │ │    Tennis Rkt, Yoga Mat       │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Books (2 items)           │   │    │
+│  │ │    Novel, Cookbook             │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  │ ┌───────────────────────────────┐   │    │
+│  │ │ 🗂️ Home (2 items)            │   │    │
+│  │ │    Lamp, Pillow                │   │    │
+│  │ └───────────────────────────────┘   │    │
+│  └─────────────────────────────────────┘    │
+│                                             │
+│  Each bucket = one row in results!          │
+└─────────────────────────────────────────────┘
 ```
 
 ### Format
@@ -161,6 +220,45 @@ HAVING COUNT(*) > 2;
 ```
 
 ⚠️ You cannot use `WHERE` for aggregate conditions. Always use `HAVING`.
+
+```
+┌─────────── WHERE vs HAVING ──────────────────┐
+│                                              │
+│  WHERE filters INDIVIDUAL rows before        │
+│  GROUP BY groups them                        │
+│  HAVING filters GROUPS after grouping        │
+│                                              │
+│  Query execution order:                      │
+│                                              │
+│  ┌──────────────┐                            │
+│  │ FROM table   │ ← get all rows             │
+│  └──────┬───────┘                            │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ WHERE cond   │ ← filter individual rows   │
+│  └──────┬───────┘    (before grouping)       │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ GROUP BY     │ ← group into buckets       │
+│  └──────┬───────┘                            │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ Aggregates   │ ← COUNT, SUM, AVG...       │
+│  └──────┬───────┘                            │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ HAVING cond  │ ← filter the groups!       │
+│  └──────┬───────┘    (after grouping)        │
+│         ▼                                    │
+│  ┌──────────────┐                            │
+│  │ RESULT       │ ← final output             │
+│  └──────────────┘                            │
+│                                              │
+│  WHERE → acts on rows                         │
+│  HAVING → acts on groups                      │
+│  They CANNOT be swapped!                      │
+└───────────────────────────────────────────────┘
+```
 
 Wrong:
 ```sql

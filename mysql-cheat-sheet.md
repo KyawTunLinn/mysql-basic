@@ -2,6 +2,49 @@
 
 A one-page guide for the most common MySQL commands. Keep this open while you practice!
 
+```
+┌─────── COMPLETE SQL QUERY STRUCTURE ─────────┐
+│                                              │
+│  A SELECT query flows through stages like    │
+│  a pipeline — each step transforms the data: │
+│                                              │
+│   ┌──────────────────────────────────────┐   │
+│   │                                      │   │
+│   │  SELECT col1, col2, COUNT(*)         │   │   ← What to show
+│   │       FROM orders                     │   │   ← Where from
+│   │       WHERE total > 100               │   │   ← Filter rows
+│   │       GROUP BY customer_id            │   │   ← Group rows
+│   │       HAVING COUNT(*) > 3             │   │   ← Filter groups
+│   │       ORDER BY total DESC             │   │   ← Sort results
+│   │       LIMIT 10;                       │   │   ← Limit output
+│   │                                      │   │
+│   └──────────────────────────────────────┘   │
+│                                              │
+│  Execution order (NOT left-to-right!):       │
+│                                              │
+│  1. FROM        → which table(s)?            │
+│  2. WHERE       → filter individual rows     │
+│  3. GROUP BY    → group rows together        │
+│  4. HAVING      → filter groups              │
+│  5. SELECT      → pick columns to show       │
+│  6. ORDER BY    → sort the results           │
+│  7. LIMIT       → cut off after N rows       │
+│                                              │
+│  Full syntax template:                       │
+│  ┌────────────────────────────────────────┐  │
+│  │ SELECT [DISTINCT]                      │  │
+│  │   {columns | * | aggregates}           │  │
+│  │ FROM table                             │  │
+│  │ [JOIN ... ON ...]                      │  │
+│  │ [WHERE condition]                      │  │
+│  │ [GROUP BY column]                      │  │
+│  │ [HAVING group_condition]               │  │
+│  │ [ORDER BY column [ASC|DESC]]           │  │
+│  │ [LIMIT number [OFFSET number]];        │  │
+│  └────────────────────────────────────────┘  │
+└──────────────────────────────────────────────┘
+```
+
 ---
 
 ## Connecting to MySQL

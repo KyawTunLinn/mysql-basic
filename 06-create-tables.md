@@ -25,6 +25,39 @@ id   first_name  last_name    email
 (column) (column)  (column)   (column)
 ```
 
+### Visual: How Data Fits Into a Database
+
+```
+┌──────────────────────────────────────────────────────┐
+│                    Database: "school"                  │
+│                                                      │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  │
+│  │  students   │  │   teachers  │  │   courses   │  │
+│  │─────────────│  │─────────────│  │─────────────│  │
+│  │ 🆔 INT PK   │  │ 🆔 INT PK   │  │ 🆔 INT PK   │  │
+│  │ name VARCHAR│  │ name VARCHAR│  │ name VARCHAR│  │
+│  │ email UNI   │  │ subject     │  │ teacher_id  │  │
+│  │ birth_date  │  │ email UNI   │  │ max_students│  │
+│  └─────────────┘  └─────────────┘  └─────────────┘  │
+│       ▲                    ▲              ▲          │
+│       │                    │              │          │
+│       │ student_id (FK)    │ course_id(FK)│          │
+│       │                    │              │          │
+│  ┌─────────────────────────┘              │          │
+│  │  enrollments                            │          │
+│  │─────────────────────────┐               │          │
+│  │ 🆔 INT PK               │               │          │
+│  │ student_id (FK) ────────┼───────────────┘          │
+│  │ course_id    (FK) ──────┼─────────────────────────┘│
+│  │ grade DECIMAL            │                          │
+│  └─────────────────────────┘                          │
+└──────────────────────────────────────────────────────┘
+
+PK = Primary Key (unique ID for each row)
+FK = Foreign Key (link to another table's PK)
+UNI = Unique (no duplicates allowed)
+```
+
 ---
 
 ## Step 1: Create a New Database

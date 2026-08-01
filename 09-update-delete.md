@@ -40,6 +40,28 @@ WHERE id = 1;
 
 This changes John's email to the new one. Without the `WHERE` clause, ALL customers would get the new email!
 
+```
+┌─────────── UPDATE with WHERE ────────────────┐
+│                                              │
+│  Targeting ONE row with crosshair:           │
+│                                              │
+│  ┌──────────────────────────────────────┐    │
+│  │ id │ name   │ city      │ phone      │    │
+│  ├──────────────────────────────────────┤    │
+│  │  1 │ John   │ New York  │ 555-0100   │    │
+│  │     👆 CHANGE THIS ROW ONLY          │    │
+│  │  2 │ Sara   │ Chicago   │ 555-0200   │    │
+│  │  3 │ Bob    │ Houston   │ 555-0300   │    │
+│  │  4 │ Alice  │ Phoenix   │ 555-0400   │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  SET email = 'john.new@email.com'             │
+│  WHERE id = 1   → only row #1 is affected    │
+│                                              │
+│  ❌ No WHERE? Every single row gets updated!  │
+└──────────────────────────────────────────────┘
+```
+
 ### Example: Change Multiple Fields
 
 ```sql
@@ -80,6 +102,26 @@ WHERE id = 10;
 
 This removes only customer with id 10.
 
+```
+┌─────────── DELETE with WHERE ────────────────┐
+│                                              │
+│  Removing specific rows:                     │
+│                                              │
+│  BEFORE:                    AFTER:           │
+│  ┌──────────────────────┐   ┌──────────────┐│
+│  │ id │ name   │ city   │   │ id │ name │  ││
+│  ├──────────────────────┤   ├──────────────┤│
+│  │  8 │ Dave   │ Dallas │   │  8 │ Dave │  ││
+│  │  9 │ Eva    │ Seattle│ → │  9 │ Eva  │  ││
+│  │ 10 │ Frank  │ Miami  │ ✘ │          │  ││ ← REMOVED!
+│  │ 11 │ Grace  │ Boston │   │ 11 │ Grace│  ││
+│  └──────────────────────┘   └──────────────┘│
+│      ▲ row #10 deleted                       │
+│                                              │
+│  ❌ No WHERE? Every single row is deleted!   │
+└──────────────────────────────────────────────┘
+```
+
 ### Example: Delete Multiple Rows
 
 ```sql
@@ -107,6 +149,37 @@ SELECT * FROM customers WHERE city = 'Chicago';
 
 -- If the results look correct, run the DELETE
 DELETE FROM customers WHERE city = 'Chicago';
+```
+
+```
+┌─────────── SAFETY: FORGETTING WHERE ─────────┐
+│                                              │
+│  ┌──────────────────────────────────────┐    │
+│  │  🚨 DANGER ZONE 🚨                   │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  UPDATE products SET price = 0;               │
+│  ❌ ALL product prices become $0!            │
+│                                              │
+│  DELETE FROM customers;                       │
+│  ❌ ALL customers are gone!                  │
+│                                              │
+│  ┌──────────────────────────────────────┐    │
+│  │  ✅ SAFE WORKFLOW:                   │    │
+│  └──────────────────────────────────────┘    │
+│                                              │
+│  Step 1: SELECT first (preview)              │
+│  SELECT * FROM products WHERE category = ... │
+│       → See which rows will change           │
+│                                              │
+│  Step 2: Run UPDATE / DELETE                 │
+│  UPDATE products SET ... WHERE ...           │
+│       → Only affected rows change            │
+│                                              │
+│  Step 3: Verify                              │
+│  SELECT * FROM products WHERE ...            │
+│       → Confirm changes look right           │
+└──────────────────────────────────────────────┘
 ```
 
 ---

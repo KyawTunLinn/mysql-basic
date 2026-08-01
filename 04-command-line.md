@@ -2,6 +2,36 @@
 
 The command line (also called terminal or console) is where you type SQL commands directly. Many developers prefer this method because it is fast and powerful.
 
+### Visual: How Command Line Works
+
+```
+┌─────────────────────────────────────────────────────┐
+│                  Your Terminal Window                 │
+│                                                     │
+│  user@computer:~$ mysql -u root -p                   │
+│  Enter password: ********                            │
+│                                                      │
+│  Welcome to the MySQL monitor!                       │
+│  mysql> USE shop;                                    │
+│  Database changed                                    │
+│                                                      │
+│  mysql> SELECT * FROM customers LIMIT 3;             │
+│  +----+--------------+-----------+------------------+│
+│  | id | first_name   | last_name | email            ││
+│  +----+--------------+-----------+------------------+│
+│  | 1  | John         | Smith     | john@email.com   ││
+│  | 2  | Sarah        | Johnson   | sarah@email.com  ││
+│  | 3  | Mike         | Williams  | mike@email.com   ││
+│  +----+--------------+-----------+------------------+│
+│  3 rows in set (0.01 sec)                            │
+│                                                      │
+│  mysql> EXIT;                                        │
+│  Bye                                                 │
+│                                                     │
+│  user@computer:~$                                    │
+└─────────────────────────────────────────────────────┘
+```
+
 **Estimated time: 30 minutes**
 
 ---
@@ -57,6 +87,19 @@ Explanation:
 - `mysql` — tells the computer to open MySQL
 - `-u root` — log in as the "root" user (the administrator)
 - `-p` — means "please ask for a password"
+
+### How the Connection Works
+
+```
+┌──────────────┐     ┌──────────────────┐     ┌─────────────┐
+│  Terminal    │     │   MySQL Client   │     │ MySQL Server│
+│              │     │                  │     │             │
+│  $ mysql -u  │────▶│  Sends login     │────▶│  Checks     │
+│        root  │     │  + SQL commands  │     │  password   │
+│              │◀────│                  │◀────│  & returns  │
+│  mysql>      │     │  Receives data   │     │  results    │
+└──────────────┘     └──────────────────┘     └─────────────┘
+```
 
 You will see: `Enter password:`
 
@@ -139,6 +182,20 @@ SELECT * FROM users    -- Wrong ✗ (missing semicolon)
 ```
 
 The semicolon (`;`) tells MySQL: "This command is finished, please run it."
+
+```
+Without semicolon:          With semicolon:
+mysql> SELECT *             mysql> SELECT * FROM users;
+       FROM users;                  +----+----------+
+       ->                          | id | name     |
+       -> FROM users;               +----+----------+
+       -> ;                         | 1  | John     |
+       ->                          | 2  | Sarah    |
+       ->                          +----+----------+
+       -> 2 rows in set
+```
+
+When you forget the `;`, MySQL shows `->` to tell you it is waiting for more input.
 
 ### Multi-Line Commands
 

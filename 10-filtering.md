@@ -10,6 +10,36 @@ In this lesson, you will learn how to find specific data using the WHERE clause.
 
 The `WHERE` clause filters your results. It says: "Only show me rows that match this condition."
 
+```
+┌─────────── WHERE CLAUSE AS A FILTER ────────┐
+│                                             │
+│   All Rows              Filter (WHERE)      │
+│   go in here          checks each row       │
+│                                             │
+│  ┌──────────┐     ┌──────────────┐    ┌───┐│
+│  │ id=1 TRUE│────▶│ 1 > 5? NO ✘ │───▶│   ││
+│  │ id=2 TRUE│────▶│ 2 > 5? NO ✘ │───▶│   ││
+│  │ id=3 TRUE│────▶│ 3 > 5? NO ✘ │───▶│   ││
+│  │ id=4 TRUE│────▶│ 4 > 5? NO ✘ │───▶│   ││
+│  │ id=5 TRUE│────▶│ 5 > 5? NO ✘ │───▶│   ││
+│  │ id=6 TRUE│────▶│ 6 > 5? YES✔ │───▶│ ✔ ││ ← passes through
+│  │ id=7 TRUE│────▶│ 7 > 5? YES✔ │───▶│ ✔ ││ ← passes through
+│  │ id=8 TRUE│────▶│ 8 > 5? YES✔ │───▶│ ✔ ││ ← passes through
+│  │ id=9 TRUE│────▶│ 9 > 5? YES✔ │───▶│ ✔ ││ ← passes through
+│  │ id=10TRUE│────▶│10 > 5? YES✔ │───▶│ ✔ ││ ← passes through
+│  └──────────┘     └──────────────┘    └───┘│
+│                                             │
+│  Result: only matching rows come out!        │
+│  ┌──────────┐                               │
+│  │ id=6     │                               │
+│  │ id=7     │                               │
+│  │ id=8     │                               │
+│  │ id=9     │                               │
+│  │ id=10    │                               │
+│  └──────────┘                               │
+└─────────────────────────────────────────────┘
+```
+
 ### Basic Format
 
 ```sql
@@ -184,6 +214,39 @@ SELECT email FROM customers WHERE email LIKE '%@email.com';
 | `'%er%'` | Contains "er" anywhere |
 | `'_ohn'` | 4 letters ending in "ohn" (John) |
 | `'%@gmail.com'` | Gmail addresses |
+
+```
+┌─────────── LIKE PATTERN MATCHING ────────────┐
+│                                              │
+│  % = matches ANY number of characters        │
+│  _ = matches EXACTLY ONE character           │
+│                                              │
+│  'J%'                                          │
+│  ┌───────┐                                     │
+│  │ J ___ │ ← starts with J, anything after    │
+│  └───────┘   John, Jane, Jessica              │
+│                                              │
+│  '%as'                                         │
+│  ┌───────┐                                     │
+│  │ ___ as│ ← ends with "as", anything before  │
+│  └───────┘   Dallas, Las Vegas                │
+│                                              │
+│  '%Pro%'                                       │
+│  ┌───────┐                                     │
+│  │ _Pro_ │ ← contains "Pro" anywhere          │
+│  └───────┘   Laptop Pro, Pro Tool, Pro Max    │
+│                                              │
+│  '_ohn'                                        │
+│  ┌───────┐                                     │
+│  │ ? o h n │ ← exactly 4 chars, ends in ohn   │
+│  └───────┘   John, John (not Johnson!)        │
+│                                              │
+│  '%@email.com'                                 │
+│  ┌────────────┐                                │
+│  │ _____@...  │ ← any email ending with ...    │
+│  └────────────┘   a@email.com, hello@email.com│
+└──────────────────────────────────────────────┘
+```
 
 ---
 

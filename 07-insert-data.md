@@ -23,6 +23,24 @@ VALUES ('Alice', 'Wong', 'alice@email.com', '2000-05-15');
 ```
 
 This adds one student to your table. Notice:
+
+```
+┌─────────────────── INSERT ───────────────────────┐
+│                                                   │
+│  BEFORE:                    AFTER:                │
+│  ┌─────────────────────┐   ┌─────────────────────┐
+│  │ id │ name  │ email  │   │ id │ name  │ email  │
+│  ├─────────────────────┤   ├─────────────────────┤
+│  │  1 │ Alice │ a@e.c  │   │  1 │ Alice │ a@e.c  │
+│  │  2 │ Bob   │ b@e.c  │   │  2 │ Bob   │ b@e.c  │
+│  └─────────────────────┘   │  3 │ Carol │ c@e.c  │ ← NEW ROW
+│                             └─────────────────────┘
+│                                                   │
+│         ▼ INSERT adds a new row at the bottom ▼    │
+└───────────────────────────────────────────────────┘
+```
+
+Notice:
 - We did NOT include `id` — because it is `AUTO_INCREMENT`, MySQL fills it automatically
 - Text values go inside single quotes: `'Alice'`
 - Dates go inside single quotes in `YYYY-MM-DD` format
@@ -69,6 +87,34 @@ INSERT INTO products (name, description, price, stock, category) VALUES
 ('Sneakers',          'Casual sneakers for everyday wear',     69.99,   50, 'Footwear'),
 ('Winter Jacket',     'Warm jacket for cold weather',         129.99,   30, 'Clothing'),
 ('Cap',               'Baseball cap with adjustable strap',    14.99,  120, 'Accessories');
+```
+
+```
+┌─────────────── MULTI-ROW INSERT ───────────────┐
+│                                                 │
+│  One INSERT statement adds multiple rows:       │
+│                                                 │
+│  INSERT INTO products VALUES                   │
+│  ├── ('T-Shirt',  $19.99, 100, 'Clothing')     │
+│  ├── ('Jeans',    $49.99,  75, 'Clothing')     │
+│  ├── ('Sneakers', $69.99,  50, 'Footwear')     │
+│  ├── ('Jacket',  $129.99,  30, 'Clothing')     │
+│  └── ('Cap',     $14.99, 120, 'Accessories')   │
+│                                                 │
+│  Result:                                        │
+│  ┌──────┬──────────┬───────┬───────┬──────────┐│
+│  │ id   │ name     │ price │ stock │ category ││
+│  ├──────┼──────────┼───────┼───────┼──────────┤│
+│  │  12  │ T-Shirt  │ 19.99 │  100  │ Clothing ││
+│  │  13  │ Jeans    │ 49.99 │   75  │ Clothing ││
+│  │  14  │ Sneakers │ 69.99 │   50  │ Footwear ││
+│  │  15  │ Jacket   │129.99 │   30  │ Clothing ││
+│  │  16  │ Cap      │ 14.99 │  120  │ Access.  ││
+│  └──────┴──────────┴───────┴───────┴──────────┘│
+│                                                 │
+│  Note: Each row separated by commas             │
+│        Same column order as table definition    │
+└─────────────────────────────────────────────────┘
 ```
 
 ---
