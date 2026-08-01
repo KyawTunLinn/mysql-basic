@@ -1,0 +1,388 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Lesson 12 — JOINs Made Simple - MySQL Beginner Course</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Course Overview</a></li><li class="chapter-item expanded "><a href="01-introduction.html"><strong aria-hidden="true">1.</strong> Lesson 1 — Introduction to MySQL</a></li><li class="chapter-item expanded "><a href="02-installation.html"><strong aria-hidden="true">2.</strong> Lesson 2 — Installing MySQL Server</a></li><li class="chapter-item expanded "><a href="03-workbench.html"><strong aria-hidden="true">3.</strong> Lesson 3 — MySQL Workbench Guide</a></li><li class="chapter-item expanded "><a href="04-command-line.html"><strong aria-hidden="true">4.</strong> Lesson 4 — Command Line Basics</a></li><li class="chapter-item expanded "><a href="05-first-queries.html"><strong aria-hidden="true">5.</strong> Lesson 5 — Your First Queries</a></li><li class="chapter-item expanded "><a href="06-create-tables.html"><strong aria-hidden="true">6.</strong> Lesson 6 — Creating Tables</a></li><li class="chapter-item expanded "><a href="07-insert-data.html"><strong aria-hidden="true">7.</strong> Lesson 7 — Inserting Data</a></li><li class="chapter-item expanded "><a href="08-select-data.html"><strong aria-hidden="true">8.</strong> Lesson 8 — Reading Data with SELECT</a></li><li class="chapter-item expanded "><a href="09-update-delete.html"><strong aria-hidden="true">9.</strong> Lesson 9 — Updating and Deleting</a></li><li class="chapter-item expanded "><a href="10-filtering.html"><strong aria-hidden="true">10.</strong> Lesson 10 — Filtering Data</a></li><li class="chapter-item expanded "><a href="11-sorting-limiting.html"><strong aria-hidden="true">11.</strong> Lesson 11 — Sorting and Limiting</a></li><li class="chapter-item expanded "><a href="12-joins.html" class="active"><strong aria-hidden="true">12.</strong> Lesson 12 — JOINs Made Simple</a></li><li class="chapter-item expanded "><a href="13-aggregations.html"><strong aria-hidden="true">13.</strong> Lesson 13 — Aggregations and GROUP BY</a></li><li class="chapter-item expanded "><a href="14-backup-restore.html"><strong aria-hidden="true">14.</strong> Lesson 14 — Backup and Restore</a></li><li class="chapter-item expanded affix "><a href="mysql-cheat-sheet.html">MySQL Cheat Sheet</a></li><li class="chapter-item expanded affix "><a href="sample-database.html">Sample Database</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">MySQL Beginner Course</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/KyawTunLinn/mysql-basic" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="lesson-12--joins-made-simple"><a class="header" href="#lesson-12--joins-made-simple">Lesson 12 — JOINs Made Simple</a></h1>
+<p>JOINs combine data from two or more tables. This is one of the most powerful features of databases.</p>
+<p><strong>Prerequisites:</strong> Filtering and sorting (Lessons 10–11), understanding of primary/foreign keys (Lesson 6)</p>
+<hr />
+<h2 id="what-is-a-join"><a class="header" href="#what-is-a-join">What Is a JOIN?</a></h2>
+<p>A JOIN combines data from two or more tables into one result. Think of it like this:</p>
+<p>You have a list of <strong>orders</strong>, and each order has a <code>customer_id</code>. But the customer's name is stored in the <strong>customers</strong> table, not in orders. A JOIN connects these two tables so you can see the order details together with the customer's name.</p>
+<p>Here is a simple example using the shop database tables:</p>
+<p><strong>customers table:</strong>
+| id | first_name | last_name |
+|----|------------|-----------|
+| 1 | John | Smith |
+| 2 | Sarah | Johnson |</p>
+<p><strong>orders table:</strong>
+| id | customer_id | order_date | total_amount |
+|----|-------------|------------|--------------|
+| 101 | 1 | 2025-01-15 | 1329.98 |
+| 102 | 2 | 2025-01-18 | 114.98 |</p>
+<p>A JOIN on <code>customer_id</code> connects them:</p>
+<div class="table-wrapper"><table><thead><tr><th>order_id</th><th>first_name</th><th>last_name</th><th>total_amount</th></tr></thead><tbody>
+<tr><td>101</td><td>John</td><td>Smith</td><td>1329.98</td></tr>
+<tr><td>102</td><td>Sarah</td><td>Johnson</td><td>114.98</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="the-inner-join-most-common"><a class="header" href="#the-inner-join-most-common">The INNER JOIN (Most Common)</a></h2>
+<p>Shows only rows that have matching data in BOTH tables.</p>
+<h3 id="format"><a class="header" href="#format">Format</a></h3>
+<pre><code class="language-sql">SELECT columns
+FROM table1
+INNER JOIN table2 ON table1.column = table2.column;
+</code></pre>
+<h3 id="example"><a class="header" href="#example">Example</a></h3>
+<p>Show each order with the customer's name:</p>
+<pre><code class="language-sql">SELECT orders.id AS order_id, 
+       customers.first_name, 
+       customers.last_name,
+       orders.order_date,
+       orders.total_amount
+FROM orders
+INNER JOIN customers ON orders.customer_id = customers.id;
+</code></pre>
+<p>This matches each order to its customer using: <code>orders.customer_id = customers.id</code></p>
+<h3 id="understanding-table-aliases"><a class="header" href="#understanding-table-aliases">Understanding Table Aliases</a></h3>
+<p>Instead of writing long table names, use short aliases:</p>
+<pre><code class="language-sql">SELECT o.id, c.first_name, c.last_name, o.total_amount
+FROM orders o
+INNER JOIN customers c ON o.customer_id = c.id;
+</code></pre>
+<ul>
+<li><code>orders o</code> means &quot;orders, and I will call it o&quot;</li>
+<li><code>customers c</code> means &quot;customers, and I will call it c&quot;</li>
+</ul>
+<p>Much cleaner!</p>
+<hr />
+<h2 id="visual-explanation-of-join-types"><a class="header" href="#visual-explanation-of-join-types">Visual Explanation of JOIN Types</a></h2>
+<pre><code>Table A          Table B
++---+---+        +---+---+
+| 1 | A |        | 1 | X |
+| 2 | B |   JOIN | 2 | Y |
+| 3 | C |        | 4 | Z |
++---+---+        +---+---+
+
+INNER JOIN →    LEFT JOIN →     RIGHT JOIN →
++---+---+       +---+---+       +---+---+
+| 1 | AX|       | 1 | AX|       | 1 | AX|
+| 2 | BY|       | 2 | BY|       | 2 | BY|
++---+---+       | 3 | C-|       | 4 |-Z |
+                +---+---+       +---+---+
+(Matches only)  (All A + matches) (All B + matches)
+</code></pre>
+<hr />
+<h2 id="left-join--all-from-left-table"><a class="header" href="#left-join--all-from-left-table">LEFT JOIN — All From Left Table</a></h2>
+<p>Shows ALL rows from the left table, even if there is no match in the right table. Unmatched rows show NULL.</p>
+<h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
+<p>Show all customers, including those who have NOT placed any orders:</p>
+<pre><code class="language-sql">SELECT c.first_name, c.last_name, o.id AS order_id
+FROM customers c
+LEFT JOIN orders o ON c.id = o.customer_id;
+</code></pre>
+<p>Customers without orders will show <code>NULL</code> in the <code>order_id</code> column.</p>
+<hr />
+<h2 id="finding-orphaned-records"><a class="header" href="#finding-orphaned-records">Finding &quot;Orphaned&quot; Records</a></h2>
+<p>Use LEFT JOIN to find records that have no match:</p>
+<pre><code class="language-sql">-- Customers who have NOT placed any orders
+SELECT c.first_name, c.last_name
+FROM customers c
+LEFT JOIN orders o ON c.id = o.customer_id
+WHERE o.id IS NULL;
+</code></pre>
+<hr />
+<h2 id="joining-three-tables"><a class="header" href="#joining-three-tables">JOINing Three Tables</a></h2>
+<p>You can chain multiple JOINs:</p>
+<p>Show order details with customer name and product name:</p>
+<pre><code class="language-sql">SELECT o.id AS order_id,
+       c.first_name,
+       p.name AS product_name,
+       oi.quantity,
+       oi.unit_price,
+       oi.quantity * oi.unit_price AS line_total
+FROM order_items oi
+INNER JOIN orders o ON oi.order_id = o.id
+INNER JOIN customers c ON o.customer_id = c.id
+INNER JOIN products p ON oi.product_id = p.id;
+</code></pre>
+<p>This connects: order_items → orders → customers → products</p>
+<hr />
+<h2 id="practical-examples"><a class="header" href="#practical-examples">Practical Examples</a></h2>
+<h3 id="example-1-order-summary"><a class="header" href="#example-1-order-summary">Example 1: Order Summary</a></h3>
+<p>Show each order with customer name and status:</p>
+<pre><code class="language-sql">SELECT o.id, 
+       CONCAT(c.first_name, ' ', c.last_name) AS customer,
+       o.order_date, 
+       o.status, 
+       o.total_amount
+FROM orders o
+INNER JOIN customers c ON o.customer_id = c.id
+ORDER BY o.order_date DESC;
+</code></pre>
+<h3 id="example-2-what-did-each-customer-buy"><a class="header" href="#example-2-what-did-each-customer-buy">Example 2: What Did Each Customer Buy?</a></h3>
+<pre><code class="language-sql">SELECT c.first_name, c.last_name, p.name AS product, oi.quantity
+FROM order_items oi
+INNER JOIN orders o ON oi.order_id = o.id
+INNER JOIN customers c ON o.customer_id = c.id
+INNER JOIN products p ON oi.product_id = p.id
+ORDER BY c.last_name, p.name;
+</code></pre>
+<h3 id="example-3-total-spent-per-customer"><a class="header" href="#example-3-total-spent-per-customer">Example 3: Total Spent Per Customer</a></h3>
+<pre><code class="language-sql">SELECT c.first_name, c.last_name, SUM(o.total_amount) AS total_spent
+FROM customers c
+INNER JOIN orders o ON c.id = o.customer_id
+GROUP BY c.id, c.first_name, c.last_name
+ORDER BY total_spent DESC;
+</code></pre>
+<p>We cover GROUP BY in the next lesson. For now, just see how JOIN works!</p>
+<hr />
+<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
+<p>Using the <code>shop</code> database:</p>
+<ol>
+<li>Show all orders with customer first names (use INNER JOIN)</li>
+<li>Show all customers and their order IDs (use LEFT JOIN — some may be NULL)</li>
+<li>Find customers who have never placed an order (LEFT JOIN + WHERE IS NULL)</li>
+<li>Show order items with both customer name AND product name (join 3 tables)</li>
+<li>List all products that have NEVER been ordered</li>
+</ol>
+<hr />
+<h2 id="quick-reference"><a class="header" href="#quick-reference">Quick Reference</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>JOIN Type</th><th>What It Shows</th></tr></thead><tbody>
+<tr><td><code>INNER JOIN</code></td><td>Only matching rows from both tables</td></tr>
+<tr><td><code>LEFT JOIN</code></td><td>All rows from left table + matching rows from right</td></tr>
+<tr><td><code>RIGHT JOIN</code></td><td>All rows from right table + matching rows from left</td></tr>
+<tr><td><code>ON</code></td><td>Specifies which columns connect the tables</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="next-step"><a class="header" href="#next-step">Next Step</a></h2>
+<p>Now let's learn how to summarize and count your joined data.</p>
+<p>→ <a href="13-aggregations.html">Lesson 13: Aggregations and GROUP BY</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="11-sorting-limiting.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="13-aggregations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="11-sorting-limiting.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="13-aggregations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

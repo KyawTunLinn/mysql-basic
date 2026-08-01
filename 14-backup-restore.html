@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Lesson 14 — Backup and Restore - MySQL Beginner Course</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Course Overview</a></li><li class="chapter-item expanded "><a href="01-introduction.html"><strong aria-hidden="true">1.</strong> Lesson 1 — Introduction to MySQL</a></li><li class="chapter-item expanded "><a href="02-installation.html"><strong aria-hidden="true">2.</strong> Lesson 2 — Installing MySQL Server</a></li><li class="chapter-item expanded "><a href="03-workbench.html"><strong aria-hidden="true">3.</strong> Lesson 3 — MySQL Workbench Guide</a></li><li class="chapter-item expanded "><a href="04-command-line.html"><strong aria-hidden="true">4.</strong> Lesson 4 — Command Line Basics</a></li><li class="chapter-item expanded "><a href="05-first-queries.html"><strong aria-hidden="true">5.</strong> Lesson 5 — Your First Queries</a></li><li class="chapter-item expanded "><a href="06-create-tables.html"><strong aria-hidden="true">6.</strong> Lesson 6 — Creating Tables</a></li><li class="chapter-item expanded "><a href="07-insert-data.html"><strong aria-hidden="true">7.</strong> Lesson 7 — Inserting Data</a></li><li class="chapter-item expanded "><a href="08-select-data.html"><strong aria-hidden="true">8.</strong> Lesson 8 — Reading Data with SELECT</a></li><li class="chapter-item expanded "><a href="09-update-delete.html"><strong aria-hidden="true">9.</strong> Lesson 9 — Updating and Deleting</a></li><li class="chapter-item expanded "><a href="10-filtering.html"><strong aria-hidden="true">10.</strong> Lesson 10 — Filtering Data</a></li><li class="chapter-item expanded "><a href="11-sorting-limiting.html"><strong aria-hidden="true">11.</strong> Lesson 11 — Sorting and Limiting</a></li><li class="chapter-item expanded "><a href="12-joins.html"><strong aria-hidden="true">12.</strong> Lesson 12 — JOINs Made Simple</a></li><li class="chapter-item expanded "><a href="13-aggregations.html"><strong aria-hidden="true">13.</strong> Lesson 13 — Aggregations and GROUP BY</a></li><li class="chapter-item expanded "><a href="14-backup-restore.html" class="active"><strong aria-hidden="true">14.</strong> Lesson 14 — Backup and Restore</a></li><li class="chapter-item expanded affix "><a href="mysql-cheat-sheet.html">MySQL Cheat Sheet</a></li><li class="chapter-item expanded affix "><a href="sample-database.html">Sample Database</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">MySQL Beginner Course</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/KyawTunLinn/mysql-basic" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="lesson-14--backup-and-restore"><a class="header" href="#lesson-14--backup-and-restore">Lesson 14 — Backup and Restore</a></h1>
+<p>In this lesson, you will learn how to save your database (backup) and bring it back (restore). This is essential for protecting your data.</p>
+<p><strong>Prerequisites:</strong> Can connect via command line (Lesson 4), database has data (Lessons 5–13)</p>
+<hr />
+<h2 id="why-back-up"><a class="header" href="#why-back-up">Why Back Up?</a></h2>
+<ul>
+<li>Prevent data loss from accidents or system failures</li>
+<li>Create a safety net before making big changes</li>
+<li>Share your database with others</li>
+<li>Move data between servers</li>
+</ul>
+<hr />
+<h2 id="method-1-mysqldump-recommended-for-beginners"><a class="header" href="#method-1-mysqldump-recommended-for-beginners">Method 1: mysqldump (Recommended for Beginners)</a></h2>
+<p><code>mysqldump</code> creates a text file containing all your SQL commands to recreate the database.</p>
+<h3 id="backup-a-single-database"><a class="header" href="#backup-a-single-database">Backup a Single Database</a></h3>
+<pre><code class="language-bash">mysqldump -u root -p shop &gt; shop-backup.sql
+</code></pre>
+<p>This saves everything (table structures + data) into <code>shop-backup.sql</code>.</p>
+<h3 id="backup-all-databases"><a class="header" href="#backup-all-databases">Backup All Databases</a></h3>
+<pre><code class="language-bash">mysqldump -u root -p --all-databases &gt; all-databases-backup.sql
+</code></pre>
+<h3 id="backup-only-the-table-structure-no-data"><a class="header" href="#backup-only-the-table-structure-no-data">Backup Only the Table Structure (No Data)</a></h3>
+<pre><code class="language-bash">mysqldump -u root -p --no-data shop &gt; shop-structure.sql
+</code></pre>
+<h3 id="backup-only-the-data-no-structure"><a class="header" href="#backup-only-the-data-no-structure">Backup Only the Data (No Structure)</a></h3>
+<pre><code class="language-bash">mysqldump -u root -p --no-create-info shop &gt; shop-data.sql
+</code></pre>
+<hr />
+<h2 id="restoring-from-a-backup"><a class="header" href="#restoring-from-a-backup">Restoring From a Backup</a></h2>
+<h3 id="restore-using-command-line"><a class="header" href="#restore-using-command-line">Restore Using Command Line</a></h3>
+<pre><code class="language-bash">mysql -u root -p shop &lt; shop-backup.sql
+</code></pre>
+<p>This reads the backup file and recreates everything in the <code>shop</code> database.</p>
+<h3 id="restore-into-a-new-database"><a class="header" href="#restore-into-a-new-database">Restore Into a New Database</a></h3>
+<pre><code class="language-bash"># First create a new empty database
+mysql -u root -p -e &quot;CREATE DATABASE shop_restore;&quot;
+
+# Then restore into it
+mysql -u root -p shop_restore &lt; shop-backup.sql
+</code></pre>
+<hr />
+<h2 id="method-2-workbench-exportimport"><a class="header" href="#method-2-workbench-exportimport">Method 2: Workbench Export/Import</a></h2>
+<h3 id="export-backup-in-workbench"><a class="header" href="#export-backup-in-workbench">Export (Backup) in Workbench:</a></h3>
+<ol>
+<li>Right-click your database in the Schema Panel</li>
+<li>Choose <strong>&quot;Export Wizard&quot;</strong></li>
+<li>Follow the steps:
+<ul>
+<li>Select tables to export</li>
+<li>Choose output format (SQL recommended)</li>
+<li>Save the file</li>
+</ul>
+</li>
+<li>Click <strong>Start Export</strong></li>
+</ol>
+<h3 id="import-restore-in-workbench"><a class="header" href="#import-restore-in-workbench">Import (Restore) in Workbench:</a></h3>
+<ol>
+<li>Right-click your database → <strong>&quot;Import Wizard&quot;</strong></li>
+<li>Choose the <code>.sql</code> backup file</li>
+<li>Follow the steps</li>
+<li>Click <strong>Start Import</strong></li>
+</ol>
+<hr />
+<h2 id="method-3-schedule-automatic-backups"><a class="header" href="#method-3-schedule-automatic-backups">Method 3: Schedule Automatic Backups</a></h2>
+<p>For daily automatic backups, create a schedule:</p>
+<h3 id="on-linuxmac-using-cron"><a class="header" href="#on-linuxmac-using-cron">On Linux/Mac (using cron):</a></h3>
+<pre><code class="language-bash"># Run backup every day at 2 AM
+0 2 * * * mysqldump -u root -pyourpassword shop &gt; /backups/shop-$(date +\%Y\%m\%d).sql
+</code></pre>
+<h3 id="on-windows-using-task-scheduler"><a class="header" href="#on-windows-using-task-scheduler">On Windows (using Task Scheduler):</a></h3>
+<ol>
+<li>Open Task Scheduler</li>
+<li>Create a basic task</li>
+<li>Set it to run daily</li>
+<li>Action: Start a program</li>
+<li>Program: <code>mysqldump.exe</code></li>
+<li>Arguments: <code>-u root -p password shop &gt; C:\backups\shop-%DATE%.sql</code></li>
+</ol>
+<hr />
+<h2 id="important-tips"><a class="header" href="#important-tips">Important Tips</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Tip</th><th>Reason</th></tr></thead><tbody>
+<tr><td>Always test your backup</td><td>A backup that cannot be restored is useless</td></tr>
+<tr><td>Keep multiple backups</td><td>Delete old ones to save space</td></tr>
+<tr><td>Store backups outside your computer</td><td>Use cloud storage or external drive</td></tr>
+<tr><td>Compress large backups</td><td>Use gzip: <code>mysqldump ... \| gzip &gt; backup.sql.gz</code></td></tr>
+<tr><td>Include date in filename</td><td>Makes it easy to find the right backup</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
+<ol>
+<li>Create a backup of the <code>shop</code> database using mysqldump</li>
+<li>Verify the backup file was created and has content</li>
+<li>Delete the <code>shop</code> database: <code>DROP DATABASE shop;</code></li>
+<li>Restore from your backup</li>
+<li>Verify all tables and data are back</li>
+<li>Try exporting via Workbench Export Wizard and importing back</li>
+</ol>
+<hr />
+<h2 id="quick-reference"><a class="header" href="#quick-reference">Quick Reference</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Command</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>mysqldump -u root -p dbname &gt; file.sql</code></td><td>Backup a database</td></tr>
+<tr><td><code>mysql -u root -p dbname &lt; file.sql</code></td><td>Restore from backup</td></tr>
+<tr><td>Workbench → Export Wizard</td><td>Visual backup method</td></tr>
+<tr><td>Workbench → Import Wizard</td><td>Visual restore method</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="-congratulations"><a class="header" href="#-congratulations">🎉 Congratulations!</a></h2>
+<p>You have completed the MySQL Beginner Course! You now know:</p>
+<ul>
+<li>How to install MySQL Server</li>
+<li>How to use MySQL Workbench (visual tool)</li>
+<li>How to use the command line</li>
+<li>How to create databases and tables</li>
+<li>How to add, read, update, and delete data</li>
+<li>How to filter, sort, and combine data</li>
+<li>How to summarize data with aggregations</li>
+<li>How to back up and restore your database</li>
+</ul>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
+<p>Here are some topics to explore further:</p>
+<ul>
+<li><strong>JOINs with more tables</strong> — Practice combining 3+ tables</li>
+<li><strong>Views</strong> — Save complex queries as virtual tables</li>
+<li><strong>Stored Procedures</strong> — Write reusable SQL code</li>
+<li><strong>Indexes</strong> — Make your queries faster</li>
+<li><strong>User Management</strong> — Create users with specific permissions</li>
+</ul>
+<p>Keep practicing and building databases. The more you use MySQL, the better you become!</p>
+<hr />
+<h2 id="useful-resources"><a class="header" href="#useful-resources">Useful Resources</a></h2>
+<ul>
+<li><a href="https://dev.mysql.com/doc/">MySQL Official Documentation</a></li>
+<li><a href="mysql-cheat-sheet.html">MySQL Cheat Sheet</a> — Keep this handy!</li>
+<li><a href="sample-database.sql">Sample Database</a> — Practice anytime</li>
+</ul>
+<p>Happy querying! 🚀</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="13-aggregations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="mysql-cheat-sheet.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="13-aggregations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="mysql-cheat-sheet.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

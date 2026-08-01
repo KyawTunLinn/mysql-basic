@@ -1,0 +1,12 @@
+[book]
+authors = ["Kyaw Tun Lin"]
+language = "en"
+multilingual = false
+src = "."
+title = "MySQL Beginner Course"
+
+[build]
+create-missing = false
+
+[output.html]
+git-repository-url = "https://github.com/KyawTunLinn/mysql-basic"

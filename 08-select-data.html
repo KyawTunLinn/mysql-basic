@@ -1,0 +1,367 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Lesson 8 — Reading Data with SELECT - MySQL Beginner Course</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Course Overview</a></li><li class="chapter-item expanded "><a href="01-introduction.html"><strong aria-hidden="true">1.</strong> Lesson 1 — Introduction to MySQL</a></li><li class="chapter-item expanded "><a href="02-installation.html"><strong aria-hidden="true">2.</strong> Lesson 2 — Installing MySQL Server</a></li><li class="chapter-item expanded "><a href="03-workbench.html"><strong aria-hidden="true">3.</strong> Lesson 3 — MySQL Workbench Guide</a></li><li class="chapter-item expanded "><a href="04-command-line.html"><strong aria-hidden="true">4.</strong> Lesson 4 — Command Line Basics</a></li><li class="chapter-item expanded "><a href="05-first-queries.html"><strong aria-hidden="true">5.</strong> Lesson 5 — Your First Queries</a></li><li class="chapter-item expanded "><a href="06-create-tables.html"><strong aria-hidden="true">6.</strong> Lesson 6 — Creating Tables</a></li><li class="chapter-item expanded "><a href="07-insert-data.html"><strong aria-hidden="true">7.</strong> Lesson 7 — Inserting Data</a></li><li class="chapter-item expanded "><a href="08-select-data.html" class="active"><strong aria-hidden="true">8.</strong> Lesson 8 — Reading Data with SELECT</a></li><li class="chapter-item expanded "><a href="09-update-delete.html"><strong aria-hidden="true">9.</strong> Lesson 9 — Updating and Deleting</a></li><li class="chapter-item expanded "><a href="10-filtering.html"><strong aria-hidden="true">10.</strong> Lesson 10 — Filtering Data</a></li><li class="chapter-item expanded "><a href="11-sorting-limiting.html"><strong aria-hidden="true">11.</strong> Lesson 11 — Sorting and Limiting</a></li><li class="chapter-item expanded "><a href="12-joins.html"><strong aria-hidden="true">12.</strong> Lesson 12 — JOINs Made Simple</a></li><li class="chapter-item expanded "><a href="13-aggregations.html"><strong aria-hidden="true">13.</strong> Lesson 13 — Aggregations and GROUP BY</a></li><li class="chapter-item expanded "><a href="14-backup-restore.html"><strong aria-hidden="true">14.</strong> Lesson 14 — Backup and Restore</a></li><li class="chapter-item expanded affix "><a href="mysql-cheat-sheet.html">MySQL Cheat Sheet</a></li><li class="chapter-item expanded affix "><a href="sample-database.html">Sample Database</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">MySQL Beginner Course</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/KyawTunLinn/mysql-basic" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="lesson-8--reading-data-with-select"><a class="header" href="#lesson-8--reading-data-with-select">Lesson 8 — Reading Data with SELECT</a></h1>
+<p>In this lesson, you will master the SELECT statement — the most important SQL command for reading data.</p>
+<p><strong>Prerequisites:</strong> Tables with data (Lessons 6–7), can connect via Workbench or command line</p>
+<hr />
+<h2 id="the-select-statement"><a class="header" href="#the-select-statement">The SELECT Statement</a></h2>
+<p><code>SELECT</code> is how you ask MySQL questions about your data. It is like searching in a spreadsheet.</p>
+<h3 id="basic-format"><a class="header" href="#basic-format">Basic Format</a></h3>
+<pre><code class="language-sql">SELECT columns FROM table;
+</code></pre>
+<hr />
+<h2 id="step-1-select-all-columns"><a class="header" href="#step-1-select-all-columns">Step 1: Select All Columns</a></h2>
+<pre><code class="language-sql">SELECT * FROM customers;
+</code></pre>
+<p>The <code>*</code> means &quot;all columns.&quot; This shows every column and every row.</p>
+<p>⚠️ <strong>Tip:</strong> In real work, avoid using <code>*</code>. Always specify only the columns you need. It is faster and cleaner.</p>
+<hr />
+<h2 id="step-2-select-specific-columns"><a class="header" href="#step-2-select-specific-columns">Step 2: Select Specific Columns</a></h2>
+<pre><code class="language-sql">SELECT first_name, last_name, email FROM customers;
+</code></pre>
+<p>Output:</p>
+<div class="table-wrapper"><table><thead><tr><th>first_name</th><th>last_name</th><th>email</th></tr></thead><tbody>
+<tr><td>John</td><td>Smith</td><td>john@email.com</td></tr>
+<tr><td>Sarah</td><td>Johnson</td><td>sarah@email.com</td></tr>
+<tr><td>...</td><td>...</td><td>...</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="step-3-give-columns-nicknames-aliases"><a class="header" href="#step-3-give-columns-nicknames-aliases">Step 3: Give Columns Nicknames (Aliases)</a></h2>
+<p>You can rename columns in your results using <code>AS</code>:</p>
+<pre><code class="language-sql">SELECT first_name AS name, email AS contact FROM customers;
+</code></pre>
+<p>Output:</p>
+<div class="table-wrapper"><table><thead><tr><th>name</th><th>contact</th></tr></thead><tbody>
+<tr><td>John</td><td>john@email.com</td></tr>
+<tr><td>Sarah</td><td>sarah@email.com</td></tr>
+</tbody></table>
+</div>
+<p>This makes the output easier to read.</p>
+<hr />
+<h2 id="step-4-do-calculations-in-your-query"><a class="header" href="#step-4-do-calculations-in-your-query">Step 4: Do Calculations in Your Query</a></h2>
+<p>You can perform math directly in your SELECT:</p>
+<pre><code class="language-sql">SELECT name, price, stock, price * stock AS total_value FROM products;
+</code></pre>
+<p>This adds a new calculated column called <code>total_value</code> that multiplies price by stock.</p>
+<p>Output:</p>
+<div class="table-wrapper"><table><thead><tr><th>name</th><th>price</th><th>stock</th><th>total_value</th></tr></thead><tbody>
+<tr><td>Laptop Pro 15&quot;</td><td>1299.99</td><td>25</td><td>32499.75</td></tr>
+<tr><td>Wireless Mouse</td><td>29.99</td><td>150</td><td>4498.50</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+</tbody></table>
+</div>
+<p>Other calculations:</p>
+<pre><code class="language-sql">-- Add tax
+SELECT name, price, price * 1.1 AS price_with_tax FROM products;
+
+-- Calculate order value
+SELECT quantity, unit_price, quantity * unit_price AS line_total FROM order_items;
+</code></pre>
+<hr />
+<h2 id="step-5-combine-text"><a class="header" href="#step-5-combine-text">Step 5: Combine Text</a></h2>
+<p>Use <code>CONCAT()</code> to join text from multiple columns:</p>
+<pre><code class="language-sql">SELECT CONCAT(first_name, ' ', last_name) AS full_name, city FROM customers;
+</code></pre>
+<p>Output:</p>
+<div class="table-wrapper"><table><thead><tr><th>full_name</th><th>city</th></tr></thead><tbody>
+<tr><td>John Smith</td><td>New York</td></tr>
+<tr><td>Sarah Johnson</td><td>Los Angeles</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="step-6-remove-duplicates-with-distinct"><a class="header" href="#step-6-remove-duplicates-with-distinct">Step 6: Remove Duplicates with DISTINCT</a></h2>
+<p>If some values repeat, use <code>DISTINCT</code> to show only unique values:</p>
+<pre><code class="language-sql">SELECT DISTINCT city FROM customers;
+</code></pre>
+<p>Output (only unique cities):</p>
+<div class="table-wrapper"><table><thead><tr><th>city</th></tr></thead><tbody>
+<tr><td>New York</td></tr>
+<tr><td>Los Angeles</td></tr>
+<tr><td>Chicago</td></tr>
+<tr><td>Houston</td></tr>
+<tr><td>Phoenix</td></tr>
+<tr><td>Philadelphia</td></tr>
+<tr><td>San Antonio</td></tr>
+<tr><td>San Diego</td></tr>
+<tr><td>Dallas</td></tr>
+<tr><td>San Jose</td></tr>
+</tbody></table>
+</div>
+<p>Another example:</p>
+<pre><code class="language-sql">SELECT DISTINCT category FROM products;
+</code></pre>
+<hr />
+<h2 id="step-7-check-how-many-rows-exist"><a class="header" href="#step-7-check-how-many-rows-exist">Step 7: Check How Many Rows Exist</a></h2>
+<pre><code class="language-sql">SELECT COUNT(*) FROM customers;
+</code></pre>
+<p>This returns: <code>10</code> (the total number of customers).</p>
+<p>Count with conditions:</p>
+<pre><code class="language-sql">SELECT COUNT(*) FROM products WHERE category = 'Electronics';
+</code></pre>
+<hr />
+<h2 id="step-8-working-with-null-values"><a class="header" href="#step-8-working-with-null-values">Step 8: Working with NULL Values</a></h2>
+<p>NULL means &quot;no value&quot; or &quot;empty.&quot; Some columns might be NULL.</p>
+<p>To find rows with NULL values:</p>
+<pre><code class="language-sql">SELECT * FROM customers WHERE phone IS NULL;
+</code></pre>
+<p>To find rows that have a value:</p>
+<pre><code class="language-sql">SELECT * FROM customers WHERE phone IS NOT NULL;
+</code></pre>
+<p>⚠️ You cannot use <code>= NULL</code> or <code>!= NULL</code>. Always use <code>IS NULL</code> or <code>IS NOT NULL</code>.</p>
+<hr />
+<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
+<p>Using the <code>shop</code> database:</p>
+<ol>
+<li>Show all product names and prices</li>
+<li>Show customer full names (first + last combined)</li>
+<li>Show product names with a 10% discount: <code>name, price, price * 0.9 AS discounted_price</code></li>
+<li>List all unique categories in products</li>
+<li>Count how many products are in the &quot;Electronics&quot; category</li>
+<li>Show all customers who do not have a phone number (phone IS NULL)</li>
+</ol>
+<hr />
+<h2 id="quick-reference"><a class="header" href="#quick-reference">Quick Reference</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Command</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>SELECT * FROM table</code></td><td>Get all columns and rows</td></tr>
+<tr><td><code>SELECT col1, col2 FROM table</code></td><td>Get specific columns</td></tr>
+<tr><td><code>SELECT col AS nickname</code></td><td>Rename a column in results</td></tr>
+<tr><td><code>SELECT DISTINCT col</code></td><td>Get unique values only</td></tr>
+<tr><td><code>SELECT COUNT(*) FROM table</code></td><td>Count total rows</td></tr>
+<tr><td><code>col1 * col2 AS result</code></td><td>Do calculations</td></tr>
+<tr><td><code>CONCAT(a, b)</code></td><td>Join text together</td></tr>
+<tr><td><code>IS NULL</code> / <code>IS NOT NULL</code></td><td>Check for empty values</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="next-step"><a class="header" href="#next-step">Next Step</a></h2>
+<p>You can read data. Now let's learn how to change and remove it.</p>
+<p>→ <a href="09-update-delete.html">Lesson 9: Updating and Deleting</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="07-insert-data.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="09-update-delete.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="07-insert-data.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="09-update-delete.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
