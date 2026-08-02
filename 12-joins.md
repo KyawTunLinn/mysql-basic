@@ -10,7 +10,6 @@
 
 ##  JOIN ပေါင်းစပ်ပုံ visual Diagram
 
-![SQL JOINs Explained](images/lesson12.svg)
 
 ---
 

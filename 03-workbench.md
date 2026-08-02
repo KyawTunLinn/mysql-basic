@@ -11,7 +11,6 @@ MySQL Workbench စွာ Graphical User Interface (GUI) Tool ဖြစ်ပြ
 
 ##  MySQL Workbench GUI Layout Illustration (မျက်ပြင် ပြင်ဆင်ပုံ ပုံရိပ်)
 
-![MySQL Workbench GUI Overview](images/lesson03.svg)
 
 ---
 
@@ -27,7 +26,6 @@ MySQL Workbench စွာ Graphical User Interface (GUI) Tool ဖြစ်ပြ
 
 Workbench စတင်ပွင့်လာချိန်မာ **"MySQL Connections"** ခေါင်းစဉ်ကို တွေ့ရပါမည်။
 
-![MySQL Workbench GUI Guide](images/lesson03.svg)
 
 1. **"MySQL Connections"** ဘေးတွင်ရှိသော **"+"** လက္ခဏာကို နှိပ်ပါ။
 2. အောက်ပါ အချက်အလက်များကို ဖြည့်သွင်းပါ -

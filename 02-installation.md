@@ -11,7 +11,6 @@
 
 ##  MySQL Architecture & Installation Flow (တပ်ဆင်မှု လမ်းကြောင်း ပုံရိပ်)
 
-![MySQL Architecture & Installation Flow](images/lesson02.svg)
 
 ---
 

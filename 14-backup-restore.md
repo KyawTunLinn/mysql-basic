@@ -10,7 +10,6 @@
 
 ##  Backup & Restore စက်ဝန်း visual Diagram
 
-![MySQL Backup and Restore Workflow](images/lesson14.svg)
 
 ---
 

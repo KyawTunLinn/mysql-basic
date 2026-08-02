@@ -8,7 +8,6 @@ Command Line Client သို့မဟုတ် Terminal မှတစ်ဆင�
 
 ##  Command Line အလုပ်လုပ်ပုံ မျက်မြင် visual ပုံရိပ်
 
-![MySQL Command Line Client Workflow](images/lesson04.svg)
 
 **ခန့်မှန်း ကြာချိန် - မိနစ် ၃၀**
 
@@ -54,7 +53,6 @@ mysql -u root -p
 - `-u root` — "root" user (အုပ်ချုပ်သူ အကောင့်) ဖြင့် Log in ဝင်ခြင်း
 - `-p` — Password တောင်းဆိုခိုင်းခြင်း
 
-![MySQL Command Line Client Workflow](images/lesson04.svg)
 
 `Enter password:` ဟု ပေါ်လာပါက Root Password ကို ရိုက်ထည့်ပါ (Password ရိုက်နေချိန် စာလုံးများ ပေါ်မည်မဟုတ်ပါ၊ စိတ်မပူပါနှင့်)။
 

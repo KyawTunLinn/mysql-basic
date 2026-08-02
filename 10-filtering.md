@@ -10,7 +10,6 @@
 
 ##  WHERE Clause Filter အလုပ်လုပ်ပုံ visual Diagram
 
-![WHERE Filtering Funnel](images/lesson10.svg)
 
 ---
 
@@ -79,7 +78,6 @@ WHERE city IN ('Yangon', 'Mandalay', 'Sittwe');
 
 ##  အဆင့် ၅ - LIKE ဖြင့် စာသား ပုံစံ ရှာဖွေခြင်း (Wildcard Search)
 
-![WHERE Filtering Funnel](images/lesson10.svg)
 
 ```sql
 -- Email စာလုံး "j" ဖြင့် စသော သူများ

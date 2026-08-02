@@ -10,7 +10,6 @@
 
 ##  Database ၏ ဖွဲ့စည်းပုံ visual Diagram (School Database Example)
 
-![CREATE TABLE & Data Types](images/lesson06.svg)
 
 ---
 
@@ -87,7 +86,6 @@ DESCRIBE students;
 
 ##  အသုံးများသော Data Types များ visual Summary
 
-![CREATE TABLE & Data Types](images/lesson06.svg)
 
 ---
 

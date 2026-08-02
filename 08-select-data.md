@@ -10,7 +10,6 @@
 
 ##  SELECT အလုပ်လုပ်ပုံ visual Diagram
 
-![SELECT Query Execution Flow](images/lesson08.svg)
 
 ---
 
@@ -76,7 +75,6 @@ SELECT CONCAT(first_name, ' ', last_name) AS full_name, city FROM customers;
 SELECT DISTINCT city FROM customers;
 ```
 
-![SELECT Query Execution Flow](images/lesson08.svg)
 
 ---
 

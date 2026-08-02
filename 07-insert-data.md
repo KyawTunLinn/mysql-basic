@@ -11,7 +11,6 @@
 
 ##  INSERT Command အလုပ်လုပ်ပုံ visual Diagram
 
-![INSERT INTO Data Flow](images/lesson07.svg)
 
 ---
 

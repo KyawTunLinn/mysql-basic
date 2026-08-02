@@ -65,7 +65,6 @@ SHOW TABLES;
 
 `shop` Database မာ Table (၄) ခု ပါဝင်ပါတယ် -
 
-![Sample Database Tables Structure](images/lesson05.svg)
 
 - **customers** — ဝယ်သူများ၏ အချက်အလက်များ
 - **products** — ရောင်းချသော ကုန်ပစ္စည်း စာရင်းများ
@@ -98,7 +97,6 @@ FROM     [မည်သည့် Table မှ ယူမည်နည်း]
 LIMIT    [မည်မျှ ကန့်သတ်မည်နည်း];
 ```
 
-![First Queries Flow](images/lesson05.svg)
 
 ---
 

@@ -10,7 +10,6 @@
 
 ##  Aggregate Functions visual Summary
 
-![MySQL Aggregations and GROUP BY](images/lesson13.svg)
 
 ---
 
@@ -36,7 +35,6 @@ FROM products
 GROUP BY category;
 ```
 
-![MySQL Aggregations and GROUP BY](images/lesson13.svg)
 
 ---
 
