@@ -8,34 +8,7 @@ Command Line Client သို့မဟုတ် Terminal မှတစ်ဆင�
 
 ##  Command Line အလုပ်လုပ်ပုံ မျက်မြင် visual ပုံရိပ်
 
-```
-
-                      Your Computer Terminal Window                      
-
-  user@computer:~$ mysql -u root -p                                      
-  Enter password: ********                                               
-                                                                         
-  Welcome to the MySQL monitor! Commands end with ; or \g.               
-                                                                         
-  mysql> USE shop;                                                       
-  Database changed                                                       
-                                                                         
-  mysql> SELECT * FROM customers LIMIT 3;                                
-  +----+--------------+-----------+--------------------+                 
-  | id | first_name   | last_name | email              |                 
-  +----+--------------+-----------+--------------------+                 
-  | 1  | U            | Ba        | uba@gmail.com      |                 
-  | 2  | Daw          | Hla       | hla@gmail.com      |                 
-  | 3  | Ko           | Aung      | aung@gmail.com     |                 
-  +----+--------------+-----------+--------------------+                 
-  3 rows in set (0.01 sec)                                               
-                                                                         
-  mysql> EXIT;                                                           
-  Bye                                                                    
-                                                                         
-  user@computer:~$                                                       
-
-```
+![MySQL Command Line Client Workflow](images/lesson04.svg)
 
 **ခန့်မှန်း ကြာချိန် - မိနစ် ၃၀**
 

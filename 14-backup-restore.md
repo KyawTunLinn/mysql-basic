@@ -10,26 +10,7 @@
 
 ##  Backup & Restore စက်ဝန်း visual Diagram
 
-```
-
-                      BACKUP & RESTORE WORKFLOW                          
-
-                                                                         
-                    
-     MySQL Database                             shop-backup.sql      
-     (Live Server Data)                         (Backup SQL File)    
-                    
-                                                                       
-                  mysqldump -u root -p shop > ...                      
-                              
-                  (1. BACKUP / EXPORT)                                 
-                                                                       
-                  mysql -u root -p shop < ...                          
-                              
-                  (2. RESTORE / IMPORT)                                 
-                                                                         
-
-```
+![MySQL Backup and Restore Workflow](images/lesson14.svg)
 
 ---
 

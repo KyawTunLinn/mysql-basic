@@ -11,31 +11,7 @@
 
 ##  INSERT Command အလုပ်လုပ်ပုံ visual Diagram
 
-```
-
-                          INSERT INTO Operation                          
-
-  BEFORE (ယခင် တည်ရှိပြီး ဒေတာ):                                        
-  +----+------------+-------------------+                                
-  | id | name       | email             |                                
-  +----+------------+-------------------+                                
-  | 1  | U Ba       | uba@gmail.com     |                                
-  | 2  | Daw Hla    | hla@gmail.com     |                                
-  +----+------------+-------------------+                                
-                                                                         
-  INSERT Command Run လိုက်ချိန်:                                         
-  INSERT INTO customers (name, email) VALUES ('Ko Aung', 'aung@e.com');  
-                                                                         
-  AFTER (Data အသစ် ထပ်တိုးလာပုံ):                                       
-  +----+------------+-------------------+                                
-  | id | name       | email             |                                
-  +----+------------+-------------------+                                
-  | 1  | U Ba       | uba@gmail.com     |                                
-  | 2  | Daw Hla    | hla@gmail.com     |                                
-  | 3  | Ko Aung    | aung@e.com        |   [DATA အသစ် အောက်နားမာ တိုးလာသည်]
-  +----+------------+-------------------+                                
-
-```
+![INSERT INTO Data Flow](images/lesson07.svg)
 
 ---
 
@@ -93,24 +69,7 @@ INSERT INTO products (name, description, price, stock, category) VALUES
 ('Cap',               'Baseball cap with adjustable strap',    14.99,  120, 'Accessories');
 ```
 
-```
- MULTI-ROW INSERT visual Diagram 
-                                                                   
-  INSERT INTO products (name, price, stock, category) VALUES       
-     ('T-Shirt',  19.99, 100, 'Clothing'),                      
-     ('Jeans',    49.99,  75, 'Clothing'),                      
-     ('Cap',      14.99, 120, 'Accessories');                   
-                                                                   
-  ရလဒ် ဇယား:                                                        
-  +----+---------+-------+-------+-------------+                   
-  | id | name    | price | stock | category    |                   
-  +----+---------+-------+-------+-------------+                   
-  | 1  | T-Shirt | 19.99 | 100   | Clothing    |                   
-  | 2  | Jeans   | 49.99 | 75    | Clothing    |                   
-  | 3  | Cap     | 14.99 | 120   | Accessories |                   
-  +----+---------+-------+-------+-------------+                   
 
-```
 
 ---
 

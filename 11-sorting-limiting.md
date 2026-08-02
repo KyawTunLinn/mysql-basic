@@ -10,21 +10,7 @@
 
 ##  ORDER BY စီစဉ်ပုံ visual Diagram
 
-```
-
-                           ORDER BY SORTING                              
-
-                                                                         
-  ASC (အနည်းမှ အများ / A  Z):            DESC (အများမှ အနည်း / Z  A):   
-  +----+---------+-------+                 +----+---------+-------+      
-  | id | name    | price |                 | id | name    | price |      
-  +----+---------+-------+                 +----+---------+-------+      
-  | 1  | Cap     | 14.99 |  သက်သာသူ    15 | Jacket  | 129.9 |  စျေးကြီးသူ
-  | 2  | T-Shirt | 19.99 |                 | 14 | Sneakers| 69.99 |      
-  | 3  | Jeans   | 49.99 |                 | 13 | Jeans   | 49.99 |      
-  +----+---------+-------+                 +----+---------+-------+      
-
-```
+![ORDER BY Sorting & LIMIT Pagination](images/lesson11.svg)
 
 ---
 

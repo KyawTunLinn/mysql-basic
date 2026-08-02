@@ -10,27 +10,7 @@
 
 ##  Aggregate Functions visual Summary
 
-```
-
-                      AGGREGATE FUNCTIONS ILLUSTRATION                   
-
-  Data အတန်းများစွာ  အနှစ်ချုပ် တန်ဖိုးတစ်ခု ထွက်လာပုံ:                     
-                                                                         
-  +----------+--------------------+                                      
-  | price    | product            |                                      
-  +----------+--------------------+                                      
-  | $999.99  | Laptop             |                                      
-  | $29.99   | Mouse              |                                      
-  | $199.99  | Keyboard           |                                      
-  +----------+--------------------+                                      
-                                                                         
-  COUNT(*)    3 (အတန်း စုစုပေါင်း အရေအတွက်)                           
-  SUM(price)  $1229.97 (စျေးနှုန်း အားလုံး ပေါင်းလဒ်)                       
-  AVG(price)  $409.99 (ပျမ်းမျှ စျေးနှုန်း)                                
-  MIN(price)  $29.99 (အသက်သာဆုံး စျေး)                                   
-  MAX(price)  $999.99 (စျေးအကြီးဆုံး)                                      
-
-```
+![MySQL Aggregations and GROUP BY](images/lesson13.svg)
 
 ---
 

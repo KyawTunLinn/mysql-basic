@@ -11,29 +11,7 @@ MySQL Workbench စွာ Graphical User Interface (GUI) Tool ဖြစ်ပြ
 
 ##  MySQL Workbench GUI Layout Illustration (မျက်ပြင် ပြင်ဆင်ပုံ ပုံရိပ်)
 
-```
-
-                      MySQL Workbench Graphical Interface                  
-
- [ File ]  [ Edit ]  [ View ]  [ Query ]  [ Database ]  [ Help ]           
-
-   (Run Query)    (Save)    (Open)    (New Tab)                       
-
- SCHEMAS (Left Panel)        SQL EDITOR (Center Panel)                    
-                                                                          
-  sys                      1  USE shop;                                 
-  mysql                    2  SELECT * FROM customers;                  
-  performance_schema       3                                            
-  shop (Our Database)                                                   
-     Tables           
-       customers         QUERY OUTPUT (Bottom Results Panel)          
-       products          +----+------------+-------------------+      
-       orders            | id | first_name | email             |      
-       order_items       +----+------------+-------------------+      
-     Views               | 1  | U Ba       | uba@gmail.com     |      
-                             +----+------------+-------------------+      
-
-```
+![MySQL Workbench GUI Overview](images/lesson03.svg)
 
 ---
 

@@ -12,21 +12,7 @@
 
 Data ပြင်ဆင်ခြင်း သို့မဟုတ် ဖျက်ပစ်ခြင်း မပြုမီ **အမြဲတမ်း** `SELECT` ဖြင့် မည်သည့် Data များ ပြောင်းလဲသွားမည်ကို အလျင် စစ်ဆေးပါ -
 
-```
-
-                      SAFE WORKFLOW DIAGRAM                              
-
-                                                                         
-  [ ၁။ SELECT ဖြင့် အလျင်စစ်ပါ ]  (ကြည့်ရှုစစ်ဆေးပါ - မှန်ကန်ပါသလား?)      
-                                                                        
-                                                                        
-  [ ၂။ UPDATE / DELETE ကို ရေးပါ ]  (WHERE Clause ပါမပါ သေချာစစ်ပါ)    
-                                                                        
-                                                                        
-  [ ၃။ SELECT ဖြင့် ပြန်လည် စစ်ဆေးပါ ]  (ပြောင်းလဲသွားပုံ ပြန်ကြည့်ပါ)   
-                                                                         
-
-```
+![UPDATE & DELETE Safety Guard](images/lesson09.svg)
 
 ```sql
 -- အဆင့် ၁ - ပြောင်းလဲမည့် Data ကို အလျင် စစ်ဆေးပါ
@@ -48,22 +34,7 @@ SET column1 = new_value, column2 = new_value
 WHERE condition;
 ```
 
-```
- UPDATE with WHERE visual Diagram 
-                                                                     
-  WHERE id = 1 ဖြင့် သီးသန့် အတန်းကိုသာ သေနတ်ချိန်ပြီးလျှင် ပြင်ဆင်ခြင်း:  
-                                                                     
-  +----+---------+------------+------------------+                   
-  | id | name    | city       | email            |                   
-  +----+---------+------------+------------------+                   
-  | 1  | U Ba    | Yangon     | uba@new.com      |  [ဤတန်းသာ ပြောင်းမည်]
-  | 2  | Daw Hla | Mandalay   | hla@gmail.com    |                   
-  | 3  | Ko Aung | Sittwe     | aung@gmail.com   |                   
-  +----+---------+------------+------------------+                   
-                                                                     
-   WHERE မပါပါက Data အတန်း အားလုံး၏ email များ ပြောင်းသွားပါမည်!    
 
-```
 
 ### ဥပမာ (၁) - Data တစ်ခုတည်းကို ပြောင်းခြင်း
 
@@ -92,20 +63,7 @@ DELETE FROM table_name
 WHERE condition;
 ```
 
-```
- DELETE with WHERE visual Diagram 
-                                                                     
-  BEFORE (ယခင်):              AFTER (ဖျက်ပြီး):                       
-  +----+---------+            +----+---------+                       
-  | id | name    |            | id | name    |                       
-  +----+---------+            +----+---------+                       
-  | 8  | Dave    |            | 8  | Dave    |                       
-  | 9  | Eva     |     | 9  | Eva     |                       
-  | 10 | Frank   |  (Deleted)|              |  [id 10 ပျက်သွားသည်]
-  | 11 | Grace   |            | 11 | Grace   |                       
-  +----+---------+            +----+---------+                       
 
-```
 
 ```sql
 DELETE FROM customers

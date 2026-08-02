@@ -10,32 +10,7 @@
 
 ##  SELECT အလုပ်လုပ်ပုံ visual Diagram
 
-```
-
-                           HOW SELECT WORKS                              
-
-  FULL TABLE (မူလ Table တွင်ဟိသမျှ Data ဉီးရေ):                             
-  +----+---------+----------------+-----+                                
-  | id | name    | email          | age |                                
-  +----+---------+----------------+-----+                                
-  | 1  | U Ba    | uba@gmail.com  | 25  |                                
-  | 2  | Daw Hla | hla@gmail.com  | 30  |                                
-  | 3  | Ko Aung | aung@gmail.com | 22  |                                
-  +----+---------+----------------+-----+                                
-                                                                         
-  SELECT ဖြင့် သီးသန့် Column ကို ရွေးထုတ်လိုက်ပုံ:                        
-  SELECT name, email FROM customers;                                     
-                                                                         
-  RESULT (ထုတ်ပြမည့် ရလဒ်):                                              
-  +---------+----------------+                                           
-  | name    | email          |   [အကွက် အားလုံး ထုတ်မပြဘဲ]            
-  +---------+----------------+   [သီးသန့် ရွေးထားသော ကော်လံ သာပေါ်သည်]
-  | U Ba    | uba@gmail.com  |                                           
-  | Daw Hla | hla@gmail.com  |                                           
-  | Ko Aung | aung@gmail.com |                                           
-  +---------+----------------+                                           
-
-```
+![SELECT Query Execution Flow](images/lesson08.svg)
 
 ---
 

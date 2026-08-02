@@ -6,31 +6,7 @@
 
 ##  SQL Query စနစ် ပိုက်လိုင်း အပြည့်အစုံ (Execution Order)
 
-```
-
-                      COMPLETE SQL QUERY PIPELINE                        
-
-                                                                         
-      
-    SELECT col1, col2, COUNT(*)      <- ထုတ်ပြမည့် Column များ             
-      FROM orders                    <- ယူဆောင်မည့် Table                    
-      WHERE total > 100              <- အတန်းများကို စစ်ထုတ်ခြင်း             
-      GROUP BY customer_id           <- အုပ်စုဖွဲ့ခြင်း                        
-      HAVING COUNT(*) > 3            <- အုပ်စုများကို ပြန်စစ်ထုတ်ခြင်း         
-      ORDER BY total DESC            <- အစဉ်လိုက် စီစဉ်ခြင်း                  
-      LIMIT 10;                      <- အရေအတွက် ကန့်သတ်ခြင်း               
-      
-                                                                         
-   Execution Order (နောက်ကွယ်မှ အမှန်တကယ် Run သည့် အစဉ်လိုက်):          
-   ၁။ FROM       မည်သည့် Table မှ ယူမည်နည်း                             
-   ၂။ WHERE      အတန်း တခုချင်းစီကို အလျင် စစ်ထုတ်မည်                     
-   ၃။ GROUP BY   အုပ်စု ဖွဲ့မည်                                         
-   ၄။ HAVING     အုပ်စုများကို စစ်ထုတ်မည်                                 
-   ၅။ SELECT     ထုတ်ပြမည့် Column များကို ရွေးမည်                        
-   ၆။ ORDER BY   အစဉ်လိုက် စီမည်                                       
-   ၇။ LIMIT      အရေအတွက် ကန့်သတ်မည်                                   
-
-```
+![SQL Query Execution Lifecycle](images/query-lifecycle.svg)
 
 ---
 

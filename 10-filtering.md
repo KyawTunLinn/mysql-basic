@@ -10,23 +10,7 @@
 
 ##  WHERE Clause Filter အလုပ်လုပ်ပုံ visual Diagram
 
-```
-
-                      WHERE CLAUSE FILTER FUNNEL                         
-
-                                                                         
-  [ Data အတန်း အားလုံး ]  ( 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 )           
-                                                                        
-                                                                        
-                                         
-                        FILTER: WHERE price > 50                       
-                                         
-                                                                        
-                                                                        
-  [ စစ်ထုတ်ချက်နှင့် ကိုက်ညီသော ဒေတာ ]  ( 6, 7, 8, 9, 10 )                 
-                                                                         
-
-```
+![WHERE Filtering Funnel](images/lesson10.svg)
 
 ---
 
