@@ -2,7 +2,7 @@
 
 ![MySQL Workbench Interface Illustration](images/lesson03.svg)
 
-MySQL Workbench စွာ Graphical User Interface (GUI) Tool ဖြစ်ပြီးလျှင် မောက်စ် (Mouse) ဖြင့် နှိပ်ပြီးလျှင် Database များကို လွယ်ကူစွာ ကိုင်တွယ်နိုင်အောင် ကူညီပေးပါသည် -
+MySQL Workbench သည် Graphical User Interface (GUI) Tool ဖြစ်ပြီးလျှင် မောက်စ် (Mouse) ဖြင့် နှိပ်ပြီးလျှင် Database များကို လွယ်ကူသည် ကိုင်တွယ်နိုင်အောင် ကူညီပေးပါသည် -
 ဝဲလ် ဖြစ်ပါတယ်။ **အစပျိုးသူများအတွက် အကောင်းဆုံး Tool ဖြစ်ပါတယ်**။
 
 **ခန့်မှန်း ကြာချိန် - မိနစ် ၃၀**
@@ -16,15 +16,15 @@ MySQL Workbench စွာ Graphical User Interface (GUI) Tool ဖြစ်ပြ
 
 ##  အဆင့် ၁ - MySQL Workbench ကို ဖွင့်ပါ
 
-- **Windows ပေါ်မာ:** Start Menu မာ "MySQL Workbench" ဟု ရိုက်ရှာပြီးလျှင် ဖွင့်ပါ။
+- **Windows ပေါ်မာ:** Start Menu တွင် "MySQL Workbench" ဟု ရိုက်ရှာပြီးလျှင် ဖွင့်ပါ။
 - **Mac ပေါ်မာ:** Finder  Applications  MySQL Workbench ကို ဖွင့်ပါ။
-- **Linux ပေါ်မာ:** Application Menu မာ "MySQL Workbench" ကို ရှာပြီးလျှင် ဖွင့်ပါ။
+- **Linux ပေါ်မာ:** Application Menu တွင် "MySQL Workbench" ကို ရှာပြီးလျှင် ဖွင့်ပါ။
 
 ---
 
 ##  အဆင့် ၂ - MySQL Server နှင့် ချိတ်ဆက်မှု (Connection) ပြုလုပ်ပါ
 
-Workbench စတင်ပွင့်လာချိန်မာ **"MySQL Connections"** ခေါင်းစဉ်ကို တွေ့ရပါမည်။
+Workbench စတင်ပွင့်လာချိန်တွင် **"MySQL Connections"** ခေါင်းစဉ်ကို တွေ့ရပါမည်။
 
 
 1. **"MySQL Connections"** ဘေးတွင်ရှိသော **"+"** လက္ခဏာကို နှိပ်ပါ။
@@ -45,7 +45,7 @@ Workbench စတင်ပွင့်လာချိန်မာ **"MySQL Connec
 
 ##  အဆင့် ၃ - Server ထို့ ဝင်ရောက်ပါ
 
-1. ပင်မမျက်နှာပြင်မာ ပေါ်နေသော Connection သေတ္တာလေးကို Double-click နှိပ်ပါ။
+1. ပင်မမျက်နှာပြင်တွင် ပေါ်နေသော Connection သေတ္တာလေးကို Double-click နှိပ်ပါ။
 2. Root Password တောင်းပါက ရိုက်ထည့်ပါ။
 3. Workbench Dashboard သို့ ရောက်ရှိသွားပါပြီ။
 
@@ -64,14 +64,14 @@ Workbench စတင်ပွင့်လာချိန်မာ **"MySQL Connec
 
 ##  အဆင့် ၅ - ပထမဆုံး Query ကို Run ကြည့်ပါ
 
-1. SQL Editor မာ အောက်ပါအတိုင်း ရိုက်ထည့်ပါ -
+1. SQL Editor တွင် အောက်ပါအတိုင်း ရိုက်ထည့်ပါ -
 
 ```sql
 SHOW DATABASES;
 ```
 
 2. ထိပ်ပိုင်း Toolbar ရှိ **လျှပ်စီးကြောင်းပုံ ()** ခလုတ်ကို နှိပ်ပါ (သို့မဟုတ် Keyboard မှ `Ctrl + Enter` နှိပ်ပါ)။
-3. အောက်ဘက် Output Panel မာ Database စာရင်းများ ပေါ်လာသည်ကို တွေ့ရပါမည် -
+3. အောက်ဘက် Output Panel တွင် Database စာရင်းများ ပေါ်လာသည်ကို တွေ့ရပါမည် -
    - `information_schema`
    - `mysql`
    - `performance_schema`
@@ -81,13 +81,13 @@ SHOW DATABASES;
 
 ##  အဆင့် ၆ - ကိုယ်ပိုင် Database တစ်ခု ဖန်တီးခြင်း
 
-SQL Editor မာ အောက်ပါအတိုင်း ရိုက်ထည့်ပြီးလျှင် Run ပါ -
+SQL Editor တွင် အောက်ပါအတိုင်း ရိုက်ထည့်ပြီးလျှင် Run ပါ -
 
 ```sql
 CREATE DATABASE my_first_db;
 ```
 
-`Ctrl + Enter` နှိပ်ပြီးလျှင် Run ပြီးပါက လက်ဝဲဘက် **Schema Panel** မာ Right-click ထိပြီးလျှင် **"Refresh All"** ကို နှိပ်ပါ။ `my_first_db` ပေါ်လာသည်ကို တွေ့ရပါမည်။
+`Ctrl + Enter` နှိပ်ပြီးလျှင် Run ပြီးပါက လက်ဝဲဘက် **Schema Panel** တွင် Right-click ထိပြီးလျှင် **"Refresh All"** ကို နှိပ်ပါ။ `my_first_db` ပေါ်လာသည်ကို တွေ့ရပါမည်။
 
 ---
 
@@ -114,7 +114,7 @@ SQL ရေးရန် မလိုဘဲ visual အတိုင်း ကြည
 
 ##  လေ့ကျင့်ခန်း (Exercise)
 
-Workbench မာ အောက်ပါတို့ကို စမ်းသပ်ကြည့်ပါ -
+Workbench တွင် အောက်ပါတို့ကို စမ်းသပ်ကြည့်ပါ -
 
 1. `school_db` အမည်ဖြင့် Database တစ်ခု ဖန်တီးပါ။
 2. `SHOW DATABASES;` ကို Run ပြီးလျှင် စစ်ဆေးပါ။

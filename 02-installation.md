@@ -2,8 +2,8 @@
 
 ![MySQL Installation Visual Diagram](images/lesson02.svg)
 
-မိမိ ကွန်ပျူတာပေါ်မာ MySQL Server နှင့် Workbench တို့ကို ဘေးကင်းစွာ တပ်ဆင်နည်း အဆင့်ဆင့်ဖြစ်ပါတယ်။
-ဤသင်ခန်းစာမာ မိမိ ကွန်ပျူတာပေါ်မာ MySQL Server ကို စနစ်တကျ Install ပြုလုပ်သွားပါမည်။ မိမိ အသုံးပြုသော Operating System အလိုက် အောက်ပါ နည်းလမ်းများမှ ရွေးချယ် တပ်ဆင်ပါ။
+မိမိ ကွန်ပျူတာပေါ်တွင် MySQL Server နှင့် Workbench တို့ကို ဘေးကင်းသည် တပ်ဆင်နည်း အဆင့်ဆင့်ဖြစ်ပါတယ်။
+ဤသင်ခန်းစာတွင် မိမိ ကွန်ပျူတာပေါ်တွင် MySQL Server ကို စနစ်တကျ Install ပြုလုပ်သွားပါမည်။ မိမိ အသုံးပြုသော Operating System အလိုက် အောက်ပါ နည်းလမ်းများမှ ရွေးချယ် တပ်ဆင်ပါ။
 
 **ခန့်မှန်း ကြာချိန် - မိနစ် ၃၀**
 
@@ -14,9 +14,9 @@
 
 ---
 
-##  Install မလုပ်မီ အွန်လိုင်းမာ စမ်းသပ်ကြည့်ချင်ပါသလား?
+##  Install မလုပ်မီ အွန်လိုင်းတွင် စမ်းသပ်ကြည့်ချင်ပါသလား?
 
-Install လုံးဝ မလုပ်မီ SQL query ရေးသားပုံကို အွန်လိုင်းမာ အလျင်စမ်းသပ်ချင်ပါက အောက်ပါ Free Tool များကို အသုံးပြုနိုင်ပါတယ် -
+Install လုံးဝ မလုပ်မီ SQL query ရေးသားပုံကို အွန်လိုင်းတွင် အလျင်စမ်းသပ်ချင်ပါက အောက်ပါ Free Tool များကို အသုံးပြုနိုင်ပါတယ် -
 
 | Website | ပြုလုပ်နိုင်သော လုပ်ဆောင်ချက် |
 |---|---|
@@ -26,7 +26,7 @@ Install လုံးဝ မလုပ်မီ SQL query ရေးသားပု
 
 ---
 
-##  နည်းလမ်း (A): Windows ပေါ်မာ Install လုပ်နည်း
+##  နည်းလမ်း (A): Windows ပေါ်တွင် Install လုပ်နည်း
 
 
 
@@ -39,7 +39,7 @@ Install လုံးဝ မလုပ်မီ SQL query ရေးသားပု
 ### အဆင့် ၂ - Installer ကို Run ပါ
 
 1. ဤါင်းလုဒ်ရလာသော `mysql-installer-web-community.exe` ကို Double-click နှိပ်ပါ။
-2. Setup Type မာ **"Developer Default"** ကို ရွေးချယ်ပါ။
+2. Setup Type တွင် **"Developer Default"** ကို ရွေးချယ်ပါ။
 3. **Next** ကို နှိပ်ပါ။ လိုအပ်သော ဖိုင်များကို ဤါင်းလုဒ်ဆွဲပါလိမ့်မည်။
 
 ### အဆင့် ၃ - Root Password သတ်မှတ်ပါ
@@ -51,12 +51,12 @@ Install လုံးဝ မလုပ်မီ SQL query ရေးသားပု
 ### အဆင့် ၄ - တပ်ဆင်မှုကို ပြီးဆုံးအောင် လုပ်ပါ
 
 1. **Execute** ခလုတ်ကို နှိပ်ပြီးလျှင် ပြောင်းလဲမှုများကို စတင်ပါ။
-2. အဆင့်တိုင်းမာ အစိမ်းရောင် အမှတ်အသား () ပေါ်လာသည်အထိ စောင့်ပါ။
+2. အဆင့်တိုင်းတွင် အစိမ်းရောင် အမှတ်အသား () ပေါ်လာသည်အထိ စောင့်ပါ။
 3. **Finish** ကို နှိပ်ပါ။
 
 ### အဆင့် ၅ - Install အောင်မြင်ကြောင်း စစ်ဆေးပါ
 
-1. Windows Search မာ "cmd" ဟု ရိုက်ရှာပြီးလျှင် **Command Prompt** ကို ဖွင့်ပါ။
+1. Windows Search တွင် "cmd" ဟု ရိုက်ရှာပြီးလျှင် **Command Prompt** ကို ဖွင့်ပါ။
 2. အောက်ပါ command ကို ရိုက်ထည့်ပြီးလျှင် Enter နှိပ်ပါ -
 
 ```cmd
@@ -67,7 +67,7 @@ mysql --version
 
 ---
 
-##  နည်းလမ်း (B): Mac ပေါ်မာ Install လုပ်နည်း (Homebrew သုံးပြီးလျှင်)
+##  နည်းလမ်း (B): Mac ပေါ်တွင် Install လုပ်နည်း (Homebrew သုံးပြီးလျှင်)
 
 ### အဆင့် ၁ - Homebrew တပ်ဆင်ပါ (မဟိသေးပါက)
 
@@ -79,7 +79,7 @@ mysql --version
 
 ### အဆင့် ၂ - MySQL ကို Install လုပ်ပါ
 
-Terminal မာ အောက်ပါအတိုင်း ရိုက်ထည့်ပါ -
+Terminal တွင် အောက်ပါအတိုင်း ရိုက်ထည့်ပါ -
 
 ```bash
 brew install mysql
@@ -107,7 +107,7 @@ mysql --version
 
 ---
 
-##  နည်းလမ်း (C): Linux (Ubuntu/Debian) ပေါ်မာ Install လုပ်နည်း
+##  နည်းလမ်း (C): Linux (Ubuntu/Debian) ပေါ်တွင် Install လုပ်နည်း
 
 ```bash
 sudo apt update && sudo apt install -y mysql-server
@@ -165,7 +165,7 @@ docker run --name mysql-beginner -e MYSQL_ROOT_PASSWORD=mysecret123 -p 3306:3306
 - `--name mysql-beginner` — Container ၏ အမည်
 - `-e MYSQL_ROOT_PASSWORD=mysecret123` — Root Password (မိမိ နှစ်သက်ရာ ပြောင်းနိုင်သည်)
 - `-p 3306:3306` — Computer Port နှင့် Container Port ကို ချိတ်ဆက်ခြင်း
-- `-d` — Background မာ Run ခိုင်းခြင်း
+- `-d` — Background တွင် Run ခိုင်းခြင်း
 
 - ရပ်တန့်လိုပါက - `docker stop mysql-beginner`
 - ပြန်စလိုပါက - `docker start mysql-beginner`
@@ -190,6 +190,6 @@ docker run --name mysql-beginner -e MYSQL_ROOT_PASSWORD=mysecret123 -p 3306:3306
 
 ##  နောက်ထပ် သွားရမည့် အဆင့်
 
-MySQL Server ကို အောင်မြင်စွာ Install လုပ်ပြီးပြီဖြစ်လို့ Graphical UI ဖြင့် လွယ်ကူစွာ အသုံးပြုနိုင်သော **MySQL Workbench** အသုံးပြုပုံကို လေ့လာကြပါစို့။
+MySQL Server ကို အောင်မြင်သည် Install လုပ်ပြီးပြီဖြစ်လို့ Graphical UI ဖြင့် လွယ်ကူသည် အသုံးပြုနိုင်သော **MySQL Workbench** အသုံးပြုပုံကို လေ့လာကြပါစို့။
 
 -> [သင်ခန်းစာ ၃: MySQL Workbench အသုံးပြုနည်း Guide](03-workbench.md)

@@ -2,7 +2,7 @@
 
 ![WHERE Filtering Funnel Illustration](images/lesson10.svg)
 
-ဤသင်ခန်းစာမာ **WHERE** Clause ကို အသုံးပြုပြီးလျှင် လိုအပ်သော ဒေတာများကို သီးသန့် ရှာဖွေ စစ်ထုတ်နည်းကို လေ့လာသွားပါမည်။
+ဤသင်ခန်းစာတွင် **WHERE** Clause ကို အသုံးပြုပြီးလျှင် လိုအပ်သော ဒေတာများကို သီးသန့် ရှာဖွေ စစ်ထုတ်နည်းကို လေ့လာသွားပါမည်။
 
 **ခန့်မှန်း ကြာချိန် - မိနစ် ၂၅**
 
@@ -24,7 +24,7 @@ WHERE condition;
 
 ##  အဆင့် ၁ - နှိုင်းယှဉ်ချက် သင်္ကေတများ (Comparison Operators)
 
-| သင်္ကေတ | အဓိပ္ပာယ် | ဥပမာ |
+| သင်္ကေတ | အဓိပ္ပာယ် | ဥပတွင် |
 |---|---|---|
 | `=` | ညီမျှသည် | `WHERE price = 29.99` |
 | `>` | ကြီးသည် | `WHERE price > 50` |
@@ -37,13 +37,13 @@ WHERE condition;
 
 ##  အဆင့် ၂ - AND / OR ဖြင့် အခြေအနေများ ပေါင်းစပ်ခြင်း
 
-### ဥပမာ (၁) - AND (နှစ်ခုလုံး မှန်ရမည်)
+### ဥပတွင် (၁) - AND (နှစ်ခုလုံး မှန်ရမည်)
 ```sql
 SELECT name, price FROM products 
 WHERE price > 20 AND price < 60;
 ```
 
-### ဥပမာ (၂) - OR (တစ်ခုမဟုတ် တစ်ခု မှန်လျှင် ရပြီ)
+### ဥပတွင် (၂) - OR (တစ်ခုမဟုတ် တစ်ခု မှန်လျှင် ရပြီ)
 ```sql
 SELECT first_name, city FROM customers 
 WHERE city = 'Yangon' OR city = 'Mandalay';
@@ -83,7 +83,7 @@ WHERE city IN ('Yangon', 'Mandalay', 'Sittwe');
 -- Email စာလုံး "j" ဖြင့် စသော သူများ
 SELECT first_name, email FROM customers WHERE email LIKE 'j%';
 
--- အမည်ထဲမာ "Pro" ပါသော ပစ္စည်းများ
+-- အမည်ထဲတွင် "Pro" ပါသော ပစ္စည်းများ
 SELECT name FROM products WHERE name LIKE '%Pro%';
 ```
 
@@ -93,7 +93,7 @@ SELECT name FROM products WHERE name LIKE '%Pro%';
 
 ၁. စျေးနှုန်း $30 ထက် သက်သာသော ပစ္စည်းများကို ရှာပါ။
 ၂. "Electronics" သို့မဟုတ် "Sports" အမျိုးအစား ပစ္စည်းများကို ရှာပါ။
-၃. အမည်မာ "Pro" ဟု ပါဝင်သော ကုန်ပစ္စည်းများကို LIKE သုံးပြီးလျှင် ရှာပါ။
+၃. အမည်တွင် "Pro" ဟု ပါဝင်သော ကုန်ပစ္စည်းများကို LIKE သုံးပြီးလျှင် ရှာပါ။
 
 ---
 

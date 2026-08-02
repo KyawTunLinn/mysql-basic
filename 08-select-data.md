@@ -2,7 +2,7 @@
 
 ![Advanced SELECT Data Illustration](images/lesson08.svg)
 
-ဤသင်ခန်းစာမာ SQL ၏ အရေးအပါဆုံးနှင့် အသုံးအများဆုံး Command ဖြစ်သော **SELECT** Statement ကို ကျွမ်းကျင်စွာ အသုံးပြုနည်း လေ့လာသွားပါမည်။
+ဤသင်ခန်းစာတွင် SQL ၏ အရေးအပါဆုံးနှင့် အသုံးအများဆုံး Command ဖြစ်သော **SELECT** Statement ကို ကျွမ်းကျင်သည် အသုံးပြုနည်း လေ့လာသွားပါမည်။
 
 **ခန့်မှန်း ကြာချိန် - မိနစ် ၃၀**
 
@@ -46,7 +46,7 @@ SELECT first_name AS name, email AS contact FROM customers;
 
 ---
 
-##  အဆင့် ၄ - Query ထဲမာ တွက်ချက်မှုများ ပြုလုပ်ခြင်း
+##  အဆင့် ၄ - Query ထဲတွင် တွက်ချက်မှုများ ပြုလုပ်ခြင်း
 
 ```sql
 SELECT name, price, stock, price * stock AS total_value FROM products;
@@ -106,7 +106,7 @@ SELECT * FROM customers WHERE phone IS NOT NULL;
 
 ၁. Products ထဲမှ ပစ္စည်း အမည်နှင့် စျေးနှုန်းများကို ထုတ်ပြပါ။
 ၂. ကုန်ပစ္စည်းများကို ၁၀% လျှော့စျေး တွက်ချက်ပြပါ - `price * 0.9 AS discounted_price`
-၃. Customers ထဲမာ Phone နံပါတ် မရှိသော သူများကို ရှာပါ။
+၃. Customers ထဲတွင် Phone နံပါတ် မရှိသော သူများကို ရှာပါ။
 
 ---
 

@@ -21,7 +21,7 @@ INSERT INTO table_name (column1, column2, column3)
 VALUES (value1, value2, value3);
 ```
 
-### ရိုးရှင်းသော ဥပမာ -
+### ရိုးရှင်းသော ဥပတွင် -
 
 ```sql
 INSERT INTO students (first_name, last_name, email, birth_date)
@@ -29,7 +29,7 @@ VALUES ('Alice', 'Wong', 'alice@email.com', '2000-05-15');
 ```
 
 - `id` Column ကို ရိုက်ထည့်ရန် မလိုပါ (ယင်းသည် `AUTO_INCREMENT` ဖြစ်၍ MySQL မှ နံပါတ် 1, 2, 3... Auto ထည့်ပေးပါသည်)။
-- စာသားနှင့် ရက်စွဲ တန်ဖိုးများကို Single Quote (`'...'`) ထဲမာ ထည့်ရပါမည်။
+- စာသားနှင့် ရက်စွဲ တန်ဖိုးများကို Single Quote (`'...'`) ထဲတွင် ထည့်ရပါမည်။
 - ရက်စွဲ Format မှာ `'YYYY-MM-DD'` ဖြစ်ပါသည်။
 
 ---
@@ -72,20 +72,20 @@ INSERT INTO products (name, description, price, stock, category) VALUES
 
 ---
 
-##  INSERT ပြုလုပ်ရာမာ တွေ့ရတတ်သော အမှားများ
+##  INSERT ပြုလုပ်ရာတွင် တွေ့ရတတ်သော အမှားများ
 
 | အမှားအယွင်း | မှားယွင်းသော ရေးသားပုံ | မှန်ကန်သော ရေးသားပုံ |
 |---|---|---|
-| စာသားမာ Single Quote မပါခြင်း | `VALUES (John)` | `VALUES ('John')` |
+| စာသားတွင် Single Quote မပါခြင်း | `VALUES (John)` | `VALUES ('John')` |
 | ရက်စွဲ Format မှားခြင်း | `VALUES ('15/05/2000')` | `VALUES ('2000-05-15')` |
-| ကော်မာ (,) ဖြုတ်ကျန်ခဲ့ခြင်း | `VALUES ('Alice' 'Bob')` | `VALUES ('Alice', 'Bob')` |
+| ကော်တွင် (,) ဖြုတ်ကျန်ခဲ့ခြင်း | `VALUES ('Alice' 'Bob')` | `VALUES ('Alice', 'Bob')` |
 
 ---
 
 ##  Workbench Visual ဖြင့် Data ထည့်သွင်းနည်း
 
 ၁. Left Panel မှ Table ပေါ် Right-click ထိပြီးလျှင် **"Select Rows — Limit 1000"** ကို နှိပ်ပါ။
-၂. အောက်ဆုံးဟိ အလွတ် အတန်းမာ တန်ဖိုးများကို စာရိုက် ရိုက်ထည့်ပါ။
+၂. အောက်ဆုံးဟိ အလွတ် အတန်းတွင် တန်ဖိုးများကို စာရိုက် ရိုက်ထည့်ပါ။
 ၃. ထိပ်ပိုင်း လက်ညာဘက်ဟိ **"Apply"** ခလုတ်ကို နှိပ်ပါ။
 
 ---

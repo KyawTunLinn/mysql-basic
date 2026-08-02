@@ -38,7 +38,7 @@ mdbook serve --open
 
 ##  SVG Vector Graphics
 
-သင်ခန်းစာတိုင်းတွင် **High-Resolution Scalable Vector Graphics (SVG)** ကို သုံးစွဲထားသဖြင့် Screen အမျိုးအစားမရွေး (Dark Mode / Light Mode / Mobile / Desktop) တွင် ကြည်လင်ပြတ်သားစွာ ရှုမြင်နိုင်ပါသည်။
+သင်ခန်းစာတိုင်းတွင် **High-Resolution Scalable Vector Graphics (SVG)** ကို သုံးစွဲထားသဖြင့် Screen အမျိုးအစားမရွေး (Dark Mode / Light Mode / Mobile / Desktop) တွင် ကြည်လင်ပြတ်သားသည် ရှုမြင်နိုင်ပါသည်။
 
 -  `images/lesson01.svg` — MySQL Architecture & Overview
 -  `images/lesson02.svg` — Installation Workflow

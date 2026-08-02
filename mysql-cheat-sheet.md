@@ -1,6 +1,6 @@
 # MySQL Quick Reference Cheat Sheet (ရခိုင်ဘာသာ အတိုကောက် မှတ်စု)
 
-လေ့ကျင့်စဉ်မာ အလွယ်တကူ ကိုးကား ကြည့်ရှုနိုင်သော MySQL အသုံးများ အတိုကောက် မှတ်စု ဖြစ်ပါတယ်။
+လေ့ကျင့်စဉ်တွင် အလွယ်တကူ ကိုးကား ကြည့်ရှုနိုင်သော MySQL အသုံးများ အတိုကောက် မှတ်စု ဖြစ်ပါတယ်။
 
 ---
 
@@ -89,7 +89,7 @@ ALTER TABLE students DROP COLUMN phone;
 INSERT INTO customers (first_name, last_name, email)
 VALUES ('U', 'Ba', 'uba@gmail.com');
 
--- Data တန်း များစွာ တစ်ပြိုင်နက် ထည့်ရန်
+-- Data တန်း များသည် တစ်ပြိုင်နက် ထည့်ရန်
 INSERT INTO products (name, price, category) VALUES
 ('Laptop', 999.99, 'Electronics'),
 ('Mouse', 29.99, 'Electronics'),
