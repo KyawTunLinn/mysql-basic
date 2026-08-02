@@ -79,18 +79,7 @@ WHERE city IN ('Yangon', 'Mandalay', 'Sittwe');
 
 ##  အဆင့် ၅ - LIKE ဖြင့် စာသား ပုံစံ ရှာဖွေခြင်း (Wildcard Search)
 
-```
- LIKE Wildcards visual Guide 
-                                                                 
-  %  = စာလုံး အရေအတွက် မကန့်သတ် မည်သည့် စာလုံးမဆို               
-  _  = အက္ခရာ တစ်လုံးတည်းကိုသာ ညွှန်းသည်                           
-                                                                 
-  'J%'           J ဖြင့် စသော စာလုံးများ (John, Daw Hla, J-...)
-  '%as'          as ဖြင့် ဆုံးသော စာလုံးများ (Dallas)             
-  '%Pro%'        စာသားထဲမာ Pro ပါလျှင် ရပြီ (Pro Max, iPad Pro) 
-  '_ohn'         ရှေ့မာ အက္ခရာတစ်လုံးပါပြီးလျှင် ohn ဖြင့်ဆုံးသူ          
-
-```
+![WHERE Filtering Funnel](images/lesson10.svg)
 
 ```sql
 -- Email စာလုံး "j" ဖြင့် စသော သူများ

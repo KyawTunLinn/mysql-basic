@@ -50,14 +50,7 @@ LIMIT 3;
 
 ##  LIMIT & OFFSET — စာမျက်နှာ ခွဲကြည့်ခြင်း (Pagination)
 
-```
- LIMIT & OFFSET Pagination Diagram 
-                                                                     
-  Page 1:  LIMIT 5 OFFSET 0    [ အတန်း ၁ မှ ၅ အထိ ပြသမည် ]             
-  Page 2:  LIMIT 5 OFFSET 5    [ အတန်း ၆ မှ ၁၀ အထိ ပြသမည် ]            
-  Page 3:  LIMIT 5 OFFSET 10   [ အတန်း ၁၁ မှ ၁၅ အထိ ပြသမည် ]           
-
-```
+![ORDER BY Sorting & LIMIT Pagination](images/lesson11.svg)
 
 ```sql
 -- အတန်း ၅ ခုကျော်ပြီးလျှင် နောက်ထပ် ၅ ခုကို ထုတ်ပြရန်

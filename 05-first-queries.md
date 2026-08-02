@@ -48,7 +48,7 @@ SHOW TABLES;
 
 ရလဒ် ပေါ်လာပါမည် -
 
-```
+```sql
 +----------------+
 | Tables_in_shop |
 +----------------+
@@ -65,30 +65,7 @@ SHOW TABLES;
 
 `shop` Database မာ Table (၄) ခု ပါဝင်ပါတယ် -
 
-```
-       
-   customers                products     
-       
- id (PK)                 id (PK)         
- first_name              name            
- last_name               price           
- email                   category        
-       
-                                  
-          customer_id (FK)         product_id (FK)
-                                  
-       
-     orders                order_items   
-       
- id (PK)          order_id (FK)   
- customer_id (FK)        product_id (FK) 
- order_date              quantity        
- total_amount            unit_price      
-       
-
-PK = Primary Key (သီးသန့်ခွဲခြားသည့် ပင်မသေတ္တာသော့)
-FK = Foreign Key (အခြား Table သို့ ချိတ်ဆက်ထားသော သော့)
-```
+![Sample Database Tables Structure](images/lesson05.svg)
 
 - **customers** — ဝယ်သူများ၏ အချက်အလက်များ
 - **products** — ရောင်းချသော ကုန်ပစ္စည်း စာရင်းများ
@@ -121,16 +98,7 @@ FROM     [မည်သည့် Table မှ ယူမည်နည်း]
 LIMIT    [မည်မျှ ကန့်သတ်မည်နည်း];
 ```
 
-```
-                       
-             SELECT        Column   (အမည်၊ စျေးနှုန်း စသည်)
-                       
-                
-                
-                       
-              FROM         Table    (products, customers စသည်)
-                       
-```
+![First Queries Flow](images/lesson05.svg)
 
 ---
 

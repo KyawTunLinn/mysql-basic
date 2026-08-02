@@ -10,30 +10,7 @@
 
 ##  Database ၏ ဖွဲ့စည်းပုံ visual Diagram (School Database Example)
 
-```
-
-                      Database: "school" (ကျောင်းသုံး စနစ်)               
-                                                                         
-                         
-     students          teachers          courses                   
-                         
-    INT PK          INT PK          INT PK                   
-   name VARCHAR      name VARCHAR      name VARCHAR                
-   email UNIQUE      subject           teacher_id FK               
-                         
-                                                                      
-          student_id (FK)                       course_id (FK)        
-                                                                      
-                  
-                        enrollments                                     
-                  
-    INT PK                                                            
-   student_id (FK  students.id)                                        
-   course_id  (FK  courses.id)                                         
-   grade DECIMAL(5,2)                                                   
-                  
-
-```
+![CREATE TABLE & Data Types](images/lesson06.svg)
 
 ---
 
@@ -110,19 +87,7 @@ DESCRIBE students;
 
 ##  အသုံးများသော Data Types များ visual Summary
 
-```
-  
-                       MySQL Common Data Types                       
-  
-   INT               ကိန်းပြည့် ဂဏန်းများ (1, 42, 1000)               
-   DECIMAL(10,2)     ဒဿမ ဂဏန်းများ (ငွေပမာဏ 29.99, 100.00)         
-   VARCHAR(255)      စာသားများ (အက္ခရာ ၂၅၅ လုံးအထိ)                
-   TEXT              ဆောင်းပါးကဲ့သို့ စာသားရှည်များ                 
-   DATE              ရက်စွဲ (YYYY-MM-DD)                            
-   DATETIME          ရက်စွဲနှင့် အချိန် (YYYY-MM-DD HH:MM:SS)          
-   BOOLEAN           မှန်/မှား (1 သို့မဟုတ် 0)                      
-  
-```
+![CREATE TABLE & Data Types](images/lesson06.svg)
 
 ---
 

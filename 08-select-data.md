@@ -76,16 +76,7 @@ SELECT CONCAT(first_name, ' ', last_name) AS full_name, city FROM customers;
 SELECT DISTINCT city FROM customers;
 ```
 
-```
- DISTINCT visual Diagram 
-                                                           
-  DISTINCT မပါပါက (ထပ်နေသော Data များ ပါဝင်မည်):           
-  Sittwe, Yangon, Sittwe, Mandalay, Yangon                 
-                                                           
-  DISTINCT သုံးလိုက်ပါက (မထပ်သော မြို့များသာ ထွက်လာမည်):       
-  Sittwe, Yangon, Mandalay                                 
-
-```
+![SELECT Query Execution Flow](images/lesson08.svg)
 
 ---
 

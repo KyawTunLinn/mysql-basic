@@ -78,22 +78,6 @@ mysql -u root -p shop_restore < shop-backup.sql
 
 သင်စွာ MySQL အခြေခံ သင်ခန်းစာ (၁၄) ခုလုံးကို အောင်မြင်စွာ လေ့လာ ပြီးဆုံးခဲ့ပြီ ဖြစ်ပါတယ်။
 
-```
-
-                      CONGRATULATIONS! COURSE COMPLETED!                 
-
-                                                                         
-  သင် တတ်မြောက်သွားသော အသိပညာများ:                                      
-   MySQL Server & Workbench တပ်ဆင်/အသုံးပြုနည်း                        
-   Command Line ဖြင့် Database မိုင်တိုင်စိုက် ကိုင်တွယ်နည်း                     
-   Database & Table များ ဖန်တီးတည်ဆောက်နည်း                             
-   Data များ အသစ်ထည့်၊ ဖတ်ယူ၊ ပြင်ဆင်၊ ဖျက်ပစ်နည်း (CRUD)                 
-   WHERE, ORDER BY, LIMIT ဖြင့် စစ်ထုတ် စီစဉ်နည်း                       
-   JOINs ဖြင့် Table များ ပေါင်းစပ်နည်း                                
-   GROUP BY နှင့် Aggregations ဖြင့် အနှစ်ချုပ် တွက်ချက်နည်း                
-   Database Backup & Restore စနစ်တကျ ပြုလုပ်နည်း                        
-                                                                         
-
-```
+### 🎓 သင်ခန်းစာများ အောင်မြင်စွာ ပြီးဆုံးပါပြီ! (Course Completed!)
 
 ကျေးဇူးတင်ပါသည်! 

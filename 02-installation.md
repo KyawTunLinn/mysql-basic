@@ -11,25 +11,7 @@
 
 ##  MySQL Architecture & Installation Flow (တပ်ဆင်မှု လမ်းကြောင်း ပုံရိပ်)
 
-```
-
-                      MySQL System Architecture                          
-
-                                    
-                                    
-       
-                         MySQL Server Engine                     
-                          (Background Service)                   
-                           Port: 3306 (Default)                  
-       
-                                    
-            
-                                                           
-               
- Client Tool 1: Workbench GUI                  Client Tool 2: mysql CLI
- (Visual Click & Manage)                       (Terminal Command Line) 
-               
-```
+![MySQL Architecture & Installation Flow](images/lesson02.svg)
 
 ---
 
@@ -47,9 +29,7 @@ Install လုံးဝ မလုပ်မီ SQL query ရေးသားပု
 
 ##  နည်းလမ်း (A): Windows ပေါ်မာ Install လုပ်နည်း
 
-```
-[ Download Installer ]  [ Run Setup (Developer Default) ]  [ Set Root Password ]  [ Finish & Verify ]
-```
+
 
 ### အဆင့် ၁ - MySQL Installer ဤါင်းလုဒ်ဆွဲပါ
 
@@ -130,13 +110,10 @@ mysql --version
 
 ##  နည်းလမ်း (C): Linux (Ubuntu/Debian) ပေါ်မာ Install လုပ်နည်း
 
-```
-
- 1. sudo apt update                                          
- 2. sudo apt install mysql-server                            
- 3. sudo systemctl start mysql                               
- 4. sudo mysql_secure_installation                           
-
+```bash
+sudo apt update && sudo apt install -y mysql-server
+sudo systemctl start mysql
+sudo mysql_secure_installation
 ```
 
 ### အဆင့် ၁ - Package List ကို Update လုပ်ပါ
@@ -198,20 +175,11 @@ docker run --name mysql-beginner -e MYSQL_ROOT_PASSWORD=mysecret123 -p 3306:3306
 
 ##  တွေ့ကြုံရတတ်သော ပြဿနာနှင့် ဖြေရှင်းနည်းများ (Troubleshooting)
 
-```
-  
-   Common Installation Issue Resolver                                   
-  
-   "mysql: command not found"         System PATH မာ မပါသေးပါ။            
-                                      Reinstall သို့မဟုတ် PATH ထည့်ပါ။  
-  
-   "Access denied for user 'root'"    Password မှားရိုက်မိခြင်းဖြစ်ပါသည်။
-                                      Caps Lock ဖွင့်ထားမိလား စစ်ပါ။    
-  
-   Port 3306 already in use           အခြား Service တစ်ခုမှ သုံးနေခြင်း။ 
-                                      Port ပြောင်းပါ သို့ ထို App ကို ပိတ်ပါ။
-  
-```
+| ပြဿနာ (Issue) | အကြောင်းရင်း | ဖြေရှင်းနည်း |
+|---|---|---|
+| `mysql: command not found` | System PATH တွင် မပါသေးပါ။ | Reinstall သို့မဟုတ် Environment PATH တွင် ထည့်ပါ။ |
+| `Access denied for user root` | Password မှားယွင်းခြင်း။ | Root Password နှင့် Caps Lock ကို စစ်ဆေးပါ။ |
+| `Port 3306 already in use` | အခြား Service မှ သုံးနေခြင်း။ | Port ပြောင်းပါ သို့မဟုတ် ထို App ကို ပိတ်ပါ။ |
 
 ---
 

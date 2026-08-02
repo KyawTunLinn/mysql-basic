@@ -36,39 +36,13 @@ FROM products
 GROUP BY category;
 ```
 
-```
- GROUP BY Bucket Method visual 
-                                                                 
-  Products Data  Category အလိုက် အံဆွဲများထဲ ခွဲထည့်လိုက်ပုံ:     
-                                                                 
-   Electronics Bucket: (Laptop, Mouse, Keyboard)  Count: 3   
-   Clothing Bucket:    (T-Shirt, Jeans)            Count: 2   
-   Footwear Bucket:    (Sneakers)                  Count: 1   
-
-```
+![MySQL Aggregations and GROUP BY](images/lesson13.svg)
 
 ---
 
 ##  WHERE နှင့် HAVING ခြားနားချက် visual Diagram
 
-```
 
-                           WHERE vs HAVING                               
-
-                                                                         
-  [ ၁။ FROM ]       Table မှ Data များ ယူသည်                           
-                                                                        
-                                                                        
-  [ ၂။ WHERE ]      အတန်း တခုချင်းစီကို အလျင် စစ်ထုတ်သည် (Group မဖွဲ့မီ)   
-                                                                        
-                                                                        
-  [ ၃။ GROUP BY ]   အုပ်စု ဖွဲ့သည်                                       
-                                                                        
-                                                                        
-  [ ၄။ HAVING ]     တွက်ချက်ပြီး ရလဒ် အုပ်စုများကို စစ်ထုတ်သည် (Group ဖွဲ့ပြီး)
-                                                                         
-
-```
 
 ```sql
 -- Product အရေအတွက် ၂ ခုထက် ပိုသော Category များကိုသာ ရှာရန်

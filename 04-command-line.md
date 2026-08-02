@@ -54,14 +54,7 @@ mysql -u root -p
 - `-u root` — "root" user (အုပ်ချုပ်သူ အကောင့်) ဖြင့် Log in ဝင်ခြင်း
 - `-p` — Password တောင်းဆိုခိုင်းခြင်း
 
-```
-          
-  Terminal            MySQL Client          MySQL Server   
-  Command       Login & SQL       Password စစ်   
-  $ mysql -u         Commands ပို့           ရလဒ် ပြန်ပို့   
-    root -p     Data ပြန်လက်ခံ                   
-          
-```
+![MySQL Command Line Client Workflow](images/lesson04.svg)
 
 `Enter password:` ဟု ပေါ်လာပါက Root Password ကို ရိုက်ထည့်ပါ (Password ရိုက်နေချိန် စာလုံးများ ပေါ်မည်မဟုတ်ပါ၊ စိတ်မပူပါနှင့်)။
 
@@ -79,7 +72,7 @@ SELECT 'Hello, MySQL!';
 
 အောက်ပါအတိုင်း ရလဒ် ထွက်လာပါမည် -
 
-```
+```sql
 +------------------+
 | Hello, MySQL!    |
 +------------------+
@@ -119,12 +112,7 @@ EXIT;
 
 SQL Command တိုင်း၏ အဆုံးမာ Semicolon (`;`) မဖြစ်မနေ ပါရပါမည်။
 
-```
-Semicolon မပါပါက (MySQL မှ စောင့်ဆိုင်းနေမည်):
-mysql> SELECT * FROM users
-    -> 
-    -> ; (Semicolon ရိုက်ထည့်မှသာ Run ပါမည်)
-```
+
 
 ```sql
 SELECT * FROM users;   -- မှန်ကန်သည် 

@@ -27,20 +27,7 @@ MySQL Workbench စွာ Graphical User Interface (GUI) Tool ဖြစ်ပြ
 
 Workbench စတင်ပွင့်လာချိန်မာ **"MySQL Connections"** ခေါင်းစဉ်ကို တွေ့ရပါမည်။
 
-```
-                       
-                          New Connection Setup Window
-                       
-                        Connection Name: Local MySQL 
-                        Hostname:        localhost   
-                        Port:            3306        
-                        Username:        root        
-                        Password:        [Store ...] 
-                       
-                                      
-                                      
-                             [ Test Connection ]  (Connection Succeeded! )
-```
+![MySQL Workbench GUI Guide](images/lesson03.svg)
 
 1. **"MySQL Connections"** ဘေးတွင်ရှိသော **"+"** လက္ခဏာကို နှိပ်ပါ။
 2. အောက်ပါ အချက်အလက်များကို ဖြည့်သွင်းပါ -
@@ -118,17 +105,12 @@ SQL ရေးရန် မလိုဘဲ visual အတိုင်း ကြည
 
 ##  အသုံးဝင်သော Keyboard Shortcuts များ
 
-```
-  
-   Shortcut Key                   လုပ်ဆောင်ချက်                          
-  
-   Ctrl + Enter                   လက်ရှိ Query ကို Run ရန်               
-   Ctrl + Shift + Enter           Editor ထဲဟိ Query အားလုံးကို Run ရန်   
-   Ctrl + S                       SQL Script ကို သိမ်းဆည်းရန်             
-   Ctrl + /                       စာကြောင်းကို Comment ပိတ်/ဖွင့်ရန်      
-   Ctrl + Space                   Autocomplete စာလုံး အကြံဉာဏ် တောင်းရန် 
-  
-```
+| Shortcut Key | လုပ်ဆောင်ချက် (Action) |
+|---|---|
+| `Ctrl + Enter` (Windows/Linux) / `Cmd + Enter` (Mac) | လက်ရှိ SQL Query ကို Run ရန် |
+| `Ctrl + Shift + Enter` | SQL Script တစ်ခုလုံးကို အစမှ အဆုံး Run ရန် |
+| `Ctrl + T` | SQL Query Tab အသစ် ဖွင့်ရန် |
+| `Ctrl + S` | SQL Query Script ဖိုင်ကို သိမ်းဆည်းရန် |
 
 ---
 
