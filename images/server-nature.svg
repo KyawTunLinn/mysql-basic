@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="macBgServer" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="macHeaderServer" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#21262d"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <filter id="macShadowServer" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" rx="14" fill="url(#macBgServer)" stroke="#30363d" stroke-width="1.5" filter="url(#macShadowServer)"/>
+
+  <!-- Window Header -->
+  <path d="M 0 14 C 0 6, 6 0, 14 0 L 786 0 C 794 0, 800 6, 800 14 L 800 42 L 0 42 Z" fill="url(#macHeaderServer)"/>
+  <line x1="0" y1="42" x2="800" y2="42" stroke="#30363d" stroke-width="1"/>
+
+  <circle cx="24" cy="21" r="6" fill="#FF5F56" stroke="#E0443E" stroke-width="0.5"/>
+  <circle cx="44" cy="21" r="6" fill="#FFBD2E" stroke="#DEA123" stroke-width="0.5"/>
+  <circle cx="64" cy="21" r="6" fill="#27C93F" stroke="#1AAB29" stroke-width="0.5"/>
+
+  <text x="400" y="26" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="13" font-weight="600" fill="#c9d1d9" text-anchor="middle">Nature of MySQL Database Server Architecture &amp; Daemon Service</text>
+
+  <!-- Left: Clients (Web, App, CLI) -->
+  <g filter="url(#macShadowServer)">
+    <rect x="40" y="65" width="200" height="340" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="40" y="65" width="200" height="32" rx="10" fill="#21262d"/>
+    <text x="140" y="86" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="700" fill="#58a6ff" text-anchor="middle">Multiple Clients</text>
+
+    <rect x="55" y="115" width="170" height="65" rx="6" fill="#0d1117" stroke="#30363d"/>
+    <text x="140" y="142" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600" fill="#c9d1d9" text-anchor="middle">Web Application</text>
+    <text x="140" y="162" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">PHP / Node.js / Python</text>
+
+    <rect x="55" y="195" width="170" height="65" rx="6" fill="#0d1117" stroke="#30363d"/>
+    <text x="140" y="222" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600" fill="#c9d1d9" text-anchor="middle">Desktop GUI Tool</text>
+    <text x="140" y="242" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">MySQL Workbench</text>
+
+    <rect x="55" y="275" width="170" height="65" rx="6" fill="#0d1117" stroke="#30363d"/>
+    <text x="140" y="302" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600" fill="#c9d1d9" text-anchor="middle">Terminal CLI</text>
+    <text x="140" y="322" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">mysql -u root -p</text>
+
+    <text x="140" y="380" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#8b949e" text-anchor="middle">Concurrent Requests</text>
+  </g>
+
+  <!-- Connectors -->
+  <polygon points="245,148 285,148 285,143 295,151 285,159 285,154 245,154" fill="#58a6ff"/>
+  <polygon points="245,228 285,228 285,223 295,231 285,239 285,234 245,234" fill="#58a6ff"/>
+  <polygon points="245,308 285,308 285,303 295,311 285,319 285,314 245,314" fill="#58a6ff"/>
+
+  <!-- Right: MySQL Server Daemon mysqld -->
+  <g filter="url(#macShadowServer)">
+    <rect x="300" y="65" width="460" height="340" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="1.5"/>
+    <rect x="300" y="65" width="460" height="32" rx="10" fill="#1f6feb"/>
+    <text x="530" y="86" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">MySQL Server Background Service (mysqld Daemon)</text>
+
+    <!-- Network Listener -->
+    <rect x="320" y="110" width="420" height="45" rx="6" fill="#0d1117" stroke="#30363d"/>
+    <text x="335" y="137" font-family="SFMono-Regular, monospace" font-size="12" fill="#7ee787">TCP/IP Port 3306 Network Listener Thread Pool</text>
+
+    <!-- Thread Pool & Memory Buffer -->
+    <rect x="320" y="165" width="420" height="85" rx="6" fill="#0d1117" stroke="#30363d"/>
+    <text x="335" y="190" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="bold" fill="#f0883e">RAM Shared Memory &amp; Buffer Pool:</text>
+    <text x="335" y="212" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#c9d1d9">• Query Cache &amp; Parsed AST Tree | Connection State</text>
+    <text x="335" y="234" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#c9d1d9">• InnoDB Data Pages Caching for Instant Reads</text>
+
+    <!-- Storage Engine & Disk -->
+    <rect x="320" y="260" width="420" height="85" rx="6" fill="#0d1117" stroke="#30363d"/>
+    <text x="335" y="285" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="bold" fill="#7ee787">Disk Persistence &amp; Crash Safety Engine:</text>
+    <text x="335" y="307" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#c9d1d9">• Tablespace (.ibd) B-Tree Storage | Redo Logs</text>
+    <text x="335" y="329" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" fill="#c9d1d9">• Auto-start 24/7 Service Daemon on System Boot</text>
+
+    <text x="530" y="380" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="bold" fill="#58a6ff" text-anchor="middle">Server runs continuously in background listening for SQL commands</text>
+  </g>
+</svg>

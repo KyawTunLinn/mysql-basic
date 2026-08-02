@@ -1,0 +1,4 @@
+# mdBook build directory
+book/
+.tools/
+*.tmp

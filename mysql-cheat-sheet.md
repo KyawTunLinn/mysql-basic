@@ -4,37 +4,37 @@
 
 ---
 
-## 🎨 SQL Query စနစ် ပိုက်လိုင်း အပြည့်အစုံ (Execution Order)
+##  SQL Query စနစ် ပိုက်လိုင်း အပြည့်အစုံ (Execution Order)
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                      COMPLETE SQL QUERY PIPELINE                        │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                         │
-│   ┌─────────────────────────────────────────────────────────────────┐   │
-│   │ SELECT col1, col2, COUNT(*)      ← ထုတ်ပြမည့် Column များ          │   │
-│   │   FROM orders                    ← ယူဆောင်မည့် Table                 │   │
-│   │   WHERE total > 100              ← အတန်းများကို စစ်ထုတ်ခြင်း          │   │
-│   │   GROUP BY customer_id           ← အုပ်စုဖွဲ့ခြင်း                     │   │
-│   │   HAVING COUNT(*) > 3            ← အုပ်စုများကို ပြန်စစ်ထုတ်ခြင်း      │   │
-│   │   ORDER BY total DESC            ← အစဉ်လိုက် စီစဉ်ခြင်း               │   │
-│   │   LIMIT 10;                      ← အရေအတွက် ကန့်သတ်ခြင်း            │   │
-│   └─────────────────────────────────────────────────────────────────┘   │
-│                                                                         │
-│   Execution Order (နောက်ကွယ်မှ အမှန်တကယ် Run သည့် အစဉ်လိုက်):          │
-│   ၁။ FROM      ➔ မည်သည့် Table မှ ယူမည်နည်း                             │
-│   ၂။ WHERE     ➔ အတန်း တခုချင်းစီကို အလျင် စစ်ထုတ်မည်                     │
-│   ၃။ GROUP BY  ➔ အုပ်စု ဖွဲ့မည်                                         │
-│   ၄။ HAVING    ➔ အုပ်စုများကို စစ်ထုတ်မည်                                 │
-│   ၅။ SELECT    ➔ ထုတ်ပြမည့် Column များကို ရွေးမည်                        │
-│   ၆။ ORDER BY  ➔ အစဉ်လိုက် စီမည်                                       │
-│   ၇။ LIMIT     ➔ အရေအတွက် ကန့်သတ်မည်                                   │
-└─────────────────────────────────────────────────────────────────────────┘
+
+                      COMPLETE SQL QUERY PIPELINE                        
+
+                                                                         
+      
+    SELECT col1, col2, COUNT(*)      <- ထုတ်ပြမည့် Column များ             
+      FROM orders                    <- ယူဆောင်မည့် Table                    
+      WHERE total > 100              <- အတန်းများကို စစ်ထုတ်ခြင်း             
+      GROUP BY customer_id           <- အုပ်စုဖွဲ့ခြင်း                        
+      HAVING COUNT(*) > 3            <- အုပ်စုများကို ပြန်စစ်ထုတ်ခြင်း         
+      ORDER BY total DESC            <- အစဉ်လိုက် စီစဉ်ခြင်း                  
+      LIMIT 10;                      <- အရေအတွက် ကန့်သတ်ခြင်း               
+      
+                                                                         
+   Execution Order (နောက်ကွယ်မှ အမှန်တကယ် Run သည့် အစဉ်လိုက်):          
+   ၁။ FROM       မည်သည့် Table မှ ယူမည်နည်း                             
+   ၂။ WHERE      အတန်း တခုချင်းစီကို အလျင် စစ်ထုတ်မည်                     
+   ၃။ GROUP BY   အုပ်စု ဖွဲ့မည်                                         
+   ၄။ HAVING     အုပ်စုများကို စစ်ထုတ်မည်                                 
+   ၅။ SELECT     ထုတ်ပြမည့် Column များကို ရွေးမည်                        
+   ၆။ ORDER BY   အစဉ်လိုက် စီမည်                                       
+   ၇။ LIMIT      အရေအတွက် ကန့်သတ်မည်                                   
+
 ```
 
 ---
 
-## 🔌 MySQL သို့ ချိတ်ဆက်ခြင်း
+##  MySQL သို့ ချိတ်ဆက်ခြင်း
 
 ```bash
 # Command line မှ ချိတ်ဆက်ရန်
@@ -43,7 +43,7 @@ mysql -u root -p
 # သီးသန့် Database သို့ တိုက်ရိုက် ဝင်ရန်
 mysql -u root -p shop
 
-# Command တစ်ခုတည်း Run ပနာ ပြန်ထွက်ရန်
+# Command တစ်ခုတည်း Run ပြီးလျှင် ပြန်ထွက်ရန်
 mysql -u root -p -e "SHOW DATABASES;"
 
 # MySQL မှ ပြန်ထွက်ရန်
@@ -54,7 +54,7 @@ QUIT;
 
 ---
 
-## 🗄️ Database ဆိုင်ရာ Command များ
+##  Database ဆိုင်ရာ Command များ
 
 ```sql
 -- Database အားလုံး ကြည့်ရန်
@@ -72,7 +72,7 @@ DROP DATABASE my_database;
 
 ---
 
-## 📋 Table ဆိုင်ရာ Command များ
+##  Table ဆိုင်ရာ Command များ
 
 ```sql
 -- Table စာရင်း ကြည့်ရန်
@@ -106,7 +106,7 @@ ALTER TABLE students DROP COLUMN phone;
 
 ---
 
-## 📥 INSERT — Data ထည့်သွင်းခြင်း
+##  INSERT — Data ထည့်သွင်းခြင်း
 
 ```sql
 -- Data တန်း တစ်ခု ထည့်ရန်
@@ -122,7 +122,7 @@ INSERT INTO products (name, price, category) VALUES
 
 ---
 
-## 🔍 SELECT — Data ဖတ်ယူခြင်း
+##  SELECT — Data ဖတ်ယူခြင်း
 
 ```sql
 -- Column အားလုံး ကြည့်ရန်
@@ -149,7 +149,7 @@ SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM customers;
 
 ---
 
-## 🎯 WHERE — Data စစ်ထုတ်ခြင်း
+##  WHERE — Data စစ်ထုတ်ခြင်း
 
 ```sql
 -- ညီမျှမှု စစ်ရန်
@@ -181,7 +181,7 @@ SELECT * FROM customers WHERE phone IS NOT NULL;
 
 ---
 
-## 🔼 ORDER BY နန့် LIMIT
+##  ORDER BY နှင့် LIMIT
 
 ```sql
 -- အနည်းမှ အများ စီရန် (ASC)
@@ -199,7 +199,7 @@ SELECT * FROM products LIMIT 10 OFFSET 20;
 
 ---
 
-## 🔄 UPDATE — Data ပြင်ဆင်ခြင်း
+##  UPDATE — Data ပြင်ဆင်ခြင်း
 
 ```sql
 -- Data ပြောင်းလဲရန်
@@ -208,23 +208,23 @@ UPDATE customers SET email = 'new@email.com' WHERE id = 1;
 -- Column အများအပြား ပြောင်းရန်
 UPDATE customers SET phone = '555-0000', city = 'Sittwe' WHERE id = 1;
 
--- ⚠️ WHERE အမြဲ သုံးပါ! မဟုတ်ပါက အတန်း အားလုံး ပြောင်းသွားပါဖို့!
+--  WHERE အမြဲ သုံးပါ! မဟုတ်ပါက အတန်း အားလုံး ပြောင်းသွားပါမည်!
 ```
 
 ---
 
-## 🗑️ DELETE — Data ဖျက်ပစ်ခြင်း
+##  DELETE — Data ဖျက်ပစ်ခြင်း
 
 ```sql
 -- သီးသန့် အတန်း ဖျက်ရန်
 DELETE FROM customers WHERE id = 1;
 
--- ⚠️ WHERE အမြဲ သုံးပါ! မဟုတ်ပါက အတန်း အားလုံး ပျက်သွားပါဖို့!
+--  WHERE အမြဲ သုံးပါ! မဟုတ်ပါက အတန်း အားလုံး ပျက်သွားပါမည်!
 ```
 
 ---
 
-## 🔗 JOINs — Table များ ပေါင်းစပ်ခြင်း
+##  JOINs — Table များ ပေါင်းစပ်ခြင်း
 
 ```sql
 -- INNER JOIN (ကိုက်ညီသူများသာ)
@@ -240,7 +240,7 @@ LEFT JOIN orders o ON c.id = o.customer_id;
 
 ---
 
-## 🔢 Aggregations — တွက်ချက်ခြင်း
+##  Aggregations — တွက်ချက်ခြင်း
 
 ```sql
 -- COUNT, SUM, AVG, MIN, MAX
@@ -255,7 +255,7 @@ HAVING COUNT(*) > 2;
 
 ---
 
-## 💾 Backup နန့် Restore
+##  Backup နှင့် Restore
 
 ```bash
 # Backup ယူရန်
@@ -267,11 +267,11 @@ mysql -u root -p shop < shop-backup.sql
 
 ---
 
-## ⌨️ Shortcuts များ
+##  Shortcuts များ
 
 | Action | Workbench | Command Line |
 |---|---|---|
 | Run query | `Ctrl + Enter` | Enter (Semicolon `;` ပြီးမှ) |
 | Save file | `Ctrl + S` | — |
 | Autocomplete | `Ctrl + Space` | `Tab` |
-| Previous command | — | `↑` Up Arrow |
+| Previous command | — | `^` Up Arrow |

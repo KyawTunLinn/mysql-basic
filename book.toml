@@ -1,12 +1,29 @@
 [book]
 authors = ["Kyaw Tun Lin"]
-language = "en"
+language = "my"
 multilingual = false
 src = "."
-title = "MySQL Beginner Course"
+title = "MySQL Beginner Course (မဟာ MySQL အခြေခံ သင်ခန်းစာများ)"
+description = "မြန်မာဘာသာဖြင့် အစမှစ၍ လွယ်လွယ်ကူကူ လေ့လာနိုင်ရန် ပြုစုထားသော MySQL အခြေခံ Database သင်ခန်းစာများ"
 
 [build]
 create-missing = false
 
 [output.html]
 git-repository-url = "https://github.com/KyawTunLinn/mysql-basic"
+git-repository-icon = "fa-github"
+default-theme = "navy"
+preferred-dark-theme = "navy"
+edit-url-template = "https://github.com/KyawTunLinn/mysql-basic/edit/main/{path}"
+additional-css = ["theme/custom.css"]
+
+[output.html.search]
+enable = true
+limit-results = 30
+teaser-word-count = 30
+use-boolean-and = true
+boost-title = 2
+boost-hierarchy = 1
+boost-paragraph = 1
+expand-hierarchy = true
+heading-split-level = 3

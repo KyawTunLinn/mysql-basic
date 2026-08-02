@@ -10,13 +10,13 @@
 - [သင်ခန်းစာ ၆ — Table (ဇယား) ဖန်တီးခြင်း](06-create-tables.md)
 - [သင်ခန်းစာ ၇ — Data ထည့်သွင်းခြင်း (INSERT)](07-insert-data.md)
 - [သင်ခန်းစာ ၈ — Data ဖတ်ယူခြင်း (SELECT)](08-select-data.md)
-- [သင်ခန်းစာ ၉ — Data ပြင်ဆင်ခြင်းနန့် ဖျက်ပစ်ခြင်း](09-update-delete.md)
+- [သင်ခန်းစာ ၉ — Data ပြင်ဆင်ခြင်းနှင့် ဖျက်ပစ်ခြင်း](09-update-delete.md)
 - [သင်ခန်းစာ ၁၀ — Data စစ်ထုတ်ခြင်း (WHERE & Filtering)](10-filtering.md)
-- [သင်ခန်းစာ ၁၁ — Data စီခြင်းနန့် အရေအတွက် ကန့်သတ်ခြင်း](11-sorting-limiting.md)
+- [သင်ခန်းစာ ၁၁ — Data စီခြင်းနှင့် အရေအတွက် ကန့်သတ်ခြင်း](11-sorting-limiting.md)
 - [သင်ခန်းစာ ၁၂ — JOINs ဖြင့် Table များ ပေါင်းစပ်ခြင်း](12-joins.md)
 - [သင်ခန်းစာ ၁၃ — Data စုစည်းတွက်ချက်ခြင်း (GROUP BY)](13-aggregations.md)
-- [သင်ခန်းစာ ၁၄ — Backup ယူခြင်းနန့် ပြန် Restore လုပ်ခြင်း](14-backup-restore.md)
+- [သင်ခန်းစာ ၁၄ — Backup ယူခြင်းနှင့် ပြန် Restore လုပ်ခြင်း](14-backup-restore.md)
 
 [MySQL Cheat Sheet (မှတ်စုတို)](mysql-cheat-sheet.md)
 
-[Sample Database (စမ်းသပ်ရန် ဒေတာဘေ့စ်)](sample-database.sql)
+[Sample Database (စမ်းသပ်ရန် ဒေတာဘေ့စ်)](sample-database.md)

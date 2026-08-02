@@ -1,14 +1,14 @@
 # သင်ခန်းစာ ၅ — ပထမဆုံး Query များကို ရေးသားခြင်း
 
-![SQL First Queries Concept Illustration](images/lesson05.png)
+![SQL First Queries Concept Illustration](images/lesson05.svg)
 
-ဒေသင်ခန်းစာမာ မူလ Sample Database ကို အသုံးပြုပနာ ပထမဆုံး SQL Query များ ရေးသားပနာ Data ထုတ်ယူနည်းကို လေ့လာသွားပါဖို့။
+ဤသင်ခန်းစာမာ မူလ Sample Database ကို အသုံးပြုပြီးလျှင် ပထမဆုံး SQL Query များ ရေးသားပြီးလျှင် Data ထုတ်ယူနည်းကို လေ့လာသွားပါမည်။
 
 **ခန့်မှန်း ကြာချိန် - မိနစ် ၂၀**
 
 ---
 
-## 📥 အဆင့် ၁ - စမ်းသပ် Database ကို ထည့်သွင်းခြင်း
+##  အဆင့် ၁ - စမ်းသပ် Database ကို ထည့်သွင်းခြင်း
 
 ### Command Line မှ ထည့်သွင်းနည်း:
 
@@ -24,23 +24,23 @@ SOURCE /path/to/sample-database.sql;
 
 ### Workbench မှ ထည့်သွင်းနည်း:
 
-1. Workbench ကို ဖွင့်ပနာ Server နန့် ချိတ်ဆက်ပါ။
-2. **File ➔ Open SQL Script** မှတစ်ဆင့် `sample-database.sql` ကို ရွေးချယ်ပါ။
-3. **လျှပ်စီးကြောင်းပုံ (⚡)** ခလုတ်ကို နှိပ်ပနာ Run ပါ။
+1. Workbench ကို ဖွင့်ပြီးလျှင် Server နှင့် ချိတ်ဆက်ပါ။
+2. **File  Open SQL Script** မှတစ်ဆင့် `sample-database.sql` ကို ရွေးချယ်ပါ။
+3. **လျှပ်စီးကြောင်းပုံ ()** ခလုတ်ကို နှိပ်ပြီးလျှင် Run ပါ။
 
 ---
 
-## 🗄️ အဆင့် ၂ - အသုံးပြုမည့် Database ကို ရွေးချယ်ခြင်း
+##  အဆင့် ၂ - အသုံးပြုမည့် Database ကို ရွေးချယ်ခြင်း
 
 ```sql
 USE shop;
 ```
 
-`Database changed` ဟု ပေါ်လာပါမည်။ ယခုအခါ ပြုလုပ်သမျှ Command အားလုံးစွာ `shop` Database ပေါ်မာ သက်ရောက်ပါဖို့။
+`Database changed` ဟု ပေါ်လာပါမည်။ ယခုအခါ ပြုလုပ်သမျှ Command အားလုံးစွာ `shop` Database ပေါ်မာ သက်ရောက်ပါမည်။
 
 ---
 
-## 📋 အဆင့် ၃ - ဟိနေသော Table စာရင်းများကို ကြည့်ရှုခြင်း
+##  အဆင့် ၃ - ရှိနေသော Table စာရင်းများကို ကြည့်ရှုခြင်း
 
 ```sql
 SHOW TABLES;
@@ -61,30 +61,30 @@ SHOW TABLES;
 
 ---
 
-## 🎨 အဆင့် ၄ - Table များ ချိတ်ဆက်နေပုံ visual (ER Diagram)
+##  အဆင့် ၄ - Table များ ချိတ်ဆက်နေပုံ visual (ER Diagram)
 
 `shop` Database မာ Table (၄) ခု ပါဝင်ပါတယ် -
 
 ```
-┌─────────────────┐       ┌─────────────────┐
-│   customers     │       │    products     │
-├─────────────────┤       ├─────────────────┤
-│ id (PK)         │       │ id (PK)         │
-│ first_name      │       │ name            │
-│ last_name       │       │ price           │
-│ email           │       │ category        │
-└────────┬────────┘       └────────┬────────┘
-         │                         │
-         │ customer_id (FK)        │ product_id (FK)
-         ▼                         ▼
-┌─────────────────┐       ┌─────────────────┐
-│     orders      │       │   order_items   │
-├─────────────────┤       ├─────────────────┤
-│ id (PK)         │◄──────│ order_id (FK)   │
-│ customer_id (FK)│       │ product_id (FK) │
-│ order_date      │       │ quantity        │
-│ total_amount    │       │ unit_price      │
-└─────────────────┘       └─────────────────┘
+       
+   customers                products     
+       
+ id (PK)                 id (PK)         
+ first_name              name            
+ last_name               price           
+ email                   category        
+       
+                                  
+          customer_id (FK)         product_id (FK)
+                                  
+       
+     orders                order_items   
+       
+ id (PK)          order_id (FK)   
+ customer_id (FK)        product_id (FK) 
+ order_date              quantity        
+ total_amount            unit_price      
+       
 
 PK = Primary Key (သီးသန့်ခွဲခြားသည့် ပင်မသေတ္တာသော့)
 FK = Foreign Key (အခြား Table သို့ ချိတ်ဆက်ထားသော သော့)
@@ -97,7 +97,7 @@ FK = Foreign Key (အခြား Table သို့ ချိတ်ဆက်ထ
 
 ---
 
-## 🔍 အဆင့် ၅ - Table ၏ အဆောက်အအုံကို စစ်ဆေးခြင်း
+##  အဆင့် ၅ - Table ၏ အဆောက်အအုံကို စစ်ဆေးခြင်း
 
 ```sql
 DESCRIBE customers;
@@ -113,7 +113,7 @@ DESCRIBE customers;
 
 ---
 
-## 📐 အဆင့် ၆ - SQL Query ရေးသားပုံ အခြေခံ ပုံစံ
+##  အဆင့် ၆ - SQL Query ရေးသားပုံ အခြေခံ ပုံစံ
 
 ```sql
 SELECT   [မည်သည့် Column များကို ယူမည်နည်း]
@@ -122,19 +122,19 @@ LIMIT    [မည်မျှ ကန့်သတ်မည်နည်း];
 ```
 
 ```
-           ┌──────────┐            ┌──────────┐
-           │  SELECT  │ ───────►   │  Column  │ (အမည်၊ စျေးနှုန်း စသည်)
-           └──────────┘            └──────────┘
-                │
-                ▼
-           ┌──────────┐            ┌──────────┐
-           │   FROM   │ ───────►   │  Table   │ (products, customers စသည်)
-           └──────────┘            └──────────┘
+                       
+             SELECT        Column   (အမည်၊ စျေးနှုန်း စသည်)
+                       
+                
+                
+                       
+              FROM         Table    (products, customers စသည်)
+                       
 ```
 
 ---
 
-## ⚡ အဆင့် ၇ - ပထမဆုံး Query — SELECT * (Data အားလုံး ထုတ်ကြည့်ခြင်း)
+##  အဆင့် ၇ - ပထမဆုံး Query — SELECT * (Data အားလုံး ထုတ်ကြည့်ခြင်း)
 
 `*` သင်္ကေတမှာ "Column အားလုံး" ကို ညွှန်းပါသည်။
 
@@ -152,12 +152,12 @@ SELECT * FROM customers LIMIT 5;
 | 4 | Ma | Suu | suu@gmail.com | Taunggyi |
 | 5 | U | Kyaw | kyaw@gmail.com | Pyin Oo Lwin |
 
-**LIMIT 5 ကို ဇာဖြစ်လို့ သုံးရလဲ?**
-Data တန်းပေါင်း ထောင်ချီ ဟိနေပါက အားလုံး ပေါ်လာလျှင် ကြည့်ရ ခက်ခဲပါဖို့။ ထို့ကြောင့် စတင် ကြည့်ရှုချိန်မာ `LIMIT` ကို အသုံးပြုပနာ အရေအတွက် ကန့်သတ်ကြည့်ရပါတယ်။
+**LIMIT 5 ကို ဘာကြောင့် သုံးရလဲ?**
+Data တန်းပေါင်း ထောင်ချီ ရှိနေပါက အားလုံး ပေါ်လာလျှင် ကြည့်ရ ခက်ခဲပါမည်။ ထို့ကြောင့် စတင် ကြည့်ရှုချိန်မာ `LIMIT` ကို အသုံးပြုပြီးလျှင် အရေအတွက် ကန့်သတ်ကြည့်ရပါတယ်။
 
 ---
 
-## 🎯 အဆင့် ၈ - သီးသန့် Column များကိုသာ ရွေးထုတ်ကြည့်ခြင်း
+##  အဆင့် ၈ - သီးသန့် Column များကိုသာ ရွေးထုတ်ကြည့်ခြင်း
 
 ```sql
 SELECT first_name, last_name, city FROM customers;
@@ -171,26 +171,26 @@ SELECT first_name, last_name, city FROM customers;
 
 ---
 
-## ⚠️ ကြုံတွေ့ရတတ်သော အမှားများနန့် ဖြေရှင်းနည်း
+##  ကြုံတွေ့ရတတ်သော အမှားများနှင့် ဖြေရှင်းနည်း
 
 | ပြဿနာ error | အကြောင်းအရင်း | ဖြေရှင်းနည်း |
 |---|---|---|
 | `Unknown database 'shop'` | sample-database.sql မထည့်ရသေးပါ | `mysql -u root -p < sample-database.sql` ကို ပြန် Run ပါ |
-| `Syntax error` | Semicolon မပါ သို့ စာလုံးပေါင်း မှားနိပါသည် | `;` ပါမပါနန့် SELECT/FROM စာလုံးပေါင်း စစ်ပါ |
+| `Syntax error` | Semicolon မပါ သို့ စာလုံးပေါင်း မှားနိပါသည် | `;` ပါမပါနှင့် SELECT/FROM စာလုံးပေါင်း စစ်ပါ |
 | `Table 'shop.customers' doesn't exist` | Database ကို ရွေးမထားပါ | အလျင် `USE shop;` ကို Run ပါ |
 
 ---
 
-## 📝 လေ့ကျင့်ခန်း (Exercise)
+##  လေ့ကျင့်ခန်း (Exercise)
 
 ၁. Products Table ထဲဟိ ကုန်ပစ္စည်း အားလုံးကို ထုတ်ကြည့်ပါ - `SELECT * FROM products;`
-၂. ကုန်ပစ္စည်း အမည်နန့် စျေးနှုန်းကိုသာ ထုတ်ကြည့်ပါ - `SELECT name, price FROM products;`
+၂. ကုန်ပစ္စည်း အမည်နှင့် စျေးနှုန်းကိုသာ ထုတ်ကြည့်ပါ - `SELECT name, price FROM products;`
 ၃. Orders Table ထဲမှ ပထမဆုံး အော်ဒါ (၃) ခုကို ထုတ်ကြည့်ပါ - `SELECT * FROM orders LIMIT 3;`
 
 ---
 
-## ➡️ နောက်ထပ် သွားရမည့် အဆင့်
+##  နောက်ထပ် သွားရမည့် အဆင့်
 
 ယခုအခါ ဒေတာများကို ကြည့်ရှုတတ်သွားပြီဖြစ်လို့ မိမိကိုယ်တိုင် Table များ စတင် ဖန်တီးနည်းကို ဆက်လက် လေ့လာကြပါစို့။
 
-→ [သင်ခန်းစာ ၆: Table (ဇယား) ဖန်တီးခြင်း](06-create-tables.md)
+-> [သင်ခန်းစာ ၆: Table (ဇယား) ဖန်တီးခြင်း](06-create-tables.md)
